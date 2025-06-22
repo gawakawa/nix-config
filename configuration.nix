@@ -9,11 +9,7 @@ let
   isDarwin = builtins.currentSystem == "aarch64-darwin";
 in
 {
-  # Linux 特有の設定をインポート
-  imports = if isLinux then 
-    [ ./hardware-configuration.nix ] 
-  else 
-    [];
+  # 設定のインポートはDarwin用のhomebrewの部分で統合して行います
 
   # 共通フォント設定
   fonts = {
@@ -131,46 +127,53 @@ in
     enable = true;
   } else {};
 
-  # Darwin特有のHomebrew設定
-  homebrew = if isDarwin then {
-    enable = true;
-    onActivation.cleanup = "uninstall";
+  # システム設定
+  system.stateVersion = if isLinux then "25.05" else null;
+  
+  # 環境に応じてインポートするモジュールを変更
+  imports = if isDarwin then [
+    # Darwin特有の設定
+    {
+      system = {
+        configurationRevision = self.rev or self.dirtyRev or null;
+        stateVersion = 4;
+      };
+      
+      homebrew = {
+        enable = true;
+        onActivation.cleanup = "uninstall";
 
-    taps = [ ];
-    brews = [
-      "gnu-time"
-      "mas"
-    ];
-    casks = [
-      "amethyst"
-      "claude"
-      "notion"
-      "visual-studio-code"
-      "wezterm"
-    ];
-    masApps = {
-      "LINE" = 539883307;
-      "Goodnotes 6" = 1444383602;
-      "Kindle" = 302584613;
-    };
-  } else {};
+        taps = [ ];
+        brews = [
+          "gnu-time"
+          "mas"
+        ];
+        casks = [
+          "amethyst"
+          "claude"
+          "notion"
+          "visual-studio-code"
+          "wezterm"
+        ];
+        masApps = {
+          "LINE" = 539883307;
+          "Goodnotes 6" = 1444383602;
+          "Kindle" = 302584613;
+        };
+      };
+    }
+  ] else [
+    # Linux特有の設定をここに追加
+    ./hardware-configuration.nix
+  ];
 
-  # Darwin特有のシステム設定
-  system = if isDarwin then {
-    configurationRevision = self.rev or self.dirtyRev or null;
-    stateVersion = 4;
-  } else {
-    stateVersion = "25.05";
-  };
-
-  # 共通のnixpkgs設定
-  nixpkgs.config.allowUnfree = true;
-
-  # Darwin特有のプラットフォーム設定
+  # nixpkgs設定
   nixpkgs = if isDarwin then {
     config.allowUnfree = true;
     hostPlatform = "aarch64-darwin";
-  } else {};
+  } else {
+    config.allowUnfree = true;
+  };
 
   # インストールするパッケージ
   environment.systemPackages = with pkgs; 
