@@ -132,6 +132,10 @@ in
             layout = "us";
             variant = "";
           };
+          windowManager.xmonad = {
+            enable = true;
+            enableContribAndExtras = true;
+          };
         };
         printing.enable = true;
         pulseaudio.enable = false;
@@ -270,4 +274,3 @@ in
           [ ]
       );
 }
-
