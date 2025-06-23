@@ -7,7 +7,7 @@
 {
   home = {
     enableNixpkgsReleaseCheck = true;
-    stateVersion = "24.11";
+    stateVersion = "25.05";
     packages =
       with pkgs;
       # 共通パッケージ
