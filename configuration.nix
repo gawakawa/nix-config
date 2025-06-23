@@ -21,22 +21,13 @@ in
   };
 
   # Flakes用の設定
-  nix =
-    if isLinux then
-      {
-        package = pkgs.nix;
-        settings = {
-          experimental-features = "nix-command flakes";
-        };
-      }
-    else
-      {
-        enable = false;
-        package = pkgs.nix;
-        settings = {
-          experimental-features = "nix-command flakes";
-        };
-      };
+  nix = {
+    enable = isLinux;
+    package = pkgs.nix;
+    settings = {
+      experimental-features = "nix-command flakes";
+    };
+  };
 
   # zshの有効化
   programs.zsh.enable = true;
@@ -154,15 +145,6 @@ in
     else
       { };
 
-  # Linux特有のFirefox設定
-  programs.firefox =
-    if isLinux then
-      {
-        enable = true;
-      }
-    else
-      { };
-
   # システム設定
   system.stateVersion = if isLinux then "25.05" else null;
 
@@ -228,46 +210,25 @@ in
       bat
       claude-code
       direnv
+      discord
       fd
+      gcc
       gh
+      git
       gitmoji-cli
+      gnumake
       google-chrome
       google-cloud-sdk
       httpie
       neofetch
       nixfmt-rfc-style
+      qemu
       rlwrap
+      slack
       starship
       stylua
       tree
       treefmt
       unzip
     ]
-    ++
-      # Linux特有のパッケージ
-      (
-        if isLinux then
-          [
-            gcc
-            git
-            gnumake
-          ]
-        else
-          [ ]
-      )
-    ++
-      # Darwin特有のパッケージ
-      (
-        if isDarwin then
-          [
-            discord
-            qemu
-            slack
-            tart
-            utm
-          ]
-        else
-          [ ]
-      );
 }
-
