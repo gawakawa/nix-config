@@ -234,5 +234,5 @@ in
       tree
       treefmt
       unzip
-    ]
+    ];
 }

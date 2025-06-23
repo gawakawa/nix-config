@@ -1,22 +1,21 @@
-{ config, lib, pkgs,  ... }:
-let
-  isLinux = builtins.currentSystem == "x86_64-linux";
-  isDarwin = builtins.currentSystem == "aarch64-darwin";
-in
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   home = {
     enableNixpkgsReleaseCheck = true;
     stateVersion = "24.11";
-    packages = with pkgs; 
+    packages =
+      with pkgs;
       # 共通パッケージ
       [
         curl
-      ] ++
-      # Darwin特有のパッケージ
-      (if isDarwin then [
         vscode
         idris2
-      ] else []);
+      ];
   };
   programs.home-manager.enable = true;
 
