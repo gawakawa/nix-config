@@ -52,9 +52,9 @@ return {
 	background = {
 		{
 			source = {
-				File = wezterm.home_dir .. "/.config/nix-config/programs/images/shami_momo.jpg",
+				File = wezterm.home_dir .. "/.config/nix-config/programs/images/shami_momo.JPG",
 			},
-			opacity = 0.25,
+			opacity = 0.15,
 		},
 	},
 }
