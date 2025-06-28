@@ -54,7 +54,7 @@ return {
 			source = {
 				File = wezterm.home_dir .. "/.config/nix-config/programs/images/shami_momo.JPG",
 			},
-			opacity = 0.15,
+			opacity = wezterm.target_triple:find("darwin") and 0.25 or 0.15,
 		},
 	},
 }
