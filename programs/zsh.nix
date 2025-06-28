@@ -13,6 +13,7 @@
       oj-t = "fourmolu -i Main.hs && oj t -c 'stack Main.hs'"; # oj test for Haskell
       ls = "ls -A";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --impure"; # update nix config
+      drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
       nsh = "nix-shell";
       new = "cargo compete new";
       test = "cargo compete test";
