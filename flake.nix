@@ -36,12 +36,13 @@
         }
       ];
       
-      specialArgs = { inherit (inputs) self nixpkgs; };
+      specialArgs = { inherit (inputs) self nixpkgs; system = "x86_64-linux"; };
     };
 
     # Darwin configuration (aarch64-darwin)
     # Build using: $ darwin-rebuild build --flake ".#mac" --impure
     darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
       modules = [ 
         ./configuration.nix 
         # home-manager
@@ -57,7 +58,7 @@
         }
       ];
       
-      specialArgs = { inherit (inputs) self nixpkgs; };
+      specialArgs = { inherit (inputs) self nixpkgs; system = "aarch64-darwin"; };
     };
 
     # Expose the package sets, including overlays, for convenience.

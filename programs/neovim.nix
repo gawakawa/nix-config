@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }: 
 let
-  isLinux = builtins.currentSystem == "x86_64-linux";
-  isDarwin = builtins.currentSystem == "aarch64-darwin";
+  isLinux = pkgs.stdenv.hostPlatform.system == "x86_64-linux";
+  isDarwin = pkgs.stdenv.hostPlatform.system == "aarch64-darwin";
 in
 {
   programs.neovim = {
