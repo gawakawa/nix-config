@@ -244,6 +244,13 @@ else
       config.allowUnfree = true;
     };
 
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        deno
+      ];
+    };
+
     # パッケージ
     environment.systemPackages = with pkgs; [
       awscli2
