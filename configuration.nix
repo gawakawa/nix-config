@@ -145,10 +145,6 @@ else
       };
     };
 
-    # zsh有効化
-    programs.zsh.enable = true;
-
-    # ネットワーク設定
     networking = {
       hostName = "nixos";
       networkmanager.enable = true;
@@ -244,11 +240,15 @@ else
       config.allowUnfree = true;
     };
 
-    programs.nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        deno
-      ];
+    programs = {
+      hyprland.enable = true;
+      zsh.enable = true;
+      nix-ld = {
+        enable = true;
+        libraries = with pkgs; [
+          deno
+        ];
+      };
     };
 
     # パッケージ
