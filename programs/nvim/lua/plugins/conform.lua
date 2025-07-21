@@ -15,6 +15,7 @@ return {
 	opts = {
 		formatters_by_ft = {
 			css = { "deno_fmt" },
+			go = { "gofmt", "goimports" },
 			haskell = { "fourmolu" },
 			html = { "deno_fmt" },
 			javascript = { "deno_fmt" },

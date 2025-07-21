@@ -16,6 +16,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"denols",
+					"gopls",
 					"hls",
 					"purescriptls",
 					"rust_analyzer",
@@ -42,6 +43,7 @@ return {
 
 			-- LSP server setup
 			require("lspconfig").denols.setup({})
+			require("lspconfig").gopls.setup({})
 			require("lspconfig").hls.setup({})
 			-- require("lspconfig").lua_ls.setup {}
 			require("lspconfig").prismals.setup({})

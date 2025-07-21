@@ -10,6 +10,7 @@ return {
 				"css",
 				"dockerfile",
 				"gitignore",
+				"go",
 				"haskell",
 				"html",
 				"javascript",
