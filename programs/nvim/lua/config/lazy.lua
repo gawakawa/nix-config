@@ -41,7 +41,7 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 -- fix for full-width characters overlapping with half-width characters
-vim.opt.ambiwidth = "double"
+-- vim.opt.ambiwidth = "double" -- commented out due to goto-preview border error
 
 -- font
 vim.opt.guifont = "FiraCode Nerd Font:h15"
