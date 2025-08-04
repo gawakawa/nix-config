@@ -99,6 +99,7 @@ if isDarwin then
       tree
       treefmt
       unzip
+      uv
     ];
   }
 else
@@ -276,5 +277,6 @@ else
       tree
       treefmt
       unzip
+      uv
     ];
   }
