@@ -208,10 +208,6 @@ else
           layout = "us";
           variant = "";
         };
-        windowManager.xmonad = {
-          enable = true;
-          enableContribAndExtras = true;
-        };
       };
       printing.enable = true;
       pulseaudio.enable = false;
@@ -242,7 +238,10 @@ else
     };
 
     programs = {
-      hyprland.enable = true;
+      hyprland = {
+        enable = true;
+        xwayland.enable = true;
+      };
       zsh.enable = true;
       nix-ld = {
         enable = true;
