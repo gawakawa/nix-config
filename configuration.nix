@@ -277,5 +277,6 @@ else
       treefmt
       unzip
       uv
+      wofi
     ];
   }

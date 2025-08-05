@@ -26,5 +26,6 @@
     ./programs/wezterm.nix
     ./programs/neovim.nix
     ./programs/starship.nix
+    ./programs/hyprland.nix
   ];
 }
