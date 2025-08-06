@@ -15,7 +15,7 @@ return {
 	opts = {
 		formatters_by_ft = {
 			css = { "deno_fmt" },
-			go = { "gofmt", "goimports" },
+			go = { "golines", "gofmt", "goimports" },
 			haskell = { "fourmolu" },
 			html = { "deno_fmt" },
 			javascript = { "deno_fmt" },
@@ -29,6 +29,23 @@ return {
 			terraform = { "terraform_fmt" },
 			typescript = { "deno_fmt" },
 			typescriptreact = { "deno_fmt" },
+		},
+		formatters = {
+			deno_fmt = {
+				args = { "fmt", "--line-width", "70", "-" },
+			},
+			stylua = {
+				args = { "--column-width", "70", "-" },
+			},
+			fourmolu = {
+				args = { "--column-limit", "70" },
+			},
+			rustfmt = {
+				args = { "--config", "max_width=70" },
+			},
+			golines = {
+				args = { "--max-len", "70" },
+			},
 		},
 		default_format_opts = {
 			lsp_format = "fallback",
