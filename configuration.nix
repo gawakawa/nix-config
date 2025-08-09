@@ -266,6 +266,7 @@ else
       gnumake
       google-chrome
       google-cloud-sdk
+      haskell-language-server
       httpie
       neofetch
       nixfmt-rfc-style

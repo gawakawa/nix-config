@@ -17,7 +17,6 @@ return {
 				ensure_installed = {
 					"denols",
 					"gopls",
-					"hls",
 					"purescriptls",
 					"rust_analyzer",
 				},
