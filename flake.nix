@@ -22,7 +22,7 @@
     nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [ 
-        ./configuration.nix 
+        ./linux/configuration.nix 
         # home-manager
         home-manager.nixosModules.home-manager
         {
@@ -44,7 +44,7 @@
     darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [ 
-        ./configuration.nix 
+        ./darwin/configuration.nix 
         # home-manager
         home-manager.darwinModules.home-manager
         {
