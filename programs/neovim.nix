@@ -17,7 +17,7 @@ in
     # Darwin特有の設定
     extraConfig = if isDarwin then ''
       " nvim設定ディレクトリを指定
-      let g:nvim_config_dir = "${config.home.homeDirectory}/.config/nix-darwin/programs/nvim"
+      let g:nvim_config_dir = "${config.home.homeDirectory}/.config/nix-darwin/nvim"
       
       " runtimepathを設定
       let &runtimepath.=','.g:nvim_config_dir
@@ -30,7 +30,7 @@ in
   # Linux特有の設定ファイルコピー
   home.file = if isLinux then {
     ".config/nvim" = {
-      source = ../programs/nvim;
+      source = ../nvim;
       recursive = true;
     };
     
@@ -45,7 +45,7 @@ in
         $DRY_RUN_CMD rm -rf ${config.home.homeDirectory}/.config/nvim
       fi
       $DRY_RUN_CMD mkdir -p ${config.home.homeDirectory}/.config
-      $DRY_RUN_CMD ln -sf ${config.home.homeDirectory}/.config/nix-darwin/programs/nvim ${config.home.homeDirectory}/.config/nvim
+      $DRY_RUN_CMD ln -sf ${config.home.homeDirectory}/.config/nix-darwin/nvim ${config.home.homeDirectory}/.config/nvim
     '';
   } else {};
 }
