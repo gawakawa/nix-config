@@ -146,4 +146,9 @@ This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (ma
 - **Error Handling**: Follow idiomatic error handling for each language.
 - **Imports**: Group imports logically, similar to existing files.
 
+**IMPORTANT**: After modifying any file, always run the appropriate formatter:
+- For .nix files: `nixfmt filename.nix`
+- For .lua files: `stylua filename.lua`
+- For other files: Use the corresponding formatter listed above
+
 All changes should align with the NixOS functional and declarative paradigm.
