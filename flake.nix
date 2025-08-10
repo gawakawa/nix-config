@@ -31,7 +31,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = { inherit (inputs) self nixpkgs; };
-            users.iota = import ./home.nix;
+            users.iota = import ./linux/home.nix;
           };
         }
       ];
@@ -53,7 +53,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = { inherit (inputs) self nixpkgs; };
-            users.iota = import ./home.nix;
+            users.iota = import ./darwin/home.nix;
           };
         }
       ];
