@@ -11,6 +11,8 @@ return {
 			end,
 			on_highlights = function(highlights, colors)
 				highlights.DiagnosticUnnecessary = { fg = "#7a88cf" }
+				-- Make selected completion item more visible
+				highlights.PmenuSel = { bg = colors.blue7, fg = colors.fg, bold = true }
 			end,
 		})
 		vim.cmd([[colorscheme tokyonight]])
