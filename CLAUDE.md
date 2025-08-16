@@ -134,7 +134,13 @@ This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (ma
 ## Code Style Guidelines
 - **Nix**: Use 2-space indentation. Follow the RFC style implemented by nixfmt.
 - **Lua**: Use stylua for formatting, follow existing convention in similar files.
-- **Git**: Default branch name is "main", no rebase on pull.
+- **Git**: Default branch name is "main", no rebase on pull. Use gitmoji for commit messages - search available emojis with `gitmoji -l`. Write commit messages in English, concisely in about one line.
+
+## Commit Message Rules
+- **Format**: Use gitmoji followed by a concise English description in one line
+- **Style**: `🔥 Fix critical bug in authentication` or `📝 Update documentation`
+- **NO signatures**: Never add Claude Code signatures, co-author lines, or any additional metadata
+- **Command**: Search available emojis with `gitmoji -l`
 - **Formatters**:
   - Nix: nixfmt
   - Lua: stylua
