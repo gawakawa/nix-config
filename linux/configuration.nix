@@ -174,6 +174,7 @@
     nixfmt-rfc-style
     rlwrap
     slack
+    stack # for cornelis
     starship
     stylua
     tree
@@ -183,3 +184,4 @@
     wofi
   ];
 }
+
