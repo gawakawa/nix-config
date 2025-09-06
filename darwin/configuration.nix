@@ -81,6 +81,7 @@
     google-chrome
     google-cloud-sdk
     httpie
+    lazygit
     neofetch
     nixfmt-rfc-style
     qemu
@@ -94,4 +95,3 @@
     uv
   ];
 }
-
