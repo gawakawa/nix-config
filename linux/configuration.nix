@@ -171,6 +171,7 @@
     google-cloud-sdk
     haskell-language-server
     httpie
+    lazygit
     neofetch
     nixfmt-rfc-style
     rlwrap

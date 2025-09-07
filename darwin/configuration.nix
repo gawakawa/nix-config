@@ -72,6 +72,7 @@
     awscli2
     bat
     claude-code
+    codex
     direnv
     discord
     fd
@@ -81,6 +82,7 @@
     google-chrome
     google-cloud-sdk
     httpie
+    lazygit
     neofetch
     nixfmt-rfc-style
     qemu
@@ -94,4 +96,3 @@
     uv
   ];
 }
-
