@@ -158,6 +158,7 @@
     awscli2
     bat
     claude-code
+    codex
     direnv
     discord
     fd

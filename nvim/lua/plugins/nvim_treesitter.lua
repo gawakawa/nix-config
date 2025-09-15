@@ -6,6 +6,7 @@ return {
 
 		configs.setup({
 			ensure_installed = {
+				"agda",
 				"bash",
 				"css",
 				"dockerfile",
