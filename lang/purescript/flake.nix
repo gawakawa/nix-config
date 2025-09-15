@@ -9,7 +9,7 @@
   };
 
   outputs =
-    { 
+    {
       self,
       nixpkgs,
       flake-utils,
@@ -38,7 +38,7 @@
             purs-tidy
             purs-backend-es
             purescript-language-server
-            nodejs_23
+            nodejs_22
             esbuild
           ];
         };
