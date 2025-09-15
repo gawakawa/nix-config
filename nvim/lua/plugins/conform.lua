@@ -46,6 +46,11 @@ return {
 			golines = {
 				args = { "--max-len", "70" },
 			},
+			purs_tidy = {
+				command = "purs-tidy",
+				args = { "format" },
+				stdin = true,
+			},
 		},
 		default_format_opts = {
 			lsp_format = "fallback",
