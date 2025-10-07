@@ -61,14 +61,14 @@ return {
 				severity_sort = true,
 			})
 
-			-- LSP server setup
-			require("lspconfig").denols.setup({})
-			require("lspconfig").gopls.setup({})
-			require("lspconfig").hls.setup({})
-			-- require("lspconfig").lua_ls.setup {}
-			require("lspconfig").prismals.setup({})
-			require("lspconfig").purescriptls.setup({})
-			require("lspconfig").rust_analyzer.setup({
+			-- LSP server setup using new vim.lsp.config API
+			vim.lsp.config.denols = {}
+			vim.lsp.config.gopls = {}
+			vim.lsp.config.hls = {}
+			-- vim.lsp.config.lua_ls = {}
+			vim.lsp.config.prismals = {}
+			vim.lsp.config.purescriptls = {}
+			vim.lsp.config.rust_analyzer = {
 				settings = {
 					["rust-analyzer"] = {
 						check = {
@@ -76,8 +76,11 @@ return {
 						},
 					},
 				},
-			})
-			require("lspconfig").terraformls.setup({})
+			}
+			vim.lsp.config.terraformls = {}
+
+			-- Enable LSP servers
+			vim.lsp.enable({ "denols", "gopls", "hls", "prismals", "purescriptls", "rust_analyzer", "terraformls" })
 		end,
 	},
 }
