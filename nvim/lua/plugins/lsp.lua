@@ -77,10 +77,20 @@ return {
 					},
 				},
 			}
+			vim.lsp.config.ruff = {}
 			vim.lsp.config.terraformls = {}
 
 			-- Enable LSP servers
-			vim.lsp.enable({ "denols", "gopls", "hls", "prismals", "purescriptls", "rust_analyzer", "terraformls" })
+			vim.lsp.enable({
+				"denols",
+				"gopls",
+				"hls",
+				"prismals",
+				"purescriptls",
+				"rust_analyzer",
+				"ruff",
+				"terraformls",
+			})
 		end,
 	},
 }

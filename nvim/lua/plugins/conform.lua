@@ -25,6 +25,11 @@ return {
 			lua = { "stylua" },
 			nix = { "nixfmt" },
 			purescript = { "purs_tidy" },
+			python = {
+				"ruff_fix",
+				"ruff_format",
+				"ruff_organize_imports",
+			},
 			rust = { "rustfmt" },
 			terraform = { "terraform_fmt" },
 			typescript = { "deno_fmt" },
