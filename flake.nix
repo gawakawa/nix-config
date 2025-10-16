@@ -15,6 +15,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
   outputs =
@@ -24,6 +26,22 @@
         "x86_64-linux"
         "aarch64-darwin"
       ];
+
+      imports = [ inputs.treefmt-nix.flakeModule ];
+
+      perSystem =
+        {
+          config,
+          pkgs,
+          system,
+          ...
+        }:
+        {
+          treefmt = {
+            programs.nixfmt.enable = true;
+            programs.stylua.enable = true;
+          };
+        };
 
       flake = {
         # NixOS configuration (x86_64-linux)
