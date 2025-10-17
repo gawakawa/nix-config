@@ -23,7 +23,7 @@ return {
 			json = { "deno_fmt" },
 			jsonc = { "deno_fmt" },
 			lua = { "stylua" },
-			nix = { "nixfmt" },
+			nix = { "treefmt" },
 			purescript = { "treefmt" },
 			python = {
 				"ruff_fix",
