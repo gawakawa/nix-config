@@ -23,8 +23,8 @@ return {
 			json = { "deno_fmt" },
 			jsonc = { "deno_fmt" },
 			lua = { "stylua" },
-			nix = { "nixfmt" },
-			purescript = { "purs_tidy" },
+			nix = { "treefmt" },
+			purescript = { "treefmt" },
 			python = {
 				"ruff_fix",
 				"ruff_format",
@@ -55,6 +55,11 @@ return {
 				command = "purs-tidy",
 				args = { "format" },
 				stdin = true,
+			},
+			treefmt = {
+				command = "nix",
+				args = { "fmt", "--", "$FILENAME" },
+				stdin = false,
 			},
 		},
 		default_format_opts = {
