@@ -30,7 +30,7 @@ return {
 				"ruff_format",
 				"ruff_organize_imports",
 			},
-			rust = { "rustfmt" },
+			rust = { "treefmt" },
 			terraform = { "terraform_fmt" },
 			typescript = { "deno_fmt" },
 			typescriptreact = { "deno_fmt" },
