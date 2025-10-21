@@ -35,22 +35,11 @@ return {
 			deno_fmt = {
 				args = { "fmt", "--line-width", "70", "-" },
 			},
-			stylua = {
-				args = { "--column-width", "70", "-" },
-			},
 			fourmolu = {
 				args = { "--column-limit", "70" },
 			},
-			rustfmt = {
-				args = { "--config", "max_width=70" },
-			},
 			golines = {
 				args = { "--max-len", "70" },
-			},
-			purs_tidy = {
-				command = "purs-tidy",
-				args = { "format" },
-				stdin = true,
 			},
 			treefmt = {
 				command = "nix",
