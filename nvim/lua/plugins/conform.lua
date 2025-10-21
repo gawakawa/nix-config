@@ -25,11 +25,7 @@ return {
 			lua = { "stylua" },
 			nix = { "treefmt" },
 			purescript = { "treefmt" },
-			python = {
-				"ruff_fix",
-				"ruff_format",
-				"ruff_organize_imports",
-			},
+			python = { "treefmt" },
 			rust = { "treefmt" },
 			terraform = { "terraform_fmt" },
 			typescript = { "deno_fmt" },
