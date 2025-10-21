@@ -22,7 +22,7 @@ return {
 			javascriptreact = { "deno_fmt" },
 			json = { "deno_fmt" },
 			jsonc = { "deno_fmt" },
-			lua = { "stylua" },
+			lua = { "treefmt" },
 			nix = { "treefmt" },
 			purescript = { "treefmt" },
 			python = { "treefmt" },
