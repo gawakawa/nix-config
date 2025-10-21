@@ -69,7 +69,6 @@
 
   # パッケージ
   environment.systemPackages = with pkgs; [
-    awscli2
     bat
     claude-code
     codex
@@ -80,9 +79,7 @@
     git
     gitmoji-cli
     google-chrome
-    google-cloud-sdk
     httpie
-    lazygit
     neofetch
     nixfmt-rfc-style
     qemu

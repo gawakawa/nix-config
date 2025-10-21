@@ -155,7 +155,6 @@
 
   # パッケージ
   environment.systemPackages = with pkgs; [
-    awscli2
     bat
     claude-code
     codex
@@ -168,10 +167,8 @@
     gitmoji-cli
     gnumake
     google-chrome
-    google-cloud-sdk
     haskell-language-server
     httpie
-    lazygit
     neofetch
     nixfmt-rfc-style
     rlwrap
