@@ -14,6 +14,11 @@
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
     ];
+
+    extraPackages = with pkgs; [
+      babashka
+      clj-kondo
+    ];
   };
 
   home.file.".config/nvim" = {
