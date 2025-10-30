@@ -15,6 +15,7 @@ return {
 	opts = {
 		formatters_by_ft = {
 			css = { "treefmt" },
+			clojure = { "treefmt" },
 			go = { "golines", "gofmt", "goimports" },
 			haskell = { "fourmolu" },
 			html = { "treefmt" },

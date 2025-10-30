@@ -15,6 +15,7 @@ return {
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
+					"clojure_lsp",
 					"denols",
 					"gopls",
 					"purescriptls",
@@ -62,6 +63,7 @@ return {
 			})
 
 			-- LSP server setup using new vim.lsp.config API
+			vim.lsp.config.clojure_lsp = {}
 			vim.lsp.config.denols = {}
 			vim.lsp.config.gopls = {}
 			vim.lsp.config.hls = {}
