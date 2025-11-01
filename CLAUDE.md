@@ -101,84 +101,50 @@ This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (ma
 - `darwin/configuration.nix`: macOS system configuration with nix-darwin and Homebrew integration
 - `linux/configuration.nix`: NixOS system configuration with GNOME and Hyprland support
 - `darwin/home.nix` & `linux/home.nix`: Platform-specific home-manager configurations importing program modules
-- `programs/`: Individual program configurations (neovim, git, zsh, wezterm, starship, direnv, hyprland) shared between platforms
-- `nvim/`: Neovim configuration with Lua plugins managed by lazy.nvim
+- `programs/`: Individual program configurations shared between platforms
+  - Single-file modules: `git.nix`, `zsh.nix`, `starship.nix`, `direnv.nix`, `hyprland.nix`
+  - Directory modules: `nvim/` and `wezterm/` with `default.nix` as entry point
 
 ### Neovim Setup
 - Uses lazy.nvim as plugin manager
-- Configuration split between Nix (`programs/neovim.nix`) and Lua (`nvim/`)
-- `programs/neovim.nix` creates a symlink to `nvim/` directory using `mkOutOfStoreSymlink`
-- Extra packages: stack (for cornelis/Agda), babashka and clj-kondo (for elin/Clojure)
-- Plugins organized in `nvim/lua/plugins/` with individual .lua files
+- Configuration in `programs/nvim/` directory with `default.nix` (entry point), `wrapper.nix` (package wrapper), and `config.nix` (configuration)
+- Lua configuration files: `init.lua`, `lazy-lock.json`, and `lua/` directory for modular configs
+- Extra packages wrapped via `wrapper.nix`: ripgrep and fd for telescope
+- Plugins organized in `plugins/` directory with individual .lua files
 
 ## Directory Structure
 
 ```
 ~/.config/nix-config/
-├── flake.nix                      # Main flake entry point using flake-parts
-├── flake.lock                     # Flake input lockfile
+├── flake.nix                      # Main entry point using flake-parts
 ├── common-packages.nix            # Shared system packages for both platforms
-├── CLAUDE.md                      # This documentation file
-├── AGENTS.md                      # Additional repository guidelines
 ├── darwin/                        # macOS-specific configuration
 │   ├── configuration.nix          # Darwin system configuration with Homebrew
-│   └── home.nix                   # Darwin-specific home-manager configuration
+│   └── home.nix                   # Darwin home-manager configuration
 ├── linux/                         # NixOS/Linux-specific configuration
 │   ├── configuration.nix          # NixOS system configuration with GNOME/Hyprland
-│   ├── hardware-configuration.nix # Hardware-specific NixOS configuration (auto-generated)
-│   └── home.nix                   # Linux-specific home-manager configuration
-├── programs/                      # User program configurations imported by platform-specific home.nix
-│   ├── direnv.nix                 # Directory environment management
-│   ├── git.nix                    # Git version control configuration
-│   ├── hyprland.nix               # Hyprland Wayland compositor configuration (Linux only)
-│   ├── neovim.nix                 # Neovim Nix configuration with symlink setup
-│   ├── starship.nix               # Starship cross-shell prompt configuration
-│   ├── wezterm.nix                # WezTerm terminal emulator package
-│   ├── wezterm.lua                # WezTerm Lua runtime configuration
-│   ├── zsh.nix                    # Zsh shell configuration with plugins
-│   └── images/                    # Static assets (wallpapers, etc.)
-└── nvim/                          # Neovim Lua configuration managed by lazy.nvim
-    ├── init.lua                   # Main Neovim initialization file
-    ├── lazy-lock.json             # Lazy.nvim plugin lockfile
-    └── lua/                       # Lua configuration modules
-        ├── config/                # Core Neovim configuration
-        │   └── lazy.lua           # Lazy.nvim plugin manager setup
-        └── plugins/               # Individual plugin configurations
-            ├── auto_save.lua      # Automatic file saving
-            ├── autopairs.lua      # Bracket/quote pairing
-            ├── bufferline.lua     # Buffer tab line
-            ├── codecompanion.lua  # Code companion AI integration
-            ├── comment.lua        # Code commenting utilities
-            ├── conform.lua        # Code formatting engine
-            ├── copilot.lua        # GitHub Copilot integration
-            ├── cornelis.lua       # Agda/Cornelis support
-            ├── elin.lua           # Clojure/elin REPL integration
-            ├── goto.lua           # Code navigation
-            ├── idris2.lua         # Idris2 language support
-            ├── lazygit.lua        # Git TUI integration
-            ├── lean.lua           # Lean theorem prover support
-            ├── lsp.lua            # Language Server Protocol config
-            ├── lualine.lua        # Status line configuration
-            ├── luasnip.lua        # Snippet engine
-            ├── move.lua           # Line/block movement
-            ├── neo_tree.lua       # File explorer
-            ├── nvim_cmp.lua       # Completion engine
-            ├── nvim_treesitter.lua# Syntax highlighting/parsing
-            ├── surround.lua       # Text surrounding operations
-            ├── telescope.lua      # Fuzzy finder
-            ├── toggleterm.lua     # Terminal integration
-            ├── tokyonight.lua     # Color scheme
-            └── trouble.lua        # Diagnostics management
+│   ├── hardware-configuration.nix # Hardware-specific configuration (auto-generated)
+│   └── home.nix                   # Linux home-manager configuration
+└── programs/                      # Shared program configurations
+    ├── *.nix                      # Single-file modules (git, zsh, starship, direnv, hyprland)
+    ├── nvim/                      # Neovim configuration directory
+    │   ├── default.nix            # Entry point
+    │   ├── wrapper.nix            # Package wrapper with extra tools
+    │   ├── init.lua               # Main Neovim initialization
+    │   ├── lua/                   # Lua configuration modules
+    │   └── plugins/               # Individual plugin configurations
+    └── wezterm/                   # WezTerm configuration directory
+        ├── default.nix            # Entry point
+        └── wezterm.lua            # WezTerm Lua configuration
 ```
 
 ### Directory Organization Principles
 
 - **Root Level**: Core flake configuration using flake-parts, with shared packages in common-packages.nix
 - **Platform Separation**: `darwin/` and `linux/` contain platform-specific system and home configurations
-- **Program Configurations**: `programs/` contains modular program configurations imported by platform-specific `home.nix` files
-- **Editor Configuration**: `nvim/` is self-contained with lazy.nvim managing plugins and Lua handling runtime configuration
+- **Program Configurations**: `programs/` contains modular configurations imported by platform-specific `home.nix` files
+- **Module Types**: Single-file `.nix` modules for simple configs; directory-based modules with `default.nix` for complex programs
 - **Separation of Concerns**: Nix handles package management and system integration, while Lua/shell configs handle program behavior
-- **Symlink Approach**: Neovim config uses `mkOutOfStoreSymlink` to link directly to `nvim/` directory for easier development
 
 ## Code Style Guidelines
 
