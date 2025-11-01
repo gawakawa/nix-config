@@ -5,6 +5,15 @@
 }:
 
 let
+  # Treesitter parsers path (Phase 4)
+  treesitterParsers =
+    let
+      nvimTreesitter = plugins.nvim_treesitter;
+    in
+    lib.concatStringsSep "," (
+      map (parser: "${parser}") nvimTreesitter.dependencies
+    );
+
   # Environment variables for substitution
   envVars = {
     inherit (plugins)
@@ -41,7 +50,12 @@ let
       conform_nvim
       copilot_vim
       # move_nvim, goto_preview, codecompanion_nvim will be added in Phase 5
+      # Treesitter (Phase 4)
+      nvim_treesitter
       ;
+
+    # Special paths
+    treesitter_parsers = treesitterParsers;
   };
 
 in

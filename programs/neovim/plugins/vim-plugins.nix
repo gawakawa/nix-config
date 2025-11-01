@@ -40,4 +40,30 @@ with pkgs.vimPlugins;
   conform-nvim
   copilot-vim
   # move-nvim, goto-preview, codecompanion-nvim will be added in Phase 5 (custom build)
+
+  # Treesitter (Phase 4) - with parsers
+  (nvim-treesitter.withPlugins (plugins: with plugins; [
+    agda
+    bash
+    clojure
+    css
+    dockerfile
+    gitignore
+    go
+    haskell
+    html
+    javascript
+    json
+    lua
+    markdown
+    nix
+    prisma
+    purescript
+    rust
+    sql
+    terraform
+    tsx
+    typescript
+    yaml
+  ]))
 ]

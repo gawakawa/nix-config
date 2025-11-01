@@ -4,6 +4,6 @@ return {
 	opts = {},
 	dependencies = {
 		{ name = "plenary.nvim", dir = "@plenary_nvim@" },
-		-- nvim-treesitter will be added in Phase 4
+		{ name = "nvim-treesitter", dir = "@nvim_treesitter@" },
 	},
 }
