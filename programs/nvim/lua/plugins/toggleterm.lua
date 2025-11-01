@@ -1,11 +1,12 @@
 return {
 	name = "toggleterm.nvim",
 	dir = "@toggleterm_nvim@",
+	lazy = false,
 	config = function()
 		require("toggleterm").setup({
 			auto_scroll = false,
 			direction = "float",
-			open_mapping = [[<c-t>]],
+			open_mapping = [[<c-\>]],
 			size = 20,
 			start_in_insert = true,
 			highlights = {
