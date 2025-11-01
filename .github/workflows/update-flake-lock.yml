@@ -1,0 +1,25 @@
+name: "Update Flake Lock"
+
+on:
+  workflow_dispatch: # Allow manual trigger
+  schedule:
+    - cron: '0 15 * * 5' # Run every Saturday at 00:00 JST (Friday 15:00 UTC)
+
+jobs:
+  update-flake-lock:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-reviewers: gawakawa
+          token: ${{ secrets.GH_TOKEN }}
