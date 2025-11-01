@@ -21,7 +21,6 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
-          token: ${{ secrets.GH_TOKEN }}
           pr-reviewers: gawakawa
           git-author-name: github-actions[bot]
           git-author-email: github-actions[bot]@users.noreply.github.com
