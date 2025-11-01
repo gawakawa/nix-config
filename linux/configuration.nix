@@ -163,8 +163,6 @@
 
   # パッケージ (Linux固有のもののみ)
   environment.systemPackages = with pkgs; [
-    gcc
-    gnumake
     wofi
   ];
 }
