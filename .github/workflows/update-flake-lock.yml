@@ -22,3 +22,5 @@ jobs:
         uses: DeterminateSystems/update-flake-lock@main
         with:
           token: ${{ secrets.GH_TOKEN }}
+          pr-assignees: github-actions[bot]
+          pr-reviewers: gawakawa
