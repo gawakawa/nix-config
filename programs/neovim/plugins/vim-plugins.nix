@@ -34,6 +34,18 @@ let
       hash = "sha256-bOVXiLArwLuzHxC/8rc9yZdYjcBKJQIBZfhbQQe1D38=";
     };
   };
+
+  codecompanion-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "codecompanion.nvim";
+    version = "unstable-2025-01-01";
+    src = pkgs.fetchFromGitHub {
+      owner = "olimorris";
+      repo = "codecompanion.nvim";
+      rev = "ee6c2a1b3793e73584459f7a2fbac88fce3c6f5b";
+      hash = "sha256-YoHXtn2mMb+2617RbaBuVEwHksIfvcgAfHbW4Pr20M0=";
+    };
+    doCheck = false; # Skip require check (has many external adapter modules)
+  };
 in
 
 # Plugin set for Neovim
@@ -80,7 +92,8 @@ with pkgs.vimPlugins;
   move-nvim
   logger-nvim
   goto-preview
-  # codecompanion-nvim, vim-elin will be added next
+  codecompanion-nvim
+  # vim-elin will be added next
 
   # Treesitter (Phase 4) - with parsers
   (nvim-treesitter.withPlugins (
