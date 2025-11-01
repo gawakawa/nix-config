@@ -10,73 +10,36 @@ let
     let
       nvimTreesitter = plugins.nvim_treesitter;
     in
-    lib.concatStringsSep "," (
-      map (parser: "${parser}") nvimTreesitter.dependencies
-    );
+    lib.concatStringsSep "," (map (parser: "${parser}") nvimTreesitter.dependencies);
 
   # Environment variables for substitution
-  envVars = {
-    inherit (plugins)
-      lazy_nvim
-      tokyonight_nvim
-      lualine_nvim
-      nvim_web_devicons
-      # LSP (Phase 2A)
-      mason_nvim
-      mason_lspconfig_nvim
-      nvim_lspconfig
-      # Completion (Phase 2B)
-      nvim_cmp
-      cmp_nvim_lsp
-      cmp_buffer
-      cmp_path
-      cmp_cmdline
-      cmp_luasnip
-      luasnip
-      # File Navigation (Phase 2C)
-      telescope_nvim
-      plenary_nvim
-      neo_tree_nvim
-      nui_nvim
-      # Utilities (Phase 3)
-      lazygit_nvim
-      nvim_autopairs
-      auto_save_nvim
-      comment_nvim
-      nvim_surround
-      bufferline_nvim
-      toggleterm_nvim
-      trouble_nvim
-      conform_nvim
-      copilot_vim
-      # move_nvim, goto_preview, codecompanion_nvim will be added in Phase 5
-      # Treesitter (Phase 4)
-      nvim_treesitter
-      ;
-
+  # Following asa1984.nvim pattern: pass all plugins as environment variables
+  envVars = plugins // {
     # Special paths
     treesitter_parsers = treesitterParsers;
   };
 
 in
-stdenv.mkDerivation {
-  name = "neovim-config";
+# Pass envVars as attributes to mkDerivation for substituteAllInPlace
+stdenv.mkDerivation (
+  envVars
+  // {
+    pname = "neovim-config";
+    version = "latest";
 
-  # Source is the nvim directory (relative to nix-config root)
-  # Using ./. to get the parent directory (nix-config root)
-  src = ../../nvim;
+    # Source is the nvim directory (relative to nix-config root)
+    src = ../../nvim;
 
-  installPhase = ''
-    mkdir -p $out
-    cp -r $src/* $out/
+    installPhase = ''
+      mkdir -p $out
 
-    # Substitute all placeholders
-    for file in $(find $out -type f -name "*.lua"); do
-      ${lib.concatStringsSep "\n" (
-        lib.mapAttrsToList (name: value: ''
-          substituteInPlace "$file" --replace-warn "@${name}@" "${value}"
-        '') envVars
-      )}
-    done
-  '';
-}
+      # Substitute all @placeholder@ with environment variables
+      for file in $(find . -type f); do
+        substituteAllInPlace "$file"
+      done
+
+      # Copy to output
+      cp -r ./ $out
+    '';
+  }
+)
