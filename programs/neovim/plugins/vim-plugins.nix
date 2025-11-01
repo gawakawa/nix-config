@@ -57,6 +57,53 @@ let
       hash = "sha256-j7/CifqG1T4/Eh2anjTjvZKKAJt3G9SST5CtW9Xg5ho=";
     };
   };
+
+  # Language-specific plugins (Phase 6)
+  cornelis = pkgs.vimUtils.buildVimPlugin {
+    pname = "cornelis";
+    version = "unstable-2023-06-02";
+    src = pkgs.fetchFromGitHub {
+      owner = "isovector";
+      repo = "cornelis";
+      rev = "3691650f31fe3ec7f130b535aef147aad742b921";
+      hash = "sha256-w71k4Gll99rS1TYmm92xkRAFMDGfm3g8j1TqROw4Fxs=";
+    };
+  };
+
+  lean-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "lean.nvim";
+    version = "unstable-2024-11-30";
+    src = pkgs.fetchFromGitHub {
+      owner = "Julian";
+      repo = "lean.nvim";
+      rev = "6e359b4472d40ed6752dfc6359e8338981ce6518";
+      hash = "sha256-x2XDg5SL8ZfPK9LkO9HnVyMw9m56WBXp2sbdSA4z5Gk=";
+    };
+    doCheck = false; # Skip require check (has widget and infoview modules)
+  };
+
+  idris2-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "idris2-nvim";
+    version = "unstable-2024-05-26";
+    src = pkgs.fetchFromGitHub {
+      owner = "ShinKage";
+      repo = "idris2-nvim";
+      rev = "19dcf61737293365c23c890ca622fa34aeb12780";
+      hash = "sha256-zDb6ke7vzAUWoZPqOgFgszdKe78SI08WRQyPzKTqkXo=";
+    };
+    doCheck = false; # Skip require check (has REPL module dependencies)
+  };
+
+  switch-vim = pkgs.vimUtils.buildVimPlugin {
+    pname = "switch.vim";
+    version = "unstable-2024-10-21";
+    src = pkgs.fetchFromGitHub {
+      owner = "AndrewRadev";
+      repo = "switch.vim";
+      rev = "4017a58f7ed8a2d76a288e36130affe8eb55e83a";
+      hash = "sha256-oB8xWUPunEViZVCb7kyavuetw2lTM5IHpgNgcDW+DLA=";
+    };
+  };
 in
 
 # Plugin set for Neovim
@@ -105,6 +152,16 @@ with pkgs.vimPlugins;
   goto-preview
   codecompanion-nvim
   vim-elin
+
+  # Language-specific plugins (Phase 6)
+  cornelis
+  nvim-hs-vim
+  vim-textobj-user
+  lean-nvim
+  vim-matchup
+  switch-vim
+  tcomment_vim
+  idris2-nvim
 
   # Treesitter (Phase 4) - with parsers
   (nvim-treesitter.withPlugins (

@@ -1,13 +1,11 @@
 return {
-	"isovector/cornelis",
 	name = "cornelis",
+	dir = "@cornelis@",
 	ft = "agda",
-	build = "stack install",
 	dependencies = {
-		"neovimhaskell/nvim-hs.vim",
-		"kana/vim-textobj-user",
+		{ name = "nvim-hs.vim", dir = "@nvim_hs_vim@" },
+		{ name = "vim-textobj-user", dir = "@vim_textobj_user@" },
 	},
-	version = "*",
 	keys = {
 		{ "<C-c><C-l>", "<cmd>CornelisLoad<cr>", ft = "agda", desc = "Load" },
 		{ "<C-c><C-d>", "<cmd>CornelisTypeInfer<cr>", ft = "agda", desc = "Type infer" },
