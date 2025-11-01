@@ -18,7 +18,7 @@
     ../programs/zsh.nix
     ../programs/direnv.nix
     ../programs/git.nix
-    ../programs/wezterm.nix
+    ../programs/wezterm
     ../programs/nvim
     ../programs/starship.nix
   ];
