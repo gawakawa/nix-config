@@ -1,6 +1,6 @@
 return {
-	"akinsho/toggleterm.nvim",
-	version = "*",
+	name = "toggleterm.nvim",
+	dir = "@toggleterm_nvim@",
 	config = function()
 		require("toggleterm").setup({
 			auto_scroll = false,

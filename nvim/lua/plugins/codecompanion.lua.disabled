@@ -1,8 +1,9 @@
 return {
-	"olimorris/codecompanion.nvim",
+	name = "codecompanion.nvim",
+	dir = "@codecompanion_nvim@",
 	opts = {},
 	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"nvim-treesitter/nvim-treesitter",
+		{ name = "plenary.nvim", dir = "@plenary_nvim@" },
+		-- nvim-treesitter will be added in Phase 4
 	},
 }

@@ -1,5 +1,6 @@
 return {
-	"stevearc/conform.nvim",
+	name = "conform.nvim",
+	dir = "@conform_nvim@",
 	event = { "BufWritePre" },
 	cmd = { "ConformInfo" },
 	keys = {

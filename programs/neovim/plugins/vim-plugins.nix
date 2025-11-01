@@ -27,4 +27,17 @@ with pkgs.vimPlugins;
   plenary-nvim
   neo-tree-nvim
   nui-nvim
+
+  # Utilities (Phase 3)
+  lazygit-nvim
+  nvim-autopairs
+  auto-save-nvim
+  comment-nvim
+  nvim-surround
+  bufferline-nvim
+  toggleterm-nvim
+  trouble-nvim
+  conform-nvim
+  copilot-vim
+  # move-nvim, goto-preview, codecompanion-nvim will be added in Phase 5 (custom build)
 ]

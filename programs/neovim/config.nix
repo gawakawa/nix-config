@@ -29,6 +29,18 @@ let
       plenary_nvim
       neo_tree_nvim
       nui_nvim
+      # Utilities (Phase 3)
+      lazygit_nvim
+      nvim_autopairs
+      auto_save_nvim
+      comment_nvim
+      nvim_surround
+      bufferline_nvim
+      toggleterm_nvim
+      trouble_nvim
+      conform_nvim
+      copilot_vim
+      # move_nvim, goto_preview, codecompanion_nvim will be added in Phase 5
       ;
   };
 

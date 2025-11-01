@@ -1,5 +1,6 @@
 return {
-	"fedepujol/move.nvim",
+	name = "move.nvim",
+	dir = "@move_nvim@",
 	keys = {
 		-- Normal Mode
 		{ "<A-j>", ":MoveLine(1)<CR>", desc = "Move Line Up" },

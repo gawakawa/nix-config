@@ -1,6 +1,6 @@
 return {
-	"rmagatti/goto-preview",
-	dependencies = { "rmagatti/logger.nvim" },
+	name = "goto-preview",
+	dir = "@goto_preview@",
 	event = "BufEnter",
 	config = function()
 		require("goto-preview").setup()
