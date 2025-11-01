@@ -15,146 +15,162 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Build only: `darwin-rebuild build --flake ".#mac" --impure`
 - **Home Manager** (user must execute):
   - Rebuild user environment: `home-manager switch --flake ".#$USER@$(hostname)"`
-- **Development Environments**:
-  - Enter language environment: `nix develop ./lang/[language]/`
-  - Build language flake: `nix build ./lang/[language]/`
 - **Formatting** (Claude Code can execute):
   - Format Nix files: `nixfmt filename.nix`
   - Format Lua files: `stylua filename.lua`
+  - Format all: `nix fmt` (uses treefmt-nix with nixfmt and stylua)
+- **Flake Management**:
+  - Update all inputs: `nix flake update`
+  - Update specific input: `nix flake lock --update-input nixpkgs`
+  - Check flake: `nix flake check`
 
 ## Architecture Overview
 This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (macOS):
 
-- **Flake-based**: Uses `flake.nix` as the entry point with inputs from nixpkgs, nix-darwin, and home-manager
+- **Flake-based**: Uses `flake.nix` with flake-parts as entry point, inputs from nixpkgs, nix-darwin, home-manager, and treefmt-nix
 - **Platform separation**: `darwin/` and `linux/` directories contain platform-specific system and home configurations
 - **Home Manager integration**: User environment managed through platform-specific home.nix files importing shared program modules
 - **Modular structure**: Programs organized in `programs/` directory with individual .nix files shared between platforms
-- **Development environments**: Isolated language-specific development environments in `lang/` as separate flakes
+- **Common packages**: `common-packages.nix` defines system packages available on both platforms
 
 ### Key Components
-- `flake.nix`: Main entry point defining nixosConfigurations and darwinConfigurations
-- `darwin/configuration.nix`: macOS system configuration using nix-darwin
-- `linux/configuration.nix`: NixOS system configuration 
+- `flake.nix`: Main entry point using flake-parts, defining nixosConfigurations (x86_64-linux) and darwinConfigurations (aarch64-darwin)
+- `common-packages.nix`: Shared system packages for both platforms (git, direnv, neovim, terminal tools, etc.)
+- `darwin/configuration.nix`: macOS system configuration with nix-darwin and Homebrew integration
+- `linux/configuration.nix`: NixOS system configuration with GNOME and Hyprland support
 - `darwin/home.nix` & `linux/home.nix`: Platform-specific home-manager configurations importing program modules
-- `programs/`: Individual program configurations (neovim, git, zsh, etc.) shared between platforms
-- `lang/`: Isolated development environments as separate flakes for different programming languages
+- `programs/`: Individual program configurations (neovim, git, zsh, wezterm, starship, direnv, hyprland) shared between platforms
 - `nvim/`: Neovim configuration with Lua plugins managed by lazy.nvim
 
 ### Neovim Setup
 - Uses lazy.nvim as plugin manager
 - Configuration split between Nix (`programs/neovim.nix`) and Lua (`nvim/`)
-- Platform-specific handling: Linux copies files, Darwin creates symlinks
+- `programs/neovim.nix` creates a symlink to `nvim/` directory using `mkOutOfStoreSymlink`
+- Extra packages: stack (for cornelis/Agda), babashka and clj-kondo (for elin/Clojure)
 - Plugins organized in `nvim/lua/plugins/` with individual .lua files
 
 ## Directory Structure
 
 ```
-/Users/iota/.config/nix-config/
-├── flake.nix                      # Main flake entry point with nixosConfigurations and darwinConfigurations
+~/.config/nix-config/
+├── flake.nix                      # Main flake entry point using flake-parts
 ├── flake.lock                     # Flake input lockfile
+├── common-packages.nix            # Shared system packages for both platforms
 ├── CLAUDE.md                      # This documentation file
+├── AGENTS.md                      # Additional repository guidelines
 ├── darwin/                        # macOS-specific configuration
-│   ├── configuration.nix          # Darwin system configuration
+│   ├── configuration.nix          # Darwin system configuration with Homebrew
 │   └── home.nix                   # Darwin-specific home-manager configuration
 ├── linux/                         # NixOS/Linux-specific configuration
-│   ├── configuration.nix          # NixOS system configuration
+│   ├── configuration.nix          # NixOS system configuration with GNOME/Hyprland
 │   ├── hardware-configuration.nix # Hardware-specific NixOS configuration (auto-generated)
 │   └── home.nix                   # Linux-specific home-manager configuration
-├── lang/                          # Language-specific development environments
-│   ├── go/                        # Go development flake with isolated environment
-│   │   ├── flake.nix              # Go toolchain, libraries, and development tools
-│   │   └── flake.lock             # Pinned Go environment dependencies
-│   ├── idris2/                    # Idris2 development flake for functional programming
-│   │   ├── flake.nix              # Idris2 compiler and related tools
-│   │   └── flake.lock             # Pinned Idris2 environment dependencies
-│   ├── lean/                      # Lean theorem prover development environment
-│   │   ├── flake.nix              # Lean 4 compiler and mathematics libraries
-│   │   └── flake.lock             # Pinned Lean environment dependencies
-│   ├── purescript/                # PureScript development flake for functional web programming
-│   │   ├── flake.nix              # PureScript compiler, spago, and Node.js tools
-│   │   └── flake.lock             # Pinned PureScript environment dependencies
-│   ├── rust/                      # Rust development flake with cargo ecosystem
-│   │   ├── flake.nix              # Rust toolchain, cargo, and development utilities
-│   │   └── flake.lock             # Pinned Rust environment dependencies
-│   └── typescript/                # TypeScript/Node.js development environment
-│       ├── flake.nix              # TypeScript compiler, Node.js, and package managers
-│       └── flake.lock             # Pinned TypeScript environment dependencies
 ├── programs/                      # User program configurations imported by platform-specific home.nix
-│   ├── direnv.nix                 # Directory environment management for automatic shell switching
-│   ├── git.nix                    # Git version control configuration with aliases and settings
+│   ├── direnv.nix                 # Directory environment management
+│   ├── git.nix                    # Git version control configuration
 │   ├── hyprland.nix               # Hyprland Wayland compositor configuration (Linux only)
-│   ├── neovim.nix                 # Neovim Nix configuration handling package management
+│   ├── neovim.nix                 # Neovim Nix configuration with symlink setup
 │   ├── starship.nix               # Starship cross-shell prompt configuration
-│   ├── wezterm.nix                # WezTerm terminal emulator Nix package configuration
-│   ├── wezterm.lua                # WezTerm Lua runtime configuration for keybindings and appearance
-│   ├── zsh.nix                    # Zsh shell configuration with plugins and aliases
-│   └── images/                    # Static assets and media files
-│       └── shami_momo.JPG         # Wallpaper image or UI asset
-└── nvim/                          # Neovim Lua configuration managed separately from Nix
-    ├── init.lua                   # Main Neovim initialization file loading all configurations
-    ├── init.lua.backup            # Backup of previous init configuration
-    ├── lazy-lock.json             # Lazy.nvim plugin lockfile ensuring reproducible plugin versions
-    └── lua/                       # Lua configuration modules organized by functionality
+│   ├── wezterm.nix                # WezTerm terminal emulator package
+│   ├── wezterm.lua                # WezTerm Lua runtime configuration
+│   ├── zsh.nix                    # Zsh shell configuration with plugins
+│   └── images/                    # Static assets (wallpapers, etc.)
+└── nvim/                          # Neovim Lua configuration managed by lazy.nvim
+    ├── init.lua                   # Main Neovim initialization file
+    ├── lazy-lock.json             # Lazy.nvim plugin lockfile
+    └── lua/                       # Lua configuration modules
         ├── config/                # Core Neovim configuration
-        │   └── lazy.lua           # Lazy.nvim plugin manager setup and configuration
-        └── plugins/               # Individual plugin configurations with isolated concerns
-            ├── auto_save.lua      # Automatic file saving functionality
-            ├── autopairs.lua      # Automatic bracket/quote pairing
-            ├── bufferline.lua     # Buffer tab line for better file navigation
-            ├── comment.lua        # Code commenting utilities with language awareness
-            ├── conform.lua        # Code formatting engine with multiple formatter support
-            ├── copilot.lua        # GitHub Copilot AI code completion integration
-            ├── goto.lua           # Enhanced code navigation and jumping capabilities
-            ├── idris2.lua         # Idris2 language support and REPL integration
-            ├── lean.lua           # Lean theorem prover support with goal display
-            ├── lsp.lua            # Language Server Protocol configuration for multiple languages
-            ├── lualine.lua        # Customizable status line with git and diagnostic info
-            ├── luasnip.lua        # Snippet engine for code template expansion
-            ├── move.lua           # Line and block movement utilities
-            ├── neo_tree.lua       # File explorer tree view with git integration
-            ├── nvim_cmp.lua       # Completion engine with multiple sources
-            ├── nvim_treesitter.lua# Syntax highlighting, parsing, and text objects
-            ├── surround.lua       # Text surrounding operations (quotes, brackets, tags)
-            ├── telescope.lua      # Fuzzy finder for files, buffers, and project search
-            ├── toggleterm.lua     # Terminal integration with floating and split support
-            ├── tokyonight.lua     # Color scheme configuration with variants
-            └── trouble.lua        # Diagnostics and quickfix list management
+        │   └── lazy.lua           # Lazy.nvim plugin manager setup
+        └── plugins/               # Individual plugin configurations
+            ├── auto_save.lua      # Automatic file saving
+            ├── autopairs.lua      # Bracket/quote pairing
+            ├── bufferline.lua     # Buffer tab line
+            ├── codecompanion.lua  # Code companion AI integration
+            ├── comment.lua        # Code commenting utilities
+            ├── conform.lua        # Code formatting engine
+            ├── copilot.lua        # GitHub Copilot integration
+            ├── cornelis.lua       # Agda/Cornelis support
+            ├── elin.lua           # Clojure/elin REPL integration
+            ├── goto.lua           # Code navigation
+            ├── idris2.lua         # Idris2 language support
+            ├── lazygit.lua        # Git TUI integration
+            ├── lean.lua           # Lean theorem prover support
+            ├── lsp.lua            # Language Server Protocol config
+            ├── lualine.lua        # Status line configuration
+            ├── luasnip.lua        # Snippet engine
+            ├── move.lua           # Line/block movement
+            ├── neo_tree.lua       # File explorer
+            ├── nvim_cmp.lua       # Completion engine
+            ├── nvim_treesitter.lua# Syntax highlighting/parsing
+            ├── surround.lua       # Text surrounding operations
+            ├── telescope.lua      # Fuzzy finder
+            ├── toggleterm.lua     # Terminal integration
+            ├── tokyonight.lua     # Color scheme
+            └── trouble.lua        # Diagnostics management
 ```
 
 ### Directory Organization Principles
 
-- **Root Level**: Core flake configuration and documentation
+- **Root Level**: Core flake configuration using flake-parts, with shared packages in common-packages.nix
 - **Platform Separation**: `darwin/` and `linux/` contain platform-specific system and home configurations
-- **Development Environments**: `lang/` provides isolated, reproducible development environments as separate flakes
 - **Program Configurations**: `programs/` contains modular program configurations imported by platform-specific `home.nix` files
 - **Editor Configuration**: `nvim/` is self-contained with lazy.nvim managing plugins and Lua handling runtime configuration
-- **Separation of Concerns**: Nix handles package management and system integration, while language-specific runtime configs (Lua, shell configs) handle behavior
-- **Reproducibility**: Each language environment and the main system are pinned with lock files for consistent builds across machines
+- **Separation of Concerns**: Nix handles package management and system integration, while Lua/shell configs handle program behavior
+- **Symlink Approach**: Neovim config uses `mkOutOfStoreSymlink` to link directly to `nvim/` directory for easier development
 
 ## Code Style Guidelines
-- **Nix**: Use 2-space indentation. Follow the RFC style implemented by nixfmt.
-- **Lua**: Use stylua for formatting, follow existing convention in similar files.
-- **Git**: Default branch name is "main", no rebase on pull. Use gitmoji for commit messages - search available emojis with `gitmoji -l`. Write commit messages in English, concisely in about one line.
+
+### Nix
+- Use 2-space indentation, no tabs
+- Follow RFC 166 style implemented by nixfmt-rfc-style
+- Group and sort imports logically
+- Keep module options organized and grouped by category
+- Use descriptive names following Nix conventions (camelCase for attributes)
+- Format all files with `nixfmt` before committing
+
+### Lua
+- Format with stylua (configured in treefmt)
+- Follow existing patterns in `nvim/lua/plugins/`
+- Each plugin gets its own file in `plugins/` directory
+- Use descriptive variable names
+
+### General
+- Prefer declarative Nix options over imperative shell scripts
+- Keep modules small and focused (one program per file in `programs/`)
+- Document platform-specific behavior when relevant
+- All configuration should be reproducible and declarative
 
 ## Commit Message Rules
-- **Format**: Use gitmoji followed by a concise English description in one line
-- **Style**: `🔥 Fix critical bug in authentication` or `📝 Update documentation`
-- **NO signatures**: Never add Claude Code signatures, co-author lines, or any additional metadata
+
+- **Format**: Use gitmoji followed by concise English description (one line)
+- **Examples**:
+  - `✨ Add Hyprland configuration`
+  - `🔧 Update nixpkgs to latest unstable`
+  - `♻️ Refactor neovim plugin setup`
+  - `📝 Update CLAUDE.md documentation`
+- **NO signatures**: Never add Claude Code signatures, co-author lines, or any metadata
 - **Command**: Search available emojis with `gitmoji -l`
-- **Formatters**:
-  - Nix: nixfmt
-  - Lua: stylua
-  - TypeScript/JavaScript: deno_fmt
-  - Rust: rustfmt
-  - Haskell: fourmolu
-  - PureScript: purs_tidy
-- **Naming**: Use descriptive names following the conventions of each language.
-- **Error Handling**: Follow idiomatic error handling for each language.
-- **Imports**: Group imports logically, similar to existing files.
+- **Git config**: Default branch is "main", no rebase on pull (pull.rebase = false)
 
-**IMPORTANT**: After modifying any file, always run the appropriate formatter:
-- For .nix files: `nixfmt filename.nix`
-- For .lua files: `stylua filename.lua`
-- For other files: Use the corresponding formatter listed above
+### Formatters by Language
+- Nix: nixfmt-rfc-style (via `nixfmt` or `nix fmt`)
+- Lua: stylua (via `stylua` or `nix fmt`)
+- TypeScript/JavaScript: deno_fmt
+- Rust: rustfmt
+- Haskell: fourmolu
+- PureScript: purs_tidy
 
-All changes should align with the NixOS functional and declarative paradigm.
+## Platform-Specific Notes
+
+### Darwin (macOS)
+- Uses Homebrew for casks (GUI apps) and some system tools
+- Darwin-specific packages in `darwin/configuration.nix`
+- Nix daemon managed by Determinate Nix (`nix.enable = false`)
+- System architecture: aarch64-darwin (Apple Silicon)
+
+### Linux (NixOS)
+- GNOME desktop environment with GDM display manager
+- Hyprland Wayland compositor available as alternative
+- fcitx5 with mozc for Japanese input
+- System architecture: x86_64-linux
+- Audio via PipeWire
