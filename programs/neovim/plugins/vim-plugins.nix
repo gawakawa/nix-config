@@ -12,6 +12,28 @@ let
       hash = "sha256-LO6MT0gSZzmgUnV6CyRCvl9ibvJRTffTBjgBaKyA5u8=";
     };
   };
+
+  logger-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "logger.nvim";
+    version = "unstable-2023-05-25";
+    src = pkgs.fetchFromGitHub {
+      owner = "rmagatti";
+      repo = "logger.nvim";
+      rev = "63dd10c9b9a159fd6cfe08435d9606384ff103c5";
+      hash = "sha256-4xQFk7+3NWEx1XUZApy4Ldi2xdsna+HdkOmq9vWP3B0=";
+    };
+  };
+
+  goto-preview = pkgs.vimUtils.buildVimPlugin {
+    pname = "goto-preview";
+    version = "unstable-2024-09-29";
+    src = pkgs.fetchFromGitHub {
+      owner = "rmagatti";
+      repo = "goto-preview";
+      rev = "cf561d10b4b104db20375c48b86cf36af9f96e00";
+      hash = "sha256-bOVXiLArwLuzHxC/8rc9yZdYjcBKJQIBZfhbQQe1D38=";
+    };
+  };
 in
 
 # Plugin set for Neovim
@@ -56,7 +78,9 @@ with pkgs.vimPlugins;
 
   # Custom plugins (Phase 5)
   move-nvim
-  # goto-preview, codecompanion-nvim, vim-elin will be added next
+  logger-nvim
+  goto-preview
+  # codecompanion-nvim, vim-elin will be added next
 
   # Treesitter (Phase 4) - with parsers
   (nvim-treesitter.withPlugins (
