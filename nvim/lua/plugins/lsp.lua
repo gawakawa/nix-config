@@ -1,16 +1,18 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		name = "mason.nvim",
+		dir = "@mason_nvim@",
 		priority = 1000,
 		config = function()
 			require("mason").setup()
 		end,
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		name = "mason-lspconfig.nvim",
+		dir = "@mason_lspconfig_nvim@",
 		dependencies = {
-			"williamboman/mason.nvim",
-			"neovim/nvim-lspconfig",
+			{ name = "mason.nvim", dir = "@mason_nvim@" },
+			{ name = "nvim-lspconfig", dir = "@nvim_lspconfig@" },
 		},
 		config = function()
 			require("mason-lspconfig").setup({
@@ -26,10 +28,11 @@ return {
 		end,
 	},
 	{
-		"neovim/nvim-lspconfig",
+		name = "nvim-lspconfig",
+		dir = "@nvim_lspconfig@",
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
+			{ name = "mason.nvim", dir = "@mason_nvim@" },
+			{ name = "mason-lspconfig.nvim", dir = "@mason_lspconfig_nvim@" },
 		},
 		config = function()
 			-- Configure diagnostics display

@@ -6,13 +6,16 @@
 
 let
   # Environment variables for substitution
-  # Only include minimal plugins for now
   envVars = {
     inherit (plugins)
       lazy_nvim
       tokyonight_nvim
       lualine_nvim
       nvim_web_devicons
+      # LSP (Phase 2A)
+      mason_nvim
+      mason_lspconfig_nvim
+      nvim_lspconfig
       ;
   };
 
