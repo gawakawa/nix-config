@@ -19,7 +19,7 @@
     ../programs/direnv.nix
     ../programs/git.nix
     ../programs/wezterm.nix
-    ../programs/neovim.nix
+    ../programs/nvim
     ../programs/starship.nix
     ../programs/hyprland.nix
   ];

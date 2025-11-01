@@ -22,7 +22,7 @@ stdenv.mkDerivation (
     pname = "neovim-config";
     version = "latest";
 
-    src = ../../nvim;
+    src = ./.;
 
     installPhase = ''
       mkdir -p $out
