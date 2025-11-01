@@ -1,7 +1,9 @@
 return {
-	"nvim-telescope/telescope.nvim",
-	branch = "0.1.x",
-	dependencies = { "nvim-lua/plenary.nvim" },
+	name = "telescope.nvim",
+	dir = "@telescope_nvim@",
+	dependencies = {
+		{ name = "plenary.nvim", dir = "@plenary_nvim@" },
+	},
 	keys = {
 		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
 		{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },

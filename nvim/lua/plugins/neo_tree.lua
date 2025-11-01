@@ -1,11 +1,10 @@
 return {
-	"nvim-neo-tree/neo-tree.nvim",
-	branch = "v3.x",
+	name = "neo-tree.nvim",
+	dir = "@neo_tree_nvim@",
 	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-		"MunifTanjim/nui.nvim",
-		-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+		{ name = "plenary.nvim", dir = "@plenary_nvim@" },
+		{ name = "nvim-web-devicons", dir = "@nvim_web_devicons@" },
+		{ name = "nui.nvim", dir = "@nui_nvim@" },
 	},
 	keys = {
 		{ "<C-n>", ":Neotree toggle<CR>", desc = "Toggle NeoTree" },

@@ -21,4 +21,10 @@ with pkgs.vimPlugins;
   cmp-cmdline
   cmp_luasnip
   luasnip
+
+  # File Navigation (Phase 2C)
+  telescope-nvim
+  plenary-nvim
+  neo-tree-nvim
+  nui-nvim
 ]

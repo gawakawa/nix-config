@@ -24,6 +24,11 @@ let
       cmp_cmdline
       cmp_luasnip
       luasnip
+      # File Navigation (Phase 2C)
+      telescope_nvim
+      plenary_nvim
+      neo_tree_nvim
+      nui_nvim
       ;
   };
 
