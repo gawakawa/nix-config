@@ -16,6 +16,14 @@ let
       mason_nvim
       mason_lspconfig_nvim
       nvim_lspconfig
+      # Completion (Phase 2B)
+      nvim_cmp
+      cmp_nvim_lsp
+      cmp_buffer
+      cmp_path
+      cmp_cmdline
+      cmp_luasnip
+      luasnip
       ;
   };
 

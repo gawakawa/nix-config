@@ -1,11 +1,14 @@
 return {
-	"hrsh7th/nvim-cmp",
+	name = "nvim-cmp",
+	dir = "@nvim_cmp@",
+	event = "InsertEnter",
 	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-cmdline",
-		"saadparwaiz1/cmp_luasnip",
+		{ name = "cmp-nvim-lsp", dir = "@cmp_nvim_lsp@" },
+		{ name = "cmp-buffer", dir = "@cmp_buffer@" },
+		{ name = "cmp-path", dir = "@cmp_path@" },
+		{ name = "cmp-cmdline", dir = "@cmp_cmdline@" },
+		{ name = "cmp_luasnip", dir = "@cmp_luasnip@" },
+		{ name = "luasnip", dir = "@luasnip@" },
 	},
 	config = function()
 		local cmp = require("cmp")
