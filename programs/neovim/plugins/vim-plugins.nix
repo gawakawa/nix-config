@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 let
-  # Custom plugins not in nixpkgs
   move-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "move.nvim";
     version = "unstable-2024-02-21";
@@ -44,7 +43,7 @@ let
       rev = "ee6c2a1b3793e73584459f7a2fbac88fce3c6f5b";
       hash = "sha256-YoHXtn2mMb+2617RbaBuVEwHksIfvcgAfHbW4Pr20M0=";
     };
-    doCheck = false; # Skip require check (has many external adapter modules)
+    doCheck = false;
   };
 
   vim-elin = pkgs.vimUtils.buildVimPlugin {
@@ -58,7 +57,6 @@ let
     };
   };
 
-  # Language-specific plugins (Phase 6)
   cornelis = pkgs.vimUtils.buildVimPlugin {
     pname = "cornelis";
     version = "unstable-2023-06-02";
@@ -79,7 +77,7 @@ let
       rev = "6e359b4472d40ed6752dfc6359e8338981ce6518";
       hash = "sha256-x2XDg5SL8ZfPK9LkO9HnVyMw9m56WBXp2sbdSA4z5Gk=";
     };
-    doCheck = false; # Skip require check (has widget and infoview modules)
+    doCheck = false;
   };
 
   idris2-nvim = pkgs.vimUtils.buildVimPlugin {
@@ -91,7 +89,7 @@ let
       rev = "19dcf61737293365c23c890ca622fa34aeb12780";
       hash = "sha256-zDb6ke7vzAUWoZPqOgFgszdKe78SI08WRQyPzKTqkXo=";
     };
-    doCheck = false; # Skip require check (has REPL module dependencies)
+    doCheck = false;
   };
 
   switch-vim = pkgs.vimUtils.buildVimPlugin {
@@ -106,20 +104,16 @@ let
   };
 in
 
-# Plugin set for Neovim
 with pkgs.vimPlugins;
 [
-  # Core / UI
   tokyonight-nvim
   lualine-nvim
   nvim-web-devicons
 
-  # LSP (Phase 2A)
   mason-nvim
   mason-lspconfig-nvim
   nvim-lspconfig
 
-  # Completion (Phase 2B)
   nvim-cmp
   cmp-nvim-lsp
   cmp-buffer
@@ -128,13 +122,11 @@ with pkgs.vimPlugins;
   cmp_luasnip
   luasnip
 
-  # File Navigation (Phase 2C)
   telescope-nvim
   plenary-nvim
   neo-tree-nvim
   nui-nvim
 
-  # Utilities (Phase 3)
   lazygit-nvim
   nvim-autopairs
   auto-save-nvim
@@ -146,14 +138,12 @@ with pkgs.vimPlugins;
   conform-nvim
   copilot-vim
 
-  # Custom plugins (Phase 5)
   move-nvim
   logger-nvim
   goto-preview
   codecompanion-nvim
   vim-elin
 
-  # Language-specific plugins (Phase 6)
   cornelis
   nvim-hs-vim
   vim-textobj-user
@@ -163,7 +153,6 @@ with pkgs.vimPlugins;
   tcomment_vim
   idris2-nvim
 
-  # Treesitter (Phase 4) - with parsers
   (nvim-treesitter.withPlugins (
     plugins: with plugins; [
       agda
