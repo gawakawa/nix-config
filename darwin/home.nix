@@ -10,8 +10,6 @@
     stateVersion = "25.05";
     packages = with pkgs; [
       curl
-      vscode
-      idris2
     ];
   };
   programs.home-manager.enable = true;
