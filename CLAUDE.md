@@ -7,17 +7,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **IMPORTANT**: Claude Code cannot execute system rebuild commands (`nixos-rebuild switch`, `darwin-rebuild switch`, `home-manager switch`) as these require elevated privileges and system-level changes. These commands must be run manually by the user after Claude Code makes configuration changes.
 
 - **NixOS/Linux** (user must execute):
-  - Build and switch: `sudo nixos-rebuild switch --flake ".#nixos" --impure`
-  - Test configuration: `sudo nixos-rebuild dry-activate --flake ".#nixos" --impure`
-  - Build only: `sudo nixos-rebuild build --flake ".#nixos" --impure`
+  - Build and switch: `sudo nixos-rebuild switch --flake ".#nixos"`
+  - Test configuration: `sudo nixos-rebuild dry-activate --flake ".#nixos"`
+  - Build only: `sudo nixos-rebuild build --flake ".#nixos"`
 - **Darwin/macOS** (user must execute):
-  - Build and switch: `darwin-rebuild switch --flake ".#mac" --impure`
-  - Build only: `darwin-rebuild build --flake ".#mac" --impure`
+  - Build and switch: `darwin-rebuild switch --flake ".#mac"`
+  - Build only: `darwin-rebuild build --flake ".#mac"`
 - **Home Manager** (user must execute):
   - Rebuild user environment: `home-manager switch --flake ".#$USER@$(hostname)"`
 - **Formatting** (Claude Code can execute):
-  - Format Nix files: `nixfmt filename.nix`
-  - Format Lua files: `stylua filename.lua`
   - Format all: `nix fmt` (uses treefmt-nix with nixfmt and stylua)
 - **Flake Management**:
   - Update all inputs: `nix flake update`
@@ -126,7 +124,6 @@ This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (ma
 - Group and sort imports logically
 - Keep module options organized and grouped by category
 - Use descriptive names following Nix conventions (camelCase for attributes)
-- Format all files with `nixfmt` before committing
 
 ### Lua
 - Format with stylua (configured in treefmt)
@@ -140,25 +137,9 @@ This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (ma
 - Document platform-specific behavior when relevant
 - All configuration should be reproducible and declarative
 
-## Commit Message Rules
-
-- **Format**: Use gitmoji followed by concise English description (one line)
-- **Examples**:
-  - `✨ Add Hyprland configuration`
-  - `🔧 Update nixpkgs to latest unstable`
-  - `♻️ Refactor neovim plugin setup`
-  - `📝 Update CLAUDE.md documentation`
-- **NO signatures**: Never add Claude Code signatures, co-author lines, or any metadata
-- **Command**: Search available emojis with `gitmoji -l`
-- **Git config**: Default branch is "main", no rebase on pull (pull.rebase = false)
-
 ### Formatters by Language
-- Nix: nixfmt-rfc-style (via `nixfmt` or `nix fmt`)
-- Lua: stylua (via `stylua` or `nix fmt`)
-- TypeScript/JavaScript: deno_fmt
-- Rust: rustfmt
-- Haskell: fourmolu
-- PureScript: purs_tidy
+- Nix: nixfmt-rfc-style (via `nix fmt`)
+- Lua: stylua (via `nix fmt`)
 
 ## Platform-Specific Notes
 
