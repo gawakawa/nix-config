@@ -11,6 +11,7 @@
   # インポート
   imports = [
     ./hardware-configuration.nix
+    ../common-packages.nix
   ];
 
   # フォント設定
@@ -160,33 +161,12 @@
     };
   };
 
-  # パッケージ
+  # パッケージ (Linux固有のもののみ)
   environment.systemPackages = with pkgs; [
-    bat
-    claude-code
-    codex
-    direnv
-    discord
-    fd
     gcc
-    gh
-    git
-    gitmoji-cli
     gnumake
-    google-chrome
     haskell-language-server
-    httpie
-    neofetch
-    nixfmt-rfc-style
-    rlwrap
-    slack
     stack # for cornelis
-    starship
-    stylua
-    tree
-    treefmt
-    unzip
-    uv
     wofi
   ];
 }

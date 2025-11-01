@@ -8,6 +8,11 @@
 {
   # Darwin設定
 
+  # インポート
+  imports = [
+    ../common-packages.nix
+  ];
+
   # フォント設定
   fonts = {
     packages = with pkgs; [
@@ -67,29 +72,8 @@
     hostPlatform = "aarch64-darwin";
   };
 
-  # パッケージ
+  # パッケージ (Darwin固有のもののみ)
   environment.systemPackages = with pkgs; [
-    bat
-    claude-code
-    codex
-    direnv
-    discord
-    fd
-    gh
-    git
-    gitmoji-cli
-    google-chrome
-    httpie
-    neofetch
-    nixfmt-rfc-style
     qemu
-    rlwrap
-    slack
-    starship
-    stylua
-    tree
-    treefmt
-    unzip
-    uv
   ];
 }
