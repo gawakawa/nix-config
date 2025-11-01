@@ -3,10 +3,11 @@
     enable = true;
     lfs.enable = true;
 
-    userName = "gawakawa";
-    userEmail = "mashurakiryu@icloud.com";
-
-    extraConfig = {
+    settings = {
+      user = {
+        name = "gawakawa";
+        email = "mashurakiryu@icloud.com";
+      };
       init.defaultBranch = "main";
       core = {
         editor = "nvim";
