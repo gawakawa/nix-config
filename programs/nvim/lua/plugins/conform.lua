@@ -13,42 +13,45 @@ return {
 			desc = "Format buffer",
 		},
 	},
-	opts = {
-		formatters_by_ft = {
-			css = { "treefmt" },
-			clojure = { "treefmt" },
-			go = { "golines", "gofmt", "goimports" },
-			haskell = { "fourmolu" },
-			html = { "treefmt" },
-			javascript = { "treefmt" },
-			javascriptreact = { "treefmt" },
-			json = { "treefmt" },
-			jsonc = { "treefmt" },
-			lua = { "treefmt" },
-			nix = { "treefmt" },
-			purescript = { "treefmt" },
-			python = { "treefmt" },
-			rust = { "treefmt" },
-			terraform = { "terraform_fmt" },
-			typescript = { "treefmt" },
-			typescriptreact = { "treefmt" },
-		},
-		formatters = {
-			fourmolu = {
-				args = { "--column-limit", "70" },
+	config = function()
+		require("conform").setup({
+			formatters_by_ft = {
+				css = { "treefmt" },
+				clojure = { "treefmt" },
+				go = { "golines", "gofmt", "goimports" },
+				haskell = { "fourmolu" },
+				html = { "treefmt" },
+				javascript = { "treefmt" },
+				javascriptreact = { "treefmt" },
+				json = { "treefmt" },
+				jsonc = { "treefmt" },
+				lua = { "treefmt" },
+				nix = { "treefmt" },
+				purescript = { "treefmt" },
+				python = { "treefmt" },
+				rust = { "treefmt" },
+				terraform = { "terraform_fmt" },
+				typescript = { "treefmt" },
+				typescriptreact = { "treefmt" },
 			},
-			golines = {
-				args = { "--max-len", "70" },
+			formatters = {
+				fourmolu = {
+					args = { "--column-limit", "70" },
+				},
+				golines = {
+					args = { "--max-len", "70" },
+				},
+				treefmt = {
+					command = "nix",
+					args = { "fmt", "--", "$FILENAME" },
+					stdin = false,
+					cwd = require("conform.util").root_file({ ".git" }),
+				},
 			},
-			treefmt = {
-				command = "nix",
-				args = { "fmt", "--", "$FILENAME" },
-				stdin = false,
+			default_format_opts = {
+				lsp_format = "fallback",
 			},
-		},
-		default_format_opts = {
-			lsp_format = "fallback",
-		},
-		format_on_save = { timeout_ms = 3000 },
-	},
+			format_on_save = { timeout_ms = 3000 },
+		})
+	end,
 }

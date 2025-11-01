@@ -6,11 +6,17 @@
 }:
 
 let
-  # Minimal extra packages for initial testing
   extraPackages = with pkgs; [
-    # Basic tools
-    ripgrep # for telescope (added later)
-    fd # for telescope (added later)
+    # For telescope
+    ripgrep
+    fd
+
+    # For conform.nvim
+    go
+    golines
+    gotools
+    haskellPackages.fourmolu
+    terraform
   ];
 
   neovimWrapper = pkgs.callPackage ./wrapper.nix {
