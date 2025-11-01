@@ -7,11 +7,8 @@ on:
       - main
 
 jobs:
-  checks:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  nixos:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -25,20 +22,11 @@ jobs:
       - name: Flake check
         run: nix flake check
 
-  build-nixos:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GH_TOKEN }}
-
       - name: Build NixOS configuration
         run: |
           nix build .#nixosConfigurations.nixos.config.system.build.toplevel --show-trace
 
-  build-darwin:
+  darwin:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v5
@@ -46,6 +34,12 @@ jobs:
       - uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Format check
+        run: nix fmt -- --ci
+
+      - name: Flake check
+        run: nix flake check
 
       - name: Build Darwin configuration
         run: |
