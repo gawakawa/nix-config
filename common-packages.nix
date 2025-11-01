@@ -28,8 +28,5 @@
     discord
     slack
     google-chrome
-
-    # Python tooling
-    uv
   ];
 }
