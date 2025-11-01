@@ -165,8 +165,6 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    haskell-language-server
-    stack # for cornelis
     wofi
   ];
 }

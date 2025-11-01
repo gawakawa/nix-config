@@ -16,6 +16,10 @@
     ];
 
     extraPackages = with pkgs; [
+      # for cornelis
+      stack
+
+      # for elin
       babashka
       clj-kondo
     ];
