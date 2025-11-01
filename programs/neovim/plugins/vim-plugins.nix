@@ -46,6 +46,17 @@ let
     };
     doCheck = false; # Skip require check (has many external adapter modules)
   };
+
+  vim-elin = pkgs.vimUtils.buildVimPlugin {
+    pname = "vim-elin";
+    version = "unstable-2024-10-18";
+    src = pkgs.fetchFromGitHub {
+      owner = "liquidz";
+      repo = "vim-elin";
+      rev = "f6dcd1bd7b16076c2a3f05fc82255988698d43cc";
+      hash = "sha256-j7/CifqG1T4/Eh2anjTjvZKKAJt3G9SST5CtW9Xg5ho=";
+    };
+  };
 in
 
 # Plugin set for Neovim
@@ -93,7 +104,7 @@ with pkgs.vimPlugins;
   logger-nvim
   goto-preview
   codecompanion-nvim
-  # vim-elin will be added next
+  vim-elin
 
   # Treesitter (Phase 4) - with parsers
   (nvim-treesitter.withPlugins (
