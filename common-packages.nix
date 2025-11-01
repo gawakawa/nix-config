@@ -15,8 +15,6 @@
     # Development tools
     direnv
     starship
-    stylua
-    nixfmt-rfc-style
     treefmt
 
     # Terminal tools
