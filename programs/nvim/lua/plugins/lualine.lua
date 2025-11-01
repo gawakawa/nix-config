@@ -1,6 +1,7 @@
 return {
 	name = "lualine.nvim",
 	dir = "@lualine_nvim@",
+	lazy = false,
 	dependencies = {
 		{ name = "nvim-web-devicons", dir = "@nvim_web_devicons@" },
 	},

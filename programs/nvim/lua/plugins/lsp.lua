@@ -2,6 +2,7 @@ return {
 	{
 		name = "mason.nvim",
 		dir = "@mason_nvim@",
+		lazy = false,
 		priority = 1000,
 		config = function()
 			require("mason").setup()
@@ -10,6 +11,7 @@ return {
 	{
 		name = "mason-lspconfig.nvim",
 		dir = "@mason_lspconfig_nvim@",
+		lazy = false,
 		dependencies = {
 			{ name = "mason.nvim", dir = "@mason_nvim@" },
 			{ name = "nvim-lspconfig", dir = "@nvim_lspconfig@" },
@@ -30,6 +32,7 @@ return {
 	{
 		name = "nvim-lspconfig",
 		dir = "@nvim_lspconfig@",
+		lazy = false,
 		dependencies = {
 			{ name = "mason.nvim", dir = "@mason_nvim@" },
 			{ name = "mason-lspconfig.nvim", dir = "@mason_lspconfig_nvim@" },
