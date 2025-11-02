@@ -17,16 +17,7 @@ return {
 			{ name = "nvim-lspconfig", dir = "@nvim_lspconfig@" },
 		},
 		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"clojure_lsp",
-					"denols",
-					"gopls",
-					"purescriptls",
-					"rust_analyzer",
-				},
-				automatic_installation = true,
-			})
+			require("mason-lspconfig").setup({})
 		end,
 	},
 	{
