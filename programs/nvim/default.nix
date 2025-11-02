@@ -4,19 +4,11 @@
   lib,
   ...
 }:
-
 let
   extraPackages = with pkgs; [
     # For telescope
     ripgrep
     fd
-
-    # For conform.nvim
-    go
-    golines
-    gotools
-    haskellPackages.fourmolu
-    terraform
   ];
 
   neovimWrapper = pkgs.callPackage ./wrapper.nix {

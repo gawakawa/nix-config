@@ -18,7 +18,7 @@ return {
 			formatters_by_ft = {
 				css = { "treefmt" },
 				clojure = { "treefmt" },
-				go = { "golines", "gofmt", "goimports" },
+				go = { "treefmt" },
 				haskell = { "fourmolu" },
 				html = { "treefmt" },
 				javascript = { "treefmt" },
@@ -30,17 +30,11 @@ return {
 				purescript = { "treefmt" },
 				python = { "treefmt" },
 				rust = { "treefmt" },
-				terraform = { "terraform_fmt" },
+				terraform = { "treefmt" },
 				typescript = { "treefmt" },
 				typescriptreact = { "treefmt" },
 			},
 			formatters = {
-				fourmolu = {
-					args = { "--column-limit", "70" },
-				},
-				golines = {
-					args = { "--max-len", "70" },
-				},
 				treefmt = {
 					command = "nix",
 					args = { "fmt", "--", "$FILENAME" },
