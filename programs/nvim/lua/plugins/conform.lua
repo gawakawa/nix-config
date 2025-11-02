@@ -7,7 +7,7 @@ return {
 		{
 			"<leader>f",
 			function()
-				require("conform").format({ async = true })
+				require("conform").format({ formatters = { "treefmt" }, async = true })
 			end,
 			mode = "",
 			desc = "Format buffer",
@@ -15,25 +15,6 @@ return {
 	},
 	config = function()
 		require("conform").setup({
-			formatters_by_ft = {
-				css = { "treefmt" },
-				clojure = { "treefmt" },
-				go = { "treefmt" },
-				haskell = { "fourmolu" },
-				html = { "treefmt" },
-				javascript = { "treefmt" },
-				javascriptreact = { "treefmt" },
-				json = { "treefmt" },
-				jsonc = { "treefmt" },
-				lua = { "treefmt" },
-				nix = { "treefmt" },
-				purescript = { "treefmt" },
-				python = { "treefmt" },
-				rust = { "treefmt" },
-				terraform = { "treefmt" },
-				typescript = { "treefmt" },
-				typescriptreact = { "treefmt" },
-			},
 			formatters = {
 				treefmt = {
 					command = "nix",
@@ -45,7 +26,12 @@ return {
 			default_format_opts = {
 				lsp_format = "fallback",
 			},
-			format_on_save = { timeout_ms = 3000 },
+			format_on_save = function(bufnr)
+				return {
+					timeout_ms = 3000,
+					formatters = { "treefmt" },
+				}
+			end,
 		})
 	end,
 }
