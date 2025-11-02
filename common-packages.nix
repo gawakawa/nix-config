@@ -4,6 +4,7 @@
     # Core utilities
     bat
     fd
+    jq
     tree
     unzip
 
