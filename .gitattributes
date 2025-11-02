@@ -1,1 +1,1 @@
-programs/images/shami_momo.JPG filter=lfs diff=lfs merge=lfs -text
+programs/wezterm/images/shami_momo.JPG filter=lfs diff=lfs merge=lfs -text
