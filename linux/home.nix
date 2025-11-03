@@ -22,5 +22,6 @@
     ../programs/nvim
     ../programs/starship.nix
     ../programs/hyprland.nix
+    ../programs/waybar.nix
   ];
 }
