@@ -20,7 +20,7 @@ return {
 					command = "nix",
 					args = { "fmt", "--", "$FILENAME" },
 					stdin = false,
-					cwd = require("conform.util").root_file({ ".git" }),
+					cwd = require("conform.util").root_file({ ".git", "flake.nix" }),
 				},
 			},
 			default_format_opts = {
@@ -28,7 +28,7 @@ return {
 			},
 			format_on_save = function(bufnr)
 				return {
-					timeout_ms = 3000,
+					timeout_ms = 10000,
 					formatters = { "treefmt" },
 				}
 			end,
