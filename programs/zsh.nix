@@ -5,19 +5,9 @@
     shellAliases = {
       v = "nvim";
       c = "claude";
-      lmk = "latexmk -pvc -c";
-      updatedb = "sudo /usr/libexec/locate.updatedb";
-      oj-bundle = "oj-bundle -I $HOME/kyopro/atcoder/cpp/mylib";
-      gpp = "g++ -std=c++23 -O2 -Wall -Wextra -Wshadow -g";
-      idris2 = "rlwrap idris2 -p contrib";
-      oj-t = "fourmolu -i Main.hs && oj t -c 'stack Main.hs'"; # oj test for Haskell
       ls = "ls -A";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --impure"; # update nix config
       drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
-      nsh = "nix-shell";
-      new = "cargo compete new";
-      test = "cargo compete test";
-      submit = "cargo compete submit";
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
