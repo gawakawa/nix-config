@@ -6,6 +6,7 @@
       v = "nvim";
       c = "claude";
       ls = "ls -A";
+      find = "fd";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --impure"; # update nix config
       drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
     };
