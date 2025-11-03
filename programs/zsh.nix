@@ -7,8 +7,8 @@
       c = "claude";
       ls = "ls -A";
       find = "fd";
-      nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --impure"; # update nix config
-      drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
+      nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
+      drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\" --accept-flake-config";
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
