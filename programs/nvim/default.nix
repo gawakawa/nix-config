@@ -11,6 +11,8 @@ let
     fd
 
     # For LSP servers
+    asm-lsp
+    clang-tools
     clojure-lsp
     deno
     gopls

@@ -156,7 +156,9 @@ with pkgs.vimPlugins;
   (nvim-treesitter.withPlugins (
     plugins: with plugins; [
       agda
+      asm
       bash
+      c
       clojure
       css
       dockerfile
