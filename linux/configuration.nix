@@ -19,7 +19,9 @@
     packages = with pkgs; [
       fira-code
       fira-code-symbols
+      jetbrains-mono
       nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
