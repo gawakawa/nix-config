@@ -41,6 +41,9 @@
             programs.nixfmt.enable = true;
             programs.stylua.enable = true;
           };
+
+          # Expose treefmt wrapper for fast editor integration
+          packages.treefmt-wrapper = config.treefmt.build.wrapper;
         };
 
       flake = {

@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  self,
   ...
 }:
 let
@@ -22,6 +23,9 @@ let
     rust-analyzer
     ruff
     terraform-ls
+
+    # treefmt-nix wrapper for fast formatting
+    self.packages.${pkgs.system}.treefmt-wrapper
   ];
 
   neovimWrapper = pkgs.callPackage ./wrapper.nix {

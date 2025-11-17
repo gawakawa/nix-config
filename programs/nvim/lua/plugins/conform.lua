@@ -17,8 +17,8 @@ return {
 		require("conform").setup({
 			formatters = {
 				treefmt = {
-					command = "nix",
-					args = { "fmt", "--", "$FILENAME" },
+					command = "treefmt",
+					args = { "$FILENAME" },
 					stdin = false,
 					cwd = require("conform.util").root_file({ ".git", "flake.nix" }),
 				},
@@ -28,7 +28,7 @@ return {
 			},
 			format_on_save = function(bufnr)
 				return {
-					timeout_ms = 10000,
+					timeout_ms = 500,
 					formatters = { "treefmt" },
 				}
 			end,
