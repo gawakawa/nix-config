@@ -22,6 +22,18 @@ let
     rust-analyzer
     ruff
     terraform-ls
+
+    # For formatters (conform.nvim)
+    nixfmt
+    rustfmt
+    nodePackages.purs-tidy
+    # ruff (already included for LSP)
+    biome
+    gotools # provides goimports
+    go # provides gofmt
+    golines
+    fourmolu
+    haskellPackages.cabal-fmt
   ];
 
   neovimWrapper = pkgs.callPackage ./wrapper.nix {

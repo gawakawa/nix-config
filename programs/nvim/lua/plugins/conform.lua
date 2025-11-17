@@ -7,7 +7,7 @@ return {
 		{
 			"<leader>f",
 			function()
-				require("conform").format({ formatters = { "treefmt" }, async = true })
+				require("conform").format({ async = true })
 			end,
 			mode = "",
 			desc = "Format buffer",
@@ -15,21 +15,27 @@ return {
 	},
 	config = function()
 		require("conform").setup({
-			formatters = {
-				treefmt = {
-					command = "nix",
-					args = { "fmt", "--", "$FILENAME" },
-					stdin = false,
-					cwd = require("conform.util").root_file({ ".git", "flake.nix" }),
-				},
+			formatters_by_ft = {
+				nix = { "nixfmt" },
+				rust = { "rustfmt" },
+				purescript = { "purs_tidy" },
+				python = { "ruff_format", "ruff_organize_imports" },
+				javascript = { "biome" },
+				typescript = { "biome" },
+				javascriptreact = { "biome" },
+				typescriptreact = { "biome" },
+				json = { "biome" },
+				jsonc = { "biome" },
+				go = { "goimports", "gofmt" },
+				haskell = { "fourmolu" },
+				cabal = { "cabal_fmt" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",
 			},
 			format_on_save = function(bufnr)
 				return {
-					timeout_ms = 10000,
-					formatters = { "treefmt" },
+					timeout_ms = 3000,
 				}
 			end,
 		})
