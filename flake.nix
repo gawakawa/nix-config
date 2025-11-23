@@ -17,6 +17,11 @@
     };
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    nvim = {
+      url = "path:/home/iota/.config/nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -58,7 +63,8 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit (inputs) self nixpkgs;
+                  inherit (inputs) self nixpkgs nvim;
+                  system = "x86_64-linux";
                 };
                 users.iota = import ./linux/home.nix;
               };
@@ -87,7 +93,8 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit (inputs) self nixpkgs;
+                  inherit (inputs) self nixpkgs nvim;
+                  system = "aarch64-darwin";
                 };
                 users.iota = import ./darwin/home.nix;
               };
