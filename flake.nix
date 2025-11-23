@@ -19,7 +19,7 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
     nvim = {
-      url = "path:/home/iota/.config/nvim";
+      url = "github:gawakawa/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

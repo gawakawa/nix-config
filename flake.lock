@@ -149,13 +149,16 @@
       },
       "locked": {
         "lastModified": 1763901267,
-        "narHash": "sha256-te4Q+TPuO708kZsLsYQFIQQYl6yTvGUHjJQ4rHaWrH0=",
-        "path": "/home/iota/.config/nvim",
-        "type": "path"
+        "narHash": "sha256-VoJ/8U8F4/eut7HEtl5MF/fDG9Npe4Db9ylJy9aGwO0=",
+        "owner": "gawakawa",
+        "repo": "nvim",
+        "rev": "452568910fd6840b5e4adf0611cd569a2d313821",
+        "type": "github"
       },
       "original": {
-        "path": "/home/iota/.config/nvim",
-        "type": "path"
+        "owner": "gawakawa",
+        "repo": "nvim",
+        "type": "github"
       }
     },
     "root": {
