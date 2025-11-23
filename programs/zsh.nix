@@ -21,6 +21,11 @@
       mkcd() {
           mkdir -p "$1" && cd "$1"
       }
+
+      # Set GH_TOKEN secret for flake update workflow in specified repository
+      set-flake-update-token() {
+          gh secret set GH_TOKEN -b"$(pass show github/pat-flake-update)" -R "$1"
+      }
     '';
     prezto = {
       enable = true;
