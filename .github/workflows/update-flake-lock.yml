@@ -19,6 +19,13 @@ jobs:
         uses: DeterminateSystems/determinate-nix-action@v3
 
       - name: Update flake.lock
+        id: update
         uses: DeterminateSystems/update-flake-lock@main
         with:
           token: ${{ secrets.GH_TOKEN }}
+
+      - name: Enable auto-merge
+        if: ${{ steps.update.outputs.pull-request-number }}
+        run: gh pr merge --auto --merge ${{ steps.update.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
