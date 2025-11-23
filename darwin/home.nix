@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  nvim,
   system,
   ...
 }:
@@ -12,7 +11,6 @@
     stateVersion = "25.05";
     packages = with pkgs; [
       curl
-      nvim.packages.${system}.default
     ];
 
     shellAliases = {

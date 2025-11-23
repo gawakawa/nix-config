@@ -17,11 +17,6 @@
     };
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
-
-    nvim = {
-      url = "github:gawakawa/nvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -63,7 +58,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit (inputs) self nixpkgs nvim;
+                  inherit (inputs) self nixpkgs;
                   system = "x86_64-linux";
                 };
                 users.iota = import ./linux/home.nix;
@@ -93,7 +88,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
-                  inherit (inputs) self nixpkgs nvim;
+                  inherit (inputs) self nixpkgs;
                   system = "aarch64-darwin";
                 };
                 users.iota = import ./darwin/home.nix;
