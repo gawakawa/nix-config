@@ -4,6 +4,7 @@
     enable = true;
     shellAliases = {
       v = "nvim";
+      nvim = "nix run ~/.config/nvim --";
       c = "claude";
       ls = "ls -A";
       find = "fd";

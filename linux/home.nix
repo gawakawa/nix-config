@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  system,
   ...
 }:
 {
@@ -11,6 +12,11 @@
     packages = with pkgs; [
       curl
     ];
+
+    shellAliases = {
+      vi = "nvim";
+      vim = "nvim";
+    };
   };
   programs.home-manager.enable = true;
 
@@ -19,7 +25,6 @@
     ../programs/direnv.nix
     ../programs/git.nix
     ../programs/wezterm
-    ../programs/nvim
     ../programs/starship.nix
     ../programs/hyprland.nix
     ../programs/waybar.nix

@@ -115,10 +115,10 @@
     };
   };
 
-  # X11/GNOME設定
+  # サービス設定
   services = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = false;
+    desktopManager.gnome.enable = false;
     xserver = {
       enable = true;
       xkb = {

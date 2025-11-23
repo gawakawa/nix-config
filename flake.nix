@@ -59,6 +59,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit (inputs) self nixpkgs;
+                  system = "x86_64-linux";
                 };
                 users.iota = import ./linux/home.nix;
               };
@@ -88,6 +89,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit (inputs) self nixpkgs;
+                  system = "aarch64-darwin";
                 };
                 users.iota = import ./darwin/home.nix;
               };
