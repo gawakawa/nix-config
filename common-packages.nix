@@ -5,6 +5,7 @@
     bat
     fd
     jq
+    pass
     tree
     unzip
 
