@@ -26,6 +26,11 @@
       set-flake-update-token() {
           gh secret set GH_TOKEN -b"$(pass show github/pat-flake-update)" -R "$1"
       }
+
+      # Initialize flake using template from https://github.com/gawakawa/flake-templates
+      flake-init() {
+          nix flake init -t "github:gawakawa/flake-templates#$1"
+      }
     '';
     prezto = {
       enable = true;
