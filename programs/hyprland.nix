@@ -32,7 +32,6 @@
       # Autostart programs
       exec-once = [
         "fcitx5 -d"
-        "waybar"
         "wezterm"
       ];
 
