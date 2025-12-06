@@ -165,6 +165,7 @@
 
   # パッケージ (Linux固有のもののみ)
   environment.systemPackages = with pkgs; [
+    wl-clipboard
     wofi
   ];
 }
