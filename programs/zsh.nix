@@ -27,6 +27,11 @@
           gh secret set GH_TOKEN -b"$(pass show github/pat-flake-update)" -R "$1"
       }
 
+      # Set CACHIX_AUTH_TOKEN secret for Cachix push in specified repository
+      set-cachix-token() {
+          gh secret set CACHIX_AUTH_TOKEN -b"$(pass show cachix/auth-token)" -R "$1"
+      }
+
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
       flake-init() {
           nix flake init -t "github:gawakawa/flake-templates#$1"
