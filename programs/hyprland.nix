@@ -7,6 +7,7 @@
 {
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = true;
     settings = {
       # Monitor configuration
       monitor = ",preferred,auto,1";
@@ -32,6 +33,7 @@
       # Autostart programs
       exec-once = [
         "fcitx5 -d"
+        "waybar"
         "wezterm"
       ];
 
