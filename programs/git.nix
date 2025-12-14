@@ -13,8 +13,7 @@
         editor = "nvim";
       };
 
-      pull.rebase = false;
-      merge.ff = false;
+      pull.rebase = true;
     };
   };
 }
