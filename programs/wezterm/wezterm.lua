@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 
 return {
+	term = "wezterm",
 	font = wezterm.font({
 		family = "FiraCode Nerd Font",
 		harfbuzz_features = {
