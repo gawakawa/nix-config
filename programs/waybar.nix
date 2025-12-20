@@ -18,9 +18,9 @@
         modules-left = [ ];
         modules-center = [ ];
         modules-right = [
-          "battery"
-          "network"
           "clock"
+          "network"
+          "battery"
         ];
 
         clock = {
@@ -28,7 +28,7 @@
         };
 
         battery = {
-          format = "{icon} {capacity}%";
+          format = "{capacity}% {icon}";
           format-icons = [
             ""
             ""
