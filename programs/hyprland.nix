@@ -51,7 +51,6 @@
         ];
 
         # Programs
-        "$terminal" = "wezterm";
         "$menu" = "wofi --show drun";
         "$mainMod" = "SUPER";
 
@@ -165,7 +164,6 @@
         # Key bindings
         bind = [
           # Basic binds
-          "$mainMod, Q, exec, $terminal"
           "$mainMod, C, killactive,"
           "$mainMod, M, exit,"
           "$mainMod, F, exec, hyprctl dispatch setfloating && ${resizeFloating}"
