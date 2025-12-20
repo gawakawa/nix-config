@@ -53,7 +53,7 @@
       }
 
       window#waybar {
-        background-color: rgba(43, 48, 59, 0.9);
+        background-color: transparent;
         color: #ffffff;
       }
 
