@@ -22,7 +22,7 @@ return {
 	font_size = 15.0,
 
 	use_ime = true,
-	window_background_opacity = 1,
+	window_background_opacity = 0.7,
 	window_padding = {
 		left = 10,
 		right = 10,
@@ -43,19 +43,9 @@ return {
 	window_background_gradient = {
 		colors = { "#000000" },
 	},
-
 	colors = {
 		tab_bar = {
 			inactive_tab_edge = "none",
-		},
-	},
-
-	background = {
-		{
-			source = {
-				File = wezterm.home_dir .. "/.config/nix-config/programs/wezterm/images/shami_momo.JPG",
-			},
-			opacity = wezterm.target_triple:find("darwin") and 0.25 or 0.15,
 		},
 	},
 }
