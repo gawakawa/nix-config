@@ -142,7 +142,7 @@
         "$mainMod, Q, exec, $terminal"
         "$mainMod, C, killactive,"
         "$mainMod, M, exit,"
-        "$mainMod, V, togglefloating,"
+        "$mainMod, V, exec, hyprctl --batch 'dispatch togglefloating; dispatch centerwindow'"
         "$mainMod, R, exec, $menu"
         "$mainMod, P, pseudo,"
         "$mainMod, J, togglesplit,"
@@ -223,6 +223,11 @@
       windowrule = [
         "suppressevent maximize, class:.*"
         "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+      ];
+
+      # WezTerm window rules
+      windowrulev2 = [
+        "noblur,class:^(org.wezfurlong.wezterm)$"
       ];
     };
   };
