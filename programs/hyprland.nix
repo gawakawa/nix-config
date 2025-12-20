@@ -11,6 +11,24 @@
     settings =
       let
         floatSizeCmd = ''info=$(hyprctl monitors -j | jq '.[0]') && w=$(echo $info | jq '.width') && h=$(echo $info | jq '.height') && rt=$(echo $info | jq '.reserved[1]') && tw=$((w * 95 / 100 - 40)) && th=$((h - rt - 40)) && hyprctl dispatch resizeactive exact $tw $th && hyprctl dispatch moveactive exact 20 $((rt + 20))'';
+        weztermSizeScript = pkgs.writeShellScript "wezterm-size" ''
+          for i in $(seq 1 10); do
+            if hyprctl clients -j | ${pkgs.jq}/bin/jq -e '.[] | select(.class == "org.wezfurlong.wezterm")' > /dev/null 2>&1; then
+              hyprctl dispatch focuswindow class:org.wezfurlong.wezterm
+              info=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[0]')
+              w=$(echo $info | ${pkgs.jq}/bin/jq '.width')
+              h=$(echo $info | ${pkgs.jq}/bin/jq '.height')
+              rt=$(echo $info | ${pkgs.jq}/bin/jq '.reserved[1]')
+              tw=$((w * 95 / 100 - 40))
+              th=$((h - rt - 40))
+              hyprctl dispatch resizeactive exact $tw $th
+              hyprctl dispatch moveactive exact 20 $((rt + 20))
+              exit 0
+            fi
+            sleep 0.2
+          done
+          exit 1
+        '';
       in
       {
         # Monitor configuration
@@ -40,7 +58,7 @@
           "waybar"
           "google-chrome-stable"
           "wezterm"
-          "sleep 0.3 && hyprctl dispatch focuswindow class:org.wezfurlong.wezterm && ${floatSizeCmd}"
+          "${weztermSizeScript}"
         ];
 
         # General settings
