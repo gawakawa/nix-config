@@ -21,15 +21,15 @@
           hyprctl dispatch moveactive exact 20 $((rt + 20))
         '';
         initWezterm = pkgs.writeShellScript "init-wezterm" ''
-          for i in $(seq 1 10); do
-            if hyprctl clients -j | ${pkgs.jq}/bin/jq -e '.[] | select(.class == "org.wezfurlong.wezterm")' > /dev/null 2>&1; then
-              hyprctl dispatch focuswindow class:org.wezfurlong.wezterm
-              ${resizeFloating}
-              exit 0
-            fi
-            sleep 0.2
+          ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
+            case $line in
+              openwindow*wezfurlong.wezterm*)
+                hyprctl dispatch focuswindow class:org.wezfurlong.wezterm
+                ${resizeFloating}
+                exit 0
+                ;;
+            esac
           done
-          exit 1
         '';
       in
       {
