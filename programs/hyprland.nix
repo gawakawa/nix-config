@@ -38,6 +38,7 @@
         exec-once = [
           "fcitx5 -d"
           "waybar"
+          "google-chrome-stable"
           "wezterm"
           "sleep 0.3 && hyprctl dispatch focuswindow class:org.wezfurlong.wezterm && ${floatSizeCmd}"
         ];
