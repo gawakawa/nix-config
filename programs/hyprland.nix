@@ -10,19 +10,21 @@
     systemd.enable = true;
     settings =
       let
-        floatSizeCmd = ''info=$(hyprctl monitors -j | jq '.[0]') && w=$(echo $info | jq '.width') && h=$(echo $info | jq '.height') && rt=$(echo $info | jq '.reserved[1]') && tw=$((w * 95 / 100 - 40)) && th=$((h - rt - 40)) && hyprctl dispatch resizeactive exact $tw $th && hyprctl dispatch moveactive exact 20 $((rt + 20))'';
-        weztermSizeScript = pkgs.writeShellScript "wezterm-size" ''
+        resizeFloating = pkgs.writeShellScript "resize-floating" ''
+          info=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[0]')
+          w=$(echo $info | ${pkgs.jq}/bin/jq '.width')
+          h=$(echo $info | ${pkgs.jq}/bin/jq '.height')
+          rt=$(echo $info | ${pkgs.jq}/bin/jq '.reserved[1]')
+          tw=$((w * 95 / 100 - 40))
+          th=$((h - rt - 40))
+          hyprctl dispatch resizeactive exact $tw $th
+          hyprctl dispatch moveactive exact 20 $((rt + 20))
+        '';
+        initWezterm = pkgs.writeShellScript "init-wezterm" ''
           for i in $(seq 1 10); do
             if hyprctl clients -j | ${pkgs.jq}/bin/jq -e '.[] | select(.class == "org.wezfurlong.wezterm")' > /dev/null 2>&1; then
               hyprctl dispatch focuswindow class:org.wezfurlong.wezterm
-              info=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[0]')
-              w=$(echo $info | ${pkgs.jq}/bin/jq '.width')
-              h=$(echo $info | ${pkgs.jq}/bin/jq '.height')
-              rt=$(echo $info | ${pkgs.jq}/bin/jq '.reserved[1]')
-              tw=$((w * 95 / 100 - 40))
-              th=$((h - rt - 40))
-              hyprctl dispatch resizeactive exact $tw $th
-              hyprctl dispatch moveactive exact 20 $((rt + 20))
+              ${resizeFloating}
               exit 0
             fi
             sleep 0.2
@@ -58,7 +60,7 @@
           "waybar"
           "google-chrome-stable"
           "wezterm"
-          "${weztermSizeScript}"
+          "${initWezterm}"
         ];
 
         # General settings
@@ -166,7 +168,7 @@
           "$mainMod, Q, exec, $terminal"
           "$mainMod, C, killactive,"
           "$mainMod, M, exit,"
-          "$mainMod, F, exec, hyprctl dispatch setfloating && ${floatSizeCmd}"
+          "$mainMod, F, exec, hyprctl dispatch setfloating && ${resizeFloating}"
           "$mainMod, T, settiled,"
           "$mainMod, R, exec, $menu"
           "$mainMod, P, pseudo,"
