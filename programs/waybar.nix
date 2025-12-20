@@ -24,32 +24,31 @@
         ];
 
         clock = {
-          format = "{:%H:%M}";
+          format = " {:%H:%M}";
         };
 
         battery = {
-          format = "{capacity}% {icon}";
+          format = "{icon} {capacity}%";
           format-icons = [
-            ""
-            ""
-            ""
-            ""
-            ""
+            ""
+            ""
+            ""
+            ""
+            ""
           ];
         };
 
         network = {
-          format-wifi = "{essid} ";
-          format-ethernet = "{ifname} ";
-          format-disconnected = "Disconnected ⚠";
-          tooltip-format = "{ifname}: {ipaddr}";
+          format-wifi = "";
+          format-disconnected = "󰤮";
+          tooltip-format = "{essid} ({ipaddr})";
         };
       };
     };
 
     style = ''
       * {
-        font-family: "Noto Sans", "Font Awesome 6 Free";
+        font-family: "NotoSans Nerd Font";
         font-size: 13px;
       }
 
