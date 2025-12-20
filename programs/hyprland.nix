@@ -142,10 +142,13 @@
         "$mainMod, Q, exec, $terminal"
         "$mainMod, C, killactive,"
         "$mainMod, M, exit,"
-        "$mainMod, V, exec, hyprctl --batch 'dispatch togglefloating; dispatch centerwindow'"
+        "''$mainMod, V, exec, hyprctl dispatch togglefloating && info=$(hyprctl monitors -j | jq '.[0]') && w=$(echo $info | jq '.width') && h=$(echo $info | jq '.height') && rt=$(echo $info | jq '.reserved[1]') && tw=$((w * 95 / 100 - 40)) && th=$((h - rt - 40)) && hyprctl dispatch resizeactive exact $tw $th && hyprctl dispatch moveactive exact 20 $((rt + 20))''"
         "$mainMod, R, exec, $menu"
         "$mainMod, P, pseudo,"
         "$mainMod, J, togglesplit,"
+
+        # Focus toggle (switch to previous window)
+        "$mainMod, F, focuscurrentorlast,"
 
         # Application shortcuts
         "$mainMod, T, exec, wezterm"
