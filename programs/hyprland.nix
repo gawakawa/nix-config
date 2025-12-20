@@ -5,6 +5,8 @@
   ...
 }:
 {
+  home.packages = [ pkgs.grimblast ];
+
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
@@ -218,6 +220,9 @@
 
           # Input method toggle
           "CTRL, space, exec, fcitx5-remote -t"
+
+          # Screenshot (PrintScreen key is recognized as F9)
+          ", F9, exec, grimblast copysave screen"
         ];
 
         # Repeat binds for volume and brightness
