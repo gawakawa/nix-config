@@ -20,7 +20,8 @@
           hyprctl dispatch resizeactive exact $tw $th
           hyprctl dispatch moveactive exact 20 $((rt + 20))
         '';
-        initWezterm = pkgs.writeShellScript "init-wezterm" ''
+        launchWezterm = pkgs.writeShellScript "launch-wezterm" ''
+          wezterm &
           ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
             case $line in
               openwindow*wezfurlong.wezterm*)
@@ -59,8 +60,7 @@
           "fcitx5 -d"
           "waybar"
           "google-chrome-stable"
-          "wezterm"
-          "${initWezterm}"
+          "${launchWezterm}"
         ];
 
         # General settings
@@ -175,7 +175,7 @@
           "$mainMod, J, togglesplit,"
 
           # Application shortcuts
-          "$mainMod, W, exec, wezterm"
+          "$mainMod, W, exec, ${launchWezterm}"
           "$mainMod, B, exec, google-chrome-stable"
           "$mainMod, S, exec, slack"
           "$mainMod, D, exec, discord"
