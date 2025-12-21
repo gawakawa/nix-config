@@ -10,6 +10,7 @@
       find = "fd";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
       drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\" --accept-flake-config";
+      init-gh-repo = "git commit -m '🎉 Initial commit' && gh repo create --public --source=. --push && gh repo edit --enable-auto-merge --delete-branch-on-merge --allow-update-branch";
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
