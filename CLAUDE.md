@@ -80,7 +80,7 @@ This is a unified Nix configuration supporting both NixOS (Linux) and Darwin (ma
 - `linux/hardware-configuration.nix`: Hardware-specific configuration (auto-generated, do not edit manually)
 - `linux/home.nix`: Linux home-manager configuration importing shared program modules plus Hyprland/Waybar
 - `programs/`: Individual program configurations shared between platforms
-  - Single-file modules: `git.nix`, `zsh.nix`, `starship.nix`, `direnv.nix`
+  - Single-file modules: `git.nix`, `zsh.nix`, `starship.nix`, `direnv.nix`, `gpg.nix`
   - Linux-specific: `hyprland.nix`, `waybar.nix`
   - Directory module: `wezterm/` with `default.nix` as entry point
 
@@ -110,6 +110,7 @@ Neovim is managed **outside** this repository:
     ├── direnv.nix                 # direnv configuration
     ├── git.nix                    # Git configuration
     ├── hyprland.nix               # Hyprland window manager (Linux only)
+    ├── gpg.nix                    # GPG and gpg-agent configuration
     ├── starship.nix               # Starship prompt
     ├── waybar.nix                 # Waybar status bar (Linux only)
     ├── zsh.nix                    # Zsh shell with aliases and prezto
@@ -175,9 +176,9 @@ Neovim is managed **outside** this repository:
 - **Timezone**: Asia/Tokyo
 - **Programs**: nix-ld enabled for running unpatched binaries
 
-## Shell Aliases
+## Shell Aliases and Functions
 
-The following convenient aliases are defined in `programs/zsh.nix`:
+The following aliases are defined in `programs/zsh.nix`:
 
 - `v` → `nvim` - Quick Neovim access
 - `nvim` → `nix run ~/.config/nvim --` - Run Neovim from separate flake
@@ -186,6 +187,13 @@ The following convenient aliases are defined in `programs/zsh.nix`:
 - `find` → `fd` - Use fd instead of find
 - `nrs` → Full NixOS rebuild switch command with impure flag
 - `drs` → Full Darwin rebuild switch command
+- `init-gh-repo` → Initialize git repo with gitmoji commit, create public GitHub repo, and configure auto-merge
+
+Shell functions:
+- `mkcd <dir>` - Create directory and cd into it
+- `set-flake-update-token <repo>` - Set GH_TOKEN secret for flake update workflow
+- `set-cachix-token <repo>` - Set CACHIX_AUTH_TOKEN secret for Cachix push
+- `flake-init <template>` - Initialize flake using template from gawakawa/flake-templates
 
 ## Binary Cache Configuration
 
