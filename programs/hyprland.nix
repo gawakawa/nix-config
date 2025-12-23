@@ -34,6 +34,20 @@
             esac
           done
         '';
+        swapFloatingTiled = pkgs.writeShellScript "swap-floating-tiled" ''
+          is_floating=$(hyprctl activewindow -j | ${pkgs.jq}/bin/jq '.floating')
+          if [ "$is_floating" = "true" ]; then
+            hyprctl dispatch settiled
+            hyprctl dispatch cyclenext
+            hyprctl dispatch setfloating
+            ${resizeFloating}
+          else
+            hyprctl dispatch setfloating
+            ${resizeFloating}
+            hyprctl dispatch cyclenext
+            hyprctl dispatch settiled
+          fi
+        '';
       in
       {
         # Monitor configuration
@@ -185,6 +199,9 @@
           "$mainMod, right, movefocus, r"
           "$mainMod, up, movefocus, u"
           "$mainMod, down, movefocus, d"
+
+          # Swap floating and tiled window states
+          "$mainMod, Tab, exec, ${swapFloatingTiled}"
 
           # Switch workspaces
           "$mainMod, 1, workspace, 1"
