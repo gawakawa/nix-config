@@ -31,12 +31,60 @@
 
       perSystem =
         {
-          config,
           pkgs,
-          system,
           ...
         }:
         {
+          checks = {
+            statix =
+              pkgs.runCommandLocal "statix"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.statix ];
+                }
+                ''
+                  cd $src
+                  statix check . --ignore linux/hardware-configuration.nix
+                  mkdir "$out"
+                '';
+
+            deadnix =
+              pkgs.runCommandLocal "deadnix"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.deadnix ];
+                }
+                ''
+                  cd $src
+                  deadnix --fail --exclude linux/hardware-configuration.nix .
+                  mkdir "$out"
+                '';
+
+            actionlint =
+              pkgs.runCommandLocal "actionlint"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.actionlint ];
+                }
+                ''
+                  cd $src
+                  actionlint .github/workflows/*.yml
+                  mkdir "$out"
+                '';
+
+            selene =
+              pkgs.runCommandLocal "selene"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.selene ];
+                }
+                ''
+                  cd $src
+                  selene .
+                  mkdir "$out"
+                '';
+          };
+
           treefmt = {
             programs.nixfmt.enable = true;
             programs.stylua.enable = true;
@@ -68,8 +116,7 @@
 
           specialArgs = {
             inherit inputs;
-            self = inputs.self;
-            nixpkgs = inputs.nixpkgs;
+            inherit (inputs) self nixpkgs;
             system = "x86_64-linux";
           };
         };
@@ -98,8 +145,7 @@
 
           specialArgs = {
             inherit inputs;
-            self = inputs.self;
-            nixpkgs = inputs.nixpkgs;
+            inherit (inputs) self nixpkgs;
             system = "aarch64-darwin";
           };
         };

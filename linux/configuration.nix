@@ -1,8 +1,5 @@
 {
   pkgs,
-  self,
-  nixpkgs,
-  system,
   ...
 }:
 {
