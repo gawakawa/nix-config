@@ -17,6 +17,13 @@
     };
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
   };
 
   outputs =
@@ -27,62 +34,50 @@
         "aarch64-darwin"
       ];
 
-      imports = [ inputs.treefmt-nix.flakeModule ];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        inputs.git-hooks-nix.flakeModule
+      ];
 
       perSystem =
         {
+          config,
           pkgs,
           ...
         }:
+        let
+          mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
+            programs.nixos.enable = true;
+          };
+        in
         {
-          checks = {
-            statix =
-              pkgs.runCommandLocal "statix"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.statix ];
-                }
-                ''
-                  cd $src
-                  statix check . --ignore linux/hardware-configuration.nix
-                  mkdir "$out"
-                '';
+          packages.mcp-config = mcpConfig;
 
-            deadnix =
-              pkgs.runCommandLocal "deadnix"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.deadnix ];
-                }
-                ''
-                  cd $src
-                  deadnix --fail --exclude linux/hardware-configuration.nix .
-                  mkdir "$out"
-                '';
+          pre-commit.settings.hooks = {
+            treefmt.enable = true;
+            statix = {
+              enable = true;
+              settings.ignore = [ "linux/hardware-configuration.nix" ];
+            };
+            deadnix = {
+              enable = true;
+              settings.exclude = [ "linux/hardware-configuration.nix" ];
+            };
+            actionlint.enable = true;
+            selene = {
+              enable = true;
+              entry = "${pkgs.selene}/bin/selene";
+              types = [ "lua" ];
+            };
+          };
 
-            actionlint =
-              pkgs.runCommandLocal "actionlint"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.actionlint ];
-                }
-                ''
-                  cd $src
-                  actionlint .github/workflows/*.yml
-                  mkdir "$out"
-                '';
-
-            selene =
-              pkgs.runCommandLocal "selene"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.selene ];
-                }
-                ''
-                  cd $src
-                  selene .
-                  mkdir "$out"
-                '';
+          devShells.default = pkgs.mkShell {
+            shellHook = ''
+              ${config.pre-commit.shellHook}
+              cat ${mcpConfig} > .mcp.json
+              echo "Generated .mcp.json"
+            '';
+            packages = config.pre-commit.settings.enabledPackages;
           };
 
           treefmt = {
