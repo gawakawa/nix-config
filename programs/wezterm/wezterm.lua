@@ -95,7 +95,7 @@ config.window_padding = {
 config.macos_window_background_blur = 20
 
 -- Tab bar settings
-config.window_decorations = "RESIZE"
+config.window_decorations = "NONE"
 config.show_tabs_in_tab_bar = true
 config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
