@@ -77,8 +77,14 @@
           };
 
           treefmt = {
-            programs.nixfmt.enable = true;
-            programs.stylua.enable = true;
+            programs.nixfmt = {
+              enable = true;
+              includes = [ "*.nix" ];
+            };
+            programs.stylua = {
+              enable = true;
+              includes = [ "*.lua" ];
+            };
           };
         };
 
