@@ -64,11 +64,7 @@
               settings.exclude = [ "linux/hardware-configuration.nix" ];
             };
             actionlint.enable = true;
-            selene = {
-              enable = true;
-              entry = "${pkgs.selene}/bin/selene";
-              types = [ "lua" ];
-            };
+            selene.enable = true;
           };
 
           devShells.default = pkgs.mkShell {
