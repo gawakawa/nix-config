@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **IMPORTANT**: Claude Code cannot execute system rebuild commands as these require elevated privileges. These must be run manually by the user after configuration changes.
 
 - **NixOS** (user must execute): `sudo nixos-rebuild switch --flake ".#nixos" --accept-flake-config --impure`
-- **Darwin** (user must execute): `darwin-rebuild switch --flake ".#mac" --accept-flake-config`
+- **Darwin** (user must execute): `sudo darwin-rebuild switch --flake ".#mac"`
 - **Format code**: `nix fmt` (uses treefmt-nix with nixfmt-rfc-style and stylua)
 - **Check flake**: `nix flake check`
 - **Update inputs**: `nix flake update` or `nix flake lock --update-input <name>`
@@ -21,12 +21,13 @@ Enter the dev shell with `nix develop` to get pre-commit hooks:
 - **actionlint**: GitHub Actions linter
 - **selene**: Lua linter
 
+The dev shell also generates `.mcp.json` with NixOS MCP server configuration.
+
 ## CI Pipeline
 
 CI runs on push to main and PRs (`.github/workflows/ci.yml`):
-1. Format check: `nix fmt -- --ci`
-2. Flake check: `nix flake check`
-3. Build NixOS/Darwin configuration
+1. Flake check: `nix flake check` (includes format check via treefmt)
+2. Build NixOS/Darwin configuration
 
 Builds are cached via Cachix (`gawakawa` cache).
 
@@ -65,7 +66,8 @@ Located in `programs/`, imported by both platforms unless noted:
 
 ## Key Aliases (from programs/zsh.nix)
 
-- `nrs` - NixOS rebuild switch with impure flag
-- `drs` - Darwin rebuild switch
+- `nrs` - NixOS rebuild switch (with sudo and impure flag)
+- `drs` - Darwin rebuild switch (with sudo)
 - `v` / `nvim` - Run Neovim from separate flake
-- `flake-init <template>` - Initialize from gawakawa/flake-templates
+- `c` - Claude CLI
+- `flake-init <template>` - Initialize from gawakawa/flake-templates (zsh function)
