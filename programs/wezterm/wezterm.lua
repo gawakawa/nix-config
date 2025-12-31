@@ -1,6 +1,9 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- Platform detection
+local is_darwin = wezterm.target_triple:find("darwin") ~= nil
+
 -- Tab bar styling with Nerd Font triangles
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
@@ -95,7 +98,11 @@ config.window_padding = {
 config.macos_window_background_blur = 20
 
 -- Tab bar settings
-config.window_decorations = "NONE"
+if is_darwin then
+	config.window_decorations = "RESIZE"
+else
+	config.window_decorations = "NONE"
+end
 config.show_tabs_in_tab_bar = true
 config.show_new_tab_button_in_tab_bar = false
 config.show_close_tab_button_in_tabs = false
