@@ -43,14 +43,33 @@
         {
           config,
           pkgs,
+          system,
+          lib,
           ...
         }:
         let
           mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
             programs.nixos.enable = true;
+            settings.servers.chrome-devtools = {
+              command = "${pkgs.lib.getExe' pkgs.nodejs_24 "npx"}";
+              args = [
+                "-y"
+                "chrome-devtools-mcp@latest"
+                "--executablePath"
+                "${pkgs.lib.getExe pkgs.google-chrome}"
+              ];
+              env = {
+                PATH = "${pkgs.nodejs_24}/bin:${pkgs.bash}/bin";
+              };
+            };
           };
         in
         {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "google-chrome" ];
+          };
+
           packages.mcp-config = mcpConfig;
 
           pre-commit.settings.hooks = {
