@@ -63,7 +63,6 @@
               enable = true;
               settings.exclude = [ "linux/hardware-configuration.nix" ];
             };
-            actionlint.enable = true;
             selene.enable = true;
           };
 
