@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
@@ -10,9 +8,12 @@
     stateVersion = "25.05";
     packages = with pkgs; [
       curl
-      vscode
-      idris2
     ];
+
+    shellAliases = {
+      vi = "nvim";
+      vim = "nvim";
+    };
   };
   programs.home-manager.enable = true;
 
@@ -20,9 +21,10 @@
     ../programs/zsh.nix
     ../programs/direnv.nix
     ../programs/git.nix
-    ../programs/wezterm.nix
-    ../programs/neovim.nix
+    ../programs/gpg.nix
+    ../programs/wezterm
     ../programs/starship.nix
     ../programs/hyprland.nix
+    ../programs/waybar.nix
   ];
 }

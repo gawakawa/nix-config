@@ -17,6 +17,13 @@
     };
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
   };
 
   outputs =
@@ -27,19 +34,57 @@
         "aarch64-darwin"
       ];
 
-      imports = [ inputs.treefmt-nix.flakeModule ];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        inputs.git-hooks-nix.flakeModule
+      ];
 
       perSystem =
         {
           config,
           pkgs,
-          system,
           ...
         }:
+        let
+          mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
+            programs.nixos.enable = true;
+          };
+        in
         {
+          packages.mcp-config = mcpConfig;
+
+          pre-commit.settings.hooks = {
+            treefmt.enable = true;
+            statix = {
+              enable = true;
+              settings.ignore = [ "linux/hardware-configuration.nix" ];
+            };
+            deadnix = {
+              enable = true;
+              settings.exclude = [ "linux/hardware-configuration.nix" ];
+            };
+            actionlint.enable = true;
+            selene.enable = true;
+          };
+
+          devShells.default = pkgs.mkShell {
+            shellHook = ''
+              ${config.pre-commit.shellHook}
+              cat ${mcpConfig} > .mcp.json
+              echo "Generated .mcp.json"
+            '';
+            packages = config.pre-commit.settings.enabledPackages;
+          };
+
           treefmt = {
-            programs.nixfmt.enable = true;
-            programs.stylua.enable = true;
+            programs.nixfmt = {
+              enable = true;
+              includes = [ "*.nix" ];
+            };
+            programs.stylua = {
+              enable = true;
+              includes = [ "*.lua" ];
+            };
           };
         };
 
@@ -59,6 +104,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit (inputs) self nixpkgs;
+                  system = "x86_64-linux";
                 };
                 users.iota = import ./linux/home.nix;
               };
@@ -67,8 +113,7 @@
 
           specialArgs = {
             inherit inputs;
-            self = inputs.self;
-            nixpkgs = inputs.nixpkgs;
+            inherit (inputs) self nixpkgs;
             system = "x86_64-linux";
           };
         };
@@ -88,6 +133,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit (inputs) self nixpkgs;
+                  system = "aarch64-darwin";
                 };
                 users.iota = import ./darwin/home.nix;
               };
@@ -96,8 +142,7 @@
 
           specialArgs = {
             inherit inputs;
-            self = inputs.self;
-            nixpkgs = inputs.nixpkgs;
+            inherit (inputs) self nixpkgs;
             system = "aarch64-darwin";
           };
         };
@@ -107,4 +152,11 @@
         darwinPackages = inputs.self.darwinConfigurations."mac".pkgs;
       };
     };
+
+  nixConfig = {
+    extra-substituters = [ "https://nix-community.cachix.org" ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
 }

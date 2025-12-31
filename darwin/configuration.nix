@@ -1,12 +1,15 @@
 {
   pkgs,
   self,
-  nixpkgs,
-  system,
   ...
 }:
 {
   # Darwin設定
+
+  # インポート
+  imports = [
+    ../common-packages.nix
+  ];
 
   # フォント設定
   fonts = {
@@ -17,7 +20,7 @@
 
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       nerd-fonts.noto
     ];
   };
@@ -67,32 +70,8 @@
     hostPlatform = "aarch64-darwin";
   };
 
-  # パッケージ
+  # パッケージ (Darwin固有のもののみ)
   environment.systemPackages = with pkgs; [
-    awscli2
-    bat
-    claude-code
-    codex
-    direnv
-    discord
-    fd
-    gh
-    git
-    gitmoji-cli
-    google-chrome
-    google-cloud-sdk
-    httpie
-    lazygit
-    neofetch
-    nixfmt-rfc-style
     qemu
-    rlwrap
-    slack
-    starship
-    stylua
-    tree
-    treefmt
-    unzip
-    uv
   ];
 }

@@ -1,0 +1,4 @@
+result/
+.direnv/
+.mcp.json
+.pre-commit-config.yaml

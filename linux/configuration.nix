@@ -1,8 +1,5 @@
 {
   pkgs,
-  self,
-  nixpkgs,
-  system,
   ...
 }:
 {
@@ -11,6 +8,7 @@
   # インポート
   imports = [
     ./hardware-configuration.nix
+    ../common-packages.nix
   ];
 
   # フォント設定
@@ -18,10 +16,12 @@
     packages = with pkgs; [
       fira-code
       fira-code-symbols
+      jetbrains-mono
       nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       nerd-fonts.noto
     ];
     fontDir.enable = true;
@@ -49,6 +49,13 @@
     enable = true;
     package = pkgs.nix;
     settings = {
+      # Binary Cache for haskell.nix
+      trusted-public-keys = [
+        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      ];
+      substituters = [
+        "https://cache.iog.io"
+      ];
       experimental-features = "nix-command flakes";
     };
   };
@@ -100,15 +107,16 @@
       LC_TIME = "ja_JP.UTF-8";
     };
     inputMethod = {
-      enabled = "fcitx5";
+      type = "fcitx5";
+      enable = true;
       fcitx5.addons = [ pkgs.fcitx5-mozc ];
     };
   };
 
-  # X11/GNOME設定
+  # サービス設定
   services = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = false;
+    desktopManager.gnome.enable = false;
     xserver = {
       enable = true;
       xkb = {
@@ -153,36 +161,9 @@
     };
   };
 
-  # パッケージ
+  # パッケージ (Linux固有のもののみ)
   environment.systemPackages = with pkgs; [
-    awscli2
-    bat
-    claude-code
-    codex
-    direnv
-    discord
-    fd
-    gcc
-    gh
-    git
-    gitmoji-cli
-    gnumake
-    google-chrome
-    google-cloud-sdk
-    haskell-language-server
-    httpie
-    lazygit
-    neofetch
-    nixfmt-rfc-style
-    rlwrap
-    slack
-    stack # for cornelis
-    starship
-    stylua
-    tree
-    treefmt
-    unzip
-    uv
+    wl-clipboard
     wofi
   ];
 }

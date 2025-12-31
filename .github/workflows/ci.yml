@@ -1,0 +1,56 @@
+name: "CI"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  nixos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: gawakawa
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Format check
+        run: nix fmt --accept-flake-config -- --ci
+
+      - name: Flake check
+        run: nix flake check --accept-flake-config
+
+      - name: Build NixOS configuration
+        run: |
+          nix build .#nixosConfigurations.nixos.config.system.build.toplevel --accept-flake-config --show-trace
+
+  darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: gawakawa
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Format check
+        run: nix fmt --accept-flake-config -- --ci
+
+      - name: Flake check
+        run: nix flake check --accept-flake-config
+
+      - name: Build Darwin configuration
+        run: |
+          nix build .#darwinConfigurations.mac.system --accept-flake-config --show-trace

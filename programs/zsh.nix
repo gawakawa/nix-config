@@ -1,23 +1,15 @@
-{ pkgs, ... }:
-{
+_: {
   programs.zsh = {
     enable = true;
     shellAliases = {
       v = "nvim";
+      nvim = "nix run ~/.config/nvim --";
       c = "claude";
-      lmk = "latexmk -pvc -c";
-      updatedb = "sudo /usr/libexec/locate.updatedb";
-      oj-bundle = "oj-bundle -I $HOME/kyopro/atcoder/cpp/mylib";
-      gpp = "g++ -std=c++23 -O2 -Wall -Wextra -Wshadow -g";
-      idris2 = "rlwrap idris2 -p contrib";
-      oj-t = "fourmolu -i Main.hs && oj t -c 'stack Main.hs'"; # oj test for Haskell
       ls = "ls -A";
-      nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --impure"; # update nix config
-      drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
-      nsh = "nix-shell";
-      new = "cargo compete new";
-      test = "cargo compete test";
-      submit = "cargo compete submit";
+      find = "fd";
+      nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
+      drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\" --accept-flake-config";
+      init-gh-repo = "git commit -m '🎉 Initial commit' && gh repo create --public --source=. --push && gh repo edit --enable-auto-merge --delete-branch-on-merge --allow-update-branch";
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
@@ -28,6 +20,21 @@
 
       mkcd() {
           mkdir -p "$1" && cd "$1"
+      }
+
+      # Set GH_TOKEN secret for flake update workflow in specified repository
+      set-flake-update-token() {
+          gh secret set GH_TOKEN -b"$(pass show github/pat-flake-update)" -R "$1"
+      }
+
+      # Set CACHIX_AUTH_TOKEN secret for Cachix push in specified repository
+      set-cachix-token() {
+          gh secret set CACHIX_AUTH_TOKEN -b"$(pass show cachix/auth-token)" -R "$1"
+      }
+
+      # Initialize flake using template from https://github.com/gawakawa/flake-templates
+      flake-init() {
+          nix flake init -t "github:gawakawa/flake-templates#$1"
       }
     '';
     prezto = {
