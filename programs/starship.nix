@@ -27,7 +27,7 @@ in
 
       directory = {
         style = "fg:#A8D5F5 bg:#1E3A5F";
-        format = "[ $path ]($style)";
+        format = "[$path ]($style)";
         truncation_length = 0;
         truncate_to_repo = false;
         substitutions = {
@@ -41,7 +41,7 @@ in
       git_branch = {
         symbol = gitBranchSymbol;
         style = "fg:#D4BFFF bg:#3B3366";
-        format = "[ $symbol $branch ]($style)";
+        format = "[$symbol $branch ]($style)";
       };
 
       git_status = {
@@ -53,12 +53,12 @@ in
         disabled = false;
         added_style = "fg:#D4BFFF bg:#3B3366";
         deleted_style = "fg:#D4BFFF bg:#3B3366";
-        format = "[ +$added/-$deleted ]($added_style)";
+        format = "[+$added/-$deleted ]($added_style)";
       };
 
       cmd_duration = {
         style = "fg:#F5A8C8 bg:#4A2040";
-        format = "[ $duration ]($style)";
+        format = "[$duration ]($style)";
       };
 
       character = {
