@@ -10,7 +10,7 @@ $git_status\
 $git_metrics\
 [](fg:#FCA17D bg:#86BBD8)\
 $cmd_duration\
-[ ](fg:#86BBD8)\
+[](fg:#86BBD8)\
 $line_break\
 $character\
 """
