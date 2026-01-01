@@ -16,17 +16,17 @@ in
   programs.starship = {
     enable = true;
     settings = {
-      format = "[${cap}](#9A348E)$directory[${arrow}](fg:#9A348E bg:#DA627D)$git_branch$git_status[${arrow}](fg:#DA627D bg:#FCA17D)$git_metrics[${arrow}](fg:#FCA17D bg:#86BBD8)$cmd_duration[${arrow}](fg:#86BBD8)$line_break$character";
+      format = "[${cap}](#3B2346)$directory[${arrow}](fg:#3B2346 bg:#4A2C3A)$git_branch$git_status[${arrow}](fg:#4A2C3A bg:#4A3D2A)$git_metrics[${arrow}](fg:#4A3D2A bg:#2A3D4A)$cmd_duration[${arrow}](fg:#2A3D4A)$line_break$character";
 
       add_newline = true;
 
       os = {
-        style = "bg:#9A348E";
+        style = "fg:#E0DEF4 bg:#3B2346";
         disabled = true;
       };
 
       directory = {
-        style = "bg:#9A348E";
+        style = "fg:#E0DEF4 bg:#3B2346";
         format = "[ $path ]($style)";
         truncation_length = 0;
         truncate_to_repo = false;
@@ -40,24 +40,24 @@ in
 
       git_branch = {
         symbol = gitBranchSymbol;
-        style = "bg:#DA627D";
+        style = "fg:#F0B8C4 bg:#4A2C3A";
         format = "[ $symbol $branch ]($style)";
       };
 
       git_status = {
-        style = "bg:#DA627D";
+        style = "fg:#F0B8C4 bg:#4A2C3A";
         format = "[$all_status$ahead_behind ]($style)";
       };
 
       git_metrics = {
         disabled = false;
-        added_style = "bg:#FCA17D";
-        deleted_style = "bg:#FCA17D";
+        added_style = "fg:#F5D5A8 bg:#4A3D2A";
+        deleted_style = "fg:#F5D5A8 bg:#4A3D2A";
         format = "[ +$added/-$deleted ]($added_style)";
       };
 
       cmd_duration = {
-        style = "bg:#86BBD8";
+        style = "fg:#A8D5F5 bg:#2A3D4A";
         format = "[ $duration ]($style)";
       };
 
