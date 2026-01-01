@@ -11,6 +11,9 @@ let
 
   # Git
   gitBranchSymbol = "";
+
+  # Duration
+  iconDuration = "󱦟";
 in
 {
   programs.starship = {
@@ -41,7 +44,7 @@ in
       git_branch = {
         symbol = gitBranchSymbol;
         style = "fg:#D4BFFF bg:#3B3366";
-        format = "[$symbol $branch ]($style)";
+        format = "[ $symbol $branch ]($style)";
       };
 
       git_status = {
@@ -58,7 +61,7 @@ in
 
       cmd_duration = {
         style = "fg:#F5A8C8 bg:#4A2040";
-        format = "[$duration ]($style)";
+        format = "[ ${iconDuration} $duration ]($style)";
       };
 
       character = {
