@@ -60,6 +60,7 @@ in
       };
 
       cmd_duration = {
+        min_time = 0;
         style = "fg:#F5A8C8 bg:#4A2040";
         format = "[ ${iconDuration} $duration ]($style)";
       };
