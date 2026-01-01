@@ -3,12 +3,12 @@
 format = """
 [](#9A348E)\
 $directory\
-[](fg:#9A348E bg:#DA627D)\
+[](fg:#9A348E bg:#DA627D)\
 $git_branch\
 $git_status\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:#DA627D bg:#FCA17D)\
 $git_metrics\
-[](fg:#FCA17D bg:#86BBD8)\
+[](fg:#FCA17D bg:#86BBD8)\
 $cmd_duration\
 [ ](fg:#86BBD8)\
 $line_break\
