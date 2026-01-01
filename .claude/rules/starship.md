@@ -6,45 +6,60 @@ paths: programs/starship*
 
 ## Nerd Font Handling
 
-Claude cannot correctly process Nerd Font special characters (Unicode Private Use Area, e.g., U+E0B0 for powerline symbols). These characters will be corrupted or lost when passed through Claude's string processing.
+Claude cannot process Nerd Font characters (Unicode Private Use Area). They get corrupted in string processing.
 
-### Required Approach
+### Architecture
 
-1. **Use external TOML file**: Store starship configuration in `starship.toml` and load it with `builtins.fromTOML (builtins.readFile ./starship.toml)` in the Nix file
+Use native Nix with variable bindings:
 
-2. **Generate presets via shell**: Use `starship preset <name> -o starship.toml` to generate configuration with Nerd Font symbols intact
+```nix
+let
+  cap = "";    # U+E0B6 - injected via shell
+  arrow = "";  # U+E0B0 - injected via shell
+in {
+  programs.starship.settings = {
+    format = "[${cap}](#9A348E)...";
+  };
+}
+```
 
-3. **Edit via shell commands**: When modifying lines containing Nerd Font symbols, use `sed` or `grep` instead of Edit tool:
+### Critical: Nix String Limitations
+
+**DO NOT use multiline strings with backslash:**
+```nix
+# WRONG - causes starship parse error
+format = ''
+  [](#9A348E)\
+  $directory\
+'';
+```
+
+**USE single-line strings:**
+```nix
+# CORRECT
+format = "[](#9A348E)$directory...";
+```
+
+### Workflow
+
+1. Create template with placeholders (`__CAP__`, `__ARROW__`)
+2. Inject symbols via shell:
    ```bash
-   # Extract symbol from source file
-   SYMBOL=$(sed -n 's/.*symbol = "\([^"]*\)".*/\1/p' source.nix)
-   # Replace in target file
-   sed -i "s/^symbol = .*/symbol = \"$SYMBOL\"/" target.toml
+   CAP=$(printf '\ue0b6')
+   ARROW=$(printf '\ue0b0')
+   sed -i "s/__CAP__/$CAP/g" programs/starship.nix
    ```
+3. Format: `nix fmt programs/starship.nix`
+4. Verify bytes: `sed -n '3p' programs/starship.nix | od -c`
 
-4. **Always create backups**: Before any modification, backup files that contain Nerd Font symbols:
-   ```bash
-   cp starship.nix starship.nix.backup
-   cp starship.toml starship.toml.original
-   ```
+### Symbol Reference
 
-5. **Never delete backup files**: Keep `.backup` and `.original` files for reference
-
-### File Structure
-
-```
-programs/
-├── starship.nix          # Loads TOML via builtins.fromTOML
-├── starship.toml         # Actual configuration with Nerd Font symbols
-├── starship.nix.backup   # Backup of original Nix config
-└── starship.toml.original # Backup of preset TOML
-```
-
-### Verification
-
-After editing, verify Nerd Font symbols are preserved:
-```bash
-# Check encoding of powerline symbols
-sed -n '4p' starship.toml | od -c | head -1
-# Should show octal like: 356 202 260 (for U+E0B0)
-```
+| Symbol | Unicode | printf | Description |
+|--------|---------|--------|-------------|
+|  | U+E0B6 | `\ue0b6` | Left half circle |
+|  | U+E0B0 | `\ue0b0` | Solid right arrow |
+|  | U+E0A0 | `\ue0a0` | Git branch |
+| 󰈙 | U+F0219 | `\U000F0219` | Documents |
+|  | U+F019 | `\uf019` | Downloads |
+|  | U+F001 | `\uf001` | Music |
+|  | U+F03E | `\uf03e` | Pictures |
