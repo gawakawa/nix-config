@@ -4,6 +4,11 @@ local config = wezterm.config_builder()
 -- Platform detection
 local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 
+-- Equivalent to POSIX basename(3)
+local function basename(s)
+	return string.gsub(s, "(.*[/\\])(.*)", "%2")
+end
+
 -- Tab bar styling with Nerd Font triangles
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
@@ -19,7 +24,9 @@ wezterm.on("format-tab-title", function(tab, _tabs, _panes, _cfg, _hover, max_wi
 	end
 
 	local edge_foreground = background
-	local title = "   " .. wezterm.truncate_right(tab.active_pane.title, max_width - 1) .. "   "
+	local title = "   "
+		.. wezterm.truncate_right(basename(tab.active_pane.current_working_dir.file_path), max_width - 1)
+		.. "   "
 
 	return {
 		{ Background = { Color = edge_background } },
