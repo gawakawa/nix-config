@@ -28,8 +28,8 @@ in
       directory = {
         style = "bg:#9A348E";
         format = "[ $path ]($style)";
-        truncation_length = 3;
-        truncation_symbol = "…/";
+        truncation_length = 0;
+        truncate_to_repo = false;
         substitutions = {
           "Documents" = "${iconDocs} ";
           "Downloads" = "${iconDownloads} ";
