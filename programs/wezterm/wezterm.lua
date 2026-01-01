@@ -55,6 +55,9 @@ config.keys = {
 	-- Pane management
 	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = true }) },
 	{ key = "z", mods = "LEADER", action = wezterm.action.TogglePaneZoomState },
+	-- Tab navigation (Vim-style)
+	{ key = "h", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
 	-- Pane resize mode
 	{
 		key = "s",
