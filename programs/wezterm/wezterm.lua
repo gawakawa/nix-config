@@ -6,7 +6,7 @@ local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 
 -- Equivalent to POSIX basename(3)
 local function basename(s)
-	return string.gsub(s, "(.*[/\\])(.*)", "%2")
+	return string.match(s, "([^/\\]+)[/\\]*$") or s
 end
 
 -- Tab bar styling with Nerd Font triangles
