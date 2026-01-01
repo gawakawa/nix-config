@@ -16,7 +16,7 @@ in
   programs.starship = {
     enable = true;
     settings = {
-      format = "[${cap}](#3B2346)$directory[${arrow}](fg:#3B2346 bg:#4A2C3A)$git_branch$git_status[${arrow}](fg:#4A2C3A bg:#4A3D2A)$git_metrics[${arrow}](fg:#4A3D2A bg:#2A3D4A)$cmd_duration[${arrow}](fg:#2A3D4A)$line_break$character";
+      format = "[${cap}](#3B2346)$directory[${arrow}](fg:#3B2346 bg:#4A2C3A)$git_branch$git_status$git_metrics[${arrow}](fg:#4A2C3A bg:#2A3D4A)$cmd_duration[${arrow}](fg:#2A3D4A)$line_break$character";
 
       add_newline = true;
 
@@ -51,8 +51,8 @@ in
 
       git_metrics = {
         disabled = false;
-        added_style = "fg:#F5D5A8 bg:#4A3D2A";
-        deleted_style = "fg:#F5D5A8 bg:#4A3D2A";
+        added_style = "fg:#F0B8C4 bg:#4A2C3A";
+        deleted_style = "fg:#F0B8C4 bg:#4A2C3A";
         format = "[ +$added/-$deleted ]($added_style)";
       };
 
