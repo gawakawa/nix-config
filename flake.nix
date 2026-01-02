@@ -24,6 +24,8 @@
     };
 
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
+
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs =
@@ -141,6 +143,7 @@
         darwinConfigurations."mac" = inputs.nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
+            inputs.mac-app-util.darwinModules.default
             ./darwin/configuration.nix
             # home-manager
             inputs.home-manager.darwinModules.home-manager
@@ -149,6 +152,9 @@
                 backupFileExtension = "backup";
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                sharedModules = [
+                  inputs.mac-app-util.homeManagerModules.default
+                ];
                 extraSpecialArgs = {
                   inherit (inputs) self nixpkgs;
                   system = "aarch64-darwin";

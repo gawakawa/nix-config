@@ -76,7 +76,7 @@ config.key_tables = {
 }
 
 -- Terminal settings
-config.term = "wezterm"
+config.term = "xterm-256color"
 config.font = wezterm.font({
 	family = "FiraCode Nerd Font",
 	harfbuzz_features = {
