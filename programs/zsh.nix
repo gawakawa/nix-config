@@ -5,8 +5,9 @@ _: {
       v = "nvim";
       nvim = "nix run ~/.config/nvim --";
       c = "claude";
-      ls = "ls -A";
+      ls = "eza -a";
       find = "fd";
+      grep = "rg";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
       drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
       init-gh-repo = "git commit -m '🎉 Initial commit' && gh repo create --public --source=. --push && gh repo edit --enable-auto-merge --delete-branch-on-merge --allow-update-branch";

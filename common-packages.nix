@@ -3,8 +3,10 @@
   environment.systemPackages = with pkgs; [
     # Core utilities
     bat
+    eza
     fd
     jq
+    ripgrep
     pass
     tree
     unzip
