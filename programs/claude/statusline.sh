@@ -23,6 +23,14 @@ else
   CONTEXT_PERCENT=0
 fi
 
+# Generate progress bar (20 chars width, 5% steps)
+BAR_WIDTH=20
+FILLED=$((CONTEXT_PERCENT * BAR_WIDTH / 100))
+EMPTY=$((BAR_WIDTH - FILLED))
+BAR=""
+[ "$FILLED" -gt 0 ] && BAR=$(printf '█%.0s' $(seq 1 $FILLED))
+[ "$EMPTY" -gt 0 ] && BAR="${BAR}$(printf '░%.0s' $(seq 1 $EMPTY))"
+
 # Get git branch
 cd "$CWD" 2>/dev/null
 GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
@@ -37,5 +45,5 @@ PLAN_NAME="${PLAN_FILE:+${PLAN_FILE##*/}}"
 TODO_NAME="${TODO_FILE:+${TODO_FILE##*/}}"
 
 # Output format
-echo "[$MODEL] 📊 ${CONTEXT_PERCENT}% ⬇️ ${INPUT_TOKENS_K}k ⬆️ ${OUTPUT_TOKENS_K}k | 📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH}"
+echo "[$MODEL] [${BAR}] ${CONTEXT_PERCENT}% ⬇️ ${INPUT_TOKENS_K}k ⬆️ ${OUTPUT_TOKENS_K}k | 📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH}"
 echo "📋 ${PLAN_NAME:-none} ✅ ${TODO_NAME:-none}"
