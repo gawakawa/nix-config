@@ -26,5 +26,6 @@
     ../programs/gpg.nix
     ../programs/wezterm
     ../programs/starship.nix
+    ../programs/claude
   ];
 }

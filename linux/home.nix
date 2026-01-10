@@ -26,5 +26,6 @@
     ../programs/starship.nix
     ../programs/hyprland.nix
     ../programs/waybar.nix
+    ../programs/claude
   ];
 }
