@@ -35,15 +35,5 @@ BAR=""
 cd "$CWD" 2>/dev/null
 GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
 
-# Get plan/todo file paths
-PLAN_FILE=$(ls -t ~/.claude/plans/*.md 2>/dev/null | head -1)
-TODO_FILE="$HOME/.claude/todos/${SESSION_ID}.json"
-[ ! -f "$TODO_FILE" ] && TODO_FILE=""
-
-# Extract basenames for display
-PLAN_NAME="${PLAN_FILE:+${PLAN_FILE##*/}}"
-TODO_NAME="${TODO_FILE:+${TODO_FILE##*/}}"
-
 # Output format
-echo "[$MODEL] [${BAR}] ${CONTEXT_PERCENT}% ⬇️ ${INPUT_TOKENS_K}k ⬆️ ${OUTPUT_TOKENS_K}k | 📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH}"
-echo "📋 ${PLAN_NAME:-none} ✅ ${TODO_NAME:-none}"
+echo "📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH }🤖 ${MODEL} [${BAR}] ${CONTEXT_PERCENT}% ⬇️ ${INPUT_TOKENS_K}k ⬆️ ${OUTPUT_TOKENS_K}k"
