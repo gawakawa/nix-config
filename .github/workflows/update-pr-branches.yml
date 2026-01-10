@@ -5,24 +5,8 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   update-prs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: List open PRs
-        id: list-prs
-        run: echo "prs=$(gh pr list --state open --json number -q '.[].number')" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update PR branches
-        run: |
-          for pr in ${{ steps.list-prs.outputs.prs }}; do
-            gh pr update-branch "$pr" --repo "${{ github.repository }}" || true
-          done
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: gawakawa/.github/.github/workflows/update-pr-branches.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
