@@ -28,5 +28,9 @@ PLAN_FILE=$(ls -t ~/.claude/plans/*.md 2>/dev/null | head -1)
 TODO_FILE="$HOME/.claude/todos/${SESSION_ID}.json"
 [ ! -f "$TODO_FILE" ] && TODO_FILE=""
 
+# Extract basenames for display
+PLAN_NAME="${PLAN_FILE:+${PLAN_FILE##*/}}"
+TODO_NAME="${TODO_FILE:+${TODO_FILE##*/}}"
+
 # Output format
-echo "[$MODEL] 📊 ctx:${CONTEXT_PERCENT}% ⬇️ in:${INPUT_TOKENS} ⬆️ out:${OUTPUT_TOKENS} | 📁 ${CWD##*/} ${GIT_BRANCH:+($GIT_BRANCH)} | 📋 plan:${PLAN_FILE:-none} ✅ todo:${TODO_FILE:-none}"
+echo "[$MODEL] 📊 ctx:${CONTEXT_PERCENT}% ⬇️ in:${INPUT_TOKENS} ⬆️ out:${OUTPUT_TOKENS} | 📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH} | 📋 plan:${PLAN_NAME:-none} ✅ todo:${TODO_NAME:-none}"
