@@ -4,7 +4,8 @@
   "alwaysThinkingEnabled": true,
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/statusline.sh"
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
   },
   "permissions": {
     "deny": [

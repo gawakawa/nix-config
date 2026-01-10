@@ -29,4 +29,4 @@ TODO_FILE="$HOME/.claude/todos/${SESSION_ID}.json"
 [ ! -f "$TODO_FILE" ] && TODO_FILE=""
 
 # Output format
-echo "[$MODEL] ctx:${CONTEXT_PERCENT}% in:${INPUT_TOKENS} out:${OUTPUT_TOKENS} | ${CWD##*/} ${GIT_BRANCH:+($GIT_BRANCH)} | plan:${PLAN_FILE:-none} todo:${TODO_FILE:-none}"
+echo "[$MODEL] 📊 ctx:${CONTEXT_PERCENT}% ⬇️ in:${INPUT_TOKENS} ⬆️ out:${OUTPUT_TOKENS} | 📁 ${CWD##*/} ${GIT_BRANCH:+($GIT_BRANCH)} | 📋 plan:${PLAN_FILE:-none} ✅ todo:${TODO_FILE:-none}"
