@@ -33,4 +33,5 @@ PLAN_NAME="${PLAN_FILE:+${PLAN_FILE##*/}}"
 TODO_NAME="${TODO_FILE:+${TODO_FILE##*/}}"
 
 # Output format
-echo "[$MODEL] 📊 ctx:${CONTEXT_PERCENT}% ⬇️ in:${INPUT_TOKENS} ⬆️ out:${OUTPUT_TOKENS} | 📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH} | 📋 plan:${PLAN_NAME:-none} ✅ todo:${TODO_NAME:-none}"
+echo "[$MODEL] 📊 ${CONTEXT_PERCENT}% ⬇️ ${INPUT_TOKENS} ⬆️ ${OUTPUT_TOKENS} | 📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH}"
+echo "📋 ${PLAN_NAME:-none} ✅ ${TODO_NAME:-none}"
