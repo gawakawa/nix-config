@@ -131,7 +131,7 @@
                   inherit (inputs) self nixpkgs;
                   system = "x86_64-linux";
                 };
-                users.iota = import ./home/nixos/home.nix;
+                users.iota = import ./home/nixos;
               };
             }
           ];
@@ -164,7 +164,7 @@
                   inherit (inputs) self nixpkgs;
                   system = "aarch64-darwin";
                 };
-                users.iota = import ./home/darwin/home.nix;
+                users.iota = import ./home/darwin;
               };
             }
           ];

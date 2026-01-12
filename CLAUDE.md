@@ -40,8 +40,8 @@ Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
   - `darwin/configuration.nix` - macOS system config
   - `nixos/configuration.nix`, `hardware-configuration.nix` - NixOS system config
 - **home/**: Home Manager configurations
-  - `darwin/home.nix` - macOS user config
-  - `nixos/home.nix` - NixOS user config
+  - `darwin/` - macOS user config
+  - `nixos/` - NixOS user config
 - **profiles/**: Reusable configuration modules
   - `home/` - Home Manager modules (shared program configurations)
   - `hosts/packages.nix` - Shared system packages for both platforms
