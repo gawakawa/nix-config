@@ -18,14 +18,8 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ../../profiles/home/zsh
-    ../../profiles/home/direnv
-    ../../profiles/home/git
-    ../../profiles/home/gpg
-    ../../profiles/home/wezterm
-    ../../profiles/home/starship
+    ../../profiles/home
     ./hyprland
     ./waybar
-    ../../profiles/home/claude
   ];
 }
