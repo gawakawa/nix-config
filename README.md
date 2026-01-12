@@ -33,29 +33,14 @@ nix flake lock --update-input <name>  # Update specific input
 ```
 .
 ├── flake.nix
-├── flake.lock
-├── hosts/
+├── home/       # Home Manager configurations (per-host)
 │   ├── mac/
-│   │   └── configuration.nix
 │   └── nixos/
-│       ├── configuration.nix
-│       └── hardware-configuration.nix
-├── home/
+├── hosts/      # System configurations (per-host)
 │   ├── mac/
-│   │   └── default.nix
 │   └── nixos/
-│       ├── default.nix
-│       ├── hyprland/
-│       └── waybar/
-└── profiles/
-    ├── hosts/
-    │   └── packages.nix
-    └── home/
-        ├── claude/
-        ├── direnv/
-        ├── git/
-        ├── gpg/
-        ├── starship/
-        ├── wezterm/
-        └── zsh/
+├── lib/        # Utility functions
+└── profiles/   # Host-independent shared configurations
+    ├── home/   #   Shared Home Manager modules
+    └── hosts/  #   Shared host modules
 ```
