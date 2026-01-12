@@ -48,10 +48,11 @@ Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
 
 ### Program Modules
 
-Located in `profiles/home/`, imported by both platforms unless noted:
-- `git.nix`, `zsh.nix`, `starship.nix`, `direnv.nix`, `gpg.nix` - Cross-platform
-- `hyprland.nix`, `waybar.nix` - Linux only (Wayland compositor and status bar)
-- `wezterm/` - Directory module with `default.nix` entry point and `wezterm.lua`
+Located in `profiles/home/`, each module is a directory with `default.nix`:
+- `git/`, `zsh/`, `starship/`, `direnv/`, `gpg/` - Cross-platform
+- `hyprland/`, `waybar/` - Linux only (Wayland compositor and status bar)
+- `wezterm/` - Terminal emulator with `wezterm.lua` config
+- `claude/` - Claude Code configuration with agents and settings
 
 ### External Dependencies
 
@@ -69,7 +70,7 @@ Located in `profiles/home/`, imported by both platforms unless noted:
 - fcitx5 with mozc for Japanese input (ja_JP.UTF-8 locale)
 - PipeWire audio, systemd-boot, nix-ld enabled
 
-## Key Aliases (from profiles/home/zsh.nix)
+## Key Aliases (from profiles/home/zsh/)
 
 - `nrs` - NixOS rebuild switch (with sudo and impure flag)
 - `drs` - Darwin rebuild switch (with sudo)

@@ -20,12 +20,12 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ../../profiles/home/zsh.nix
-    ../../profiles/home/direnv.nix
-    ../../profiles/home/git.nix
-    ../../profiles/home/gpg.nix
+    ../../profiles/home/zsh
+    ../../profiles/home/direnv
+    ../../profiles/home/git
+    ../../profiles/home/gpg
     ../../profiles/home/wezterm
-    ../../profiles/home/starship.nix
+    ../../profiles/home/starship
     ../../profiles/home/claude
   ];
 }
