@@ -19,10 +19,5 @@
   };
   programs.home-manager.enable = true;
 
-  imports = [
-    ../../profiles/home
-  ]
-  ++ map (n: ./${n}) (
-    builtins.filter (n: n != "default.nix") (builtins.attrNames (builtins.readDir ./.))
-  );
+  imports = [ ../../profiles/home ] ++ (import ../../lib).importSubdirs ./.;
 }
