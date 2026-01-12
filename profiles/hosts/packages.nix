@@ -28,10 +28,5 @@
     rlwrap
     codex
     claude-code
-
-    # Applications
-    discord
-    slack
-    google-chrome
   ];
 }

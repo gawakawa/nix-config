@@ -10,6 +10,11 @@
     stateVersion = "25.05";
     packages = with pkgs; [
       curl
+
+      # GUI Applications
+      discord
+      slack
+      google-chrome
     ];
 
     shellAliases = {
