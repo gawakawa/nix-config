@@ -83,11 +83,11 @@
             treefmt.enable = true;
             statix = {
               enable = true;
-              settings.ignore = [ "linux/hardware-configuration.nix" ];
+              settings.ignore = [ "hosts/nixos/hardware-configuration.nix" ];
             };
             deadnix = {
               enable = true;
-              settings.exclude = [ "linux/hardware-configuration.nix" ];
+              settings.exclude = [ "hosts/nixos/hardware-configuration.nix" ];
             };
             selene.enable = true;
           };
@@ -119,7 +119,7 @@
         nixosConfigurations."nixos" = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./linux/configuration.nix
+            ./hosts/nixos/configuration.nix
             # home-manager
             inputs.home-manager.nixosModules.home-manager
             {
@@ -131,7 +131,7 @@
                   inherit (inputs) self nixpkgs;
                   system = "x86_64-linux";
                 };
-                users.iota = import ./linux/home.nix;
+                users.iota = import ./home/nixos/home.nix;
               };
             }
           ];
@@ -149,7 +149,7 @@
           system = "aarch64-darwin";
           modules = [
             inputs.mac-app-util.darwinModules.default
-            ./darwin/configuration.nix
+            ./hosts/darwin/configuration.nix
             # home-manager
             inputs.home-manager.darwinModules.home-manager
             {
@@ -164,7 +164,7 @@
                   inherit (inputs) self nixpkgs;
                   system = "aarch64-darwin";
                 };
-                users.iota = import ./darwin/home.nix;
+                users.iota = import ./home/darwin/home.nix;
               };
             }
           ];

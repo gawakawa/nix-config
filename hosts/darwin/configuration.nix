@@ -8,7 +8,7 @@
 
   # インポート
   imports = [
-    ../common-packages.nix
+    ../../profiles/hosts/packages.nix
   ];
 
   # フォント設定

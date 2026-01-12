@@ -36,14 +36,19 @@ Builds are cached via Cachix (`gawakawa` cache).
 Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
 
 - **flake.nix**: Entry point using flake-parts, defines `nixosConfigurations.nixos` and `darwinConfigurations.mac`
-- **common-packages.nix**: Shared system packages for both platforms
-- **darwin/**: macOS system config (`configuration.nix`) and home-manager (`home.nix`)
-- **linux/**: NixOS system config (`configuration.nix`, `hardware-configuration.nix`) and home-manager (`home.nix`)
-- **programs/**: Shared program modules imported by platform-specific `home.nix` files
+- **hosts/**: System configurations
+  - `darwin/configuration.nix` - macOS system config
+  - `nixos/configuration.nix`, `hardware-configuration.nix` - NixOS system config
+- **home/**: Home Manager configurations
+  - `darwin/home.nix` - macOS user config
+  - `nixos/home.nix` - NixOS user config
+- **profiles/**: Reusable configuration modules
+  - `hm/` - Home Manager modules (shared program configurations)
+  - `hosts/packages.nix` - Shared system packages for both platforms
 
 ### Program Modules
 
-Located in `programs/`, imported by both platforms unless noted:
+Located in `profiles/hm/`, imported by both platforms unless noted:
 - `git.nix`, `zsh.nix`, `starship.nix`, `direnv.nix`, `gpg.nix` - Cross-platform
 - `hyprland.nix`, `waybar.nix` - Linux only (Wayland compositor and status bar)
 - `wezterm/` - Directory module with `default.nix` entry point and `wezterm.lua`
@@ -56,7 +61,7 @@ Located in `programs/`, imported by both platforms unless noted:
 ## Platform Notes
 
 ### Darwin (macOS)
-- Homebrew integration for GUI apps (casks) in `darwin/configuration.nix`
+- Homebrew integration for GUI apps (casks) in `hosts/darwin/configuration.nix`
 - Nix daemon managed by Determinate Nix (`nix.enable = false`)
 
 ### Linux (NixOS)
@@ -64,7 +69,7 @@ Located in `programs/`, imported by both platforms unless noted:
 - fcitx5 with mozc for Japanese input (ja_JP.UTF-8 locale)
 - PipeWire audio, systemd-boot, nix-ld enabled
 
-## Key Aliases (from programs/zsh.nix)
+## Key Aliases (from profiles/hm/zsh.nix)
 
 - `nrs` - NixOS rebuild switch (with sudo and impure flag)
 - `drs` - Darwin rebuild switch (with sudo)
