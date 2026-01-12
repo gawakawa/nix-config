@@ -11,12 +11,12 @@ Unified Nix configuration for NixOS (Linux) and nix-darwin (macOS).
 
 ### NixOS
 ```bash
-sudo nixos-rebuild switch --flake ".#nixos" --impure
+sudo nixos-rebuild switch --flake ".#nixos" --accept-flake-config --impure
 ```
 
 ### Darwin
 ```bash
-darwin-rebuild switch --flake ".#mac" --impure
+sudo darwin-rebuild switch --flake ".#mac"
 ```
 
 ## Development
@@ -34,23 +34,28 @@ nix flake lock --update-input <name>  # Update specific input
 .
 ├── flake.nix
 ├── flake.lock
-├── common-packages.nix
-├── darwin/
-│   ├── configuration.nix
-│   └── home.nix
-├── linux/
-│   ├── configuration.nix
-│   ├── hardware-configuration.nix
-│   └── home.nix
-└── programs/
-    ├── direnv.nix
-    ├── git.nix
-    ├── hyprland.nix
-    ├── starship.nix
-    ├── waybar.nix
-    ├── zsh.nix
-    └── wezterm/
-        ├── default.nix
-        ├── wezterm.lua
-        └── images/
+├── hosts/
+│   ├── mac/
+│   │   └── configuration.nix
+│   └── nixos/
+│       ├── configuration.nix
+│       └── hardware-configuration.nix
+├── home/
+│   ├── mac/
+│   │   └── default.nix
+│   └── nixos/
+│       ├── default.nix
+│       ├── hyprland/
+│       └── waybar/
+└── profiles/
+    ├── hosts/
+    │   └── packages.nix
+    └── home/
+        ├── claude/
+        ├── direnv/
+        ├── git/
+        ├── gpg/
+        ├── starship/
+        ├── wezterm/
+        └── zsh/
 ```
