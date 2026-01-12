@@ -19,7 +19,8 @@
 
   imports = [
     ../../profiles/home
-    ./hyprland
-    ./waybar
-  ];
+  ]
+  ++ map (n: ./${n}) (
+    builtins.filter (n: n != "default.nix") (builtins.attrNames (builtins.readDir ./.))
+  );
 }

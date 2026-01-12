@@ -19,5 +19,10 @@
   };
   programs.home-manager.enable = true;
 
-  imports = [ ../../profiles/home ];
+  imports = [
+    ../../profiles/home
+  ]
+  ++ map (n: ./${n}) (
+    builtins.filter (n: n != "default.nix") (builtins.attrNames (builtins.readDir ./.))
+  );
 }
