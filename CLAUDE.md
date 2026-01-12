@@ -48,11 +48,14 @@ Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
 
 ### Program Modules
 
-Located in `profiles/home/`, each module is a directory with `default.nix`:
-- `git/`, `zsh/`, `starship/`, `direnv/`, `gpg/` - Cross-platform
-- `hyprland/`, `waybar/` - Linux only (Wayland compositor and status bar)
+Located in `profiles/home/`, each module is a directory with `default.nix` (cross-platform):
+- `git/`, `zsh/`, `starship/`, `direnv/`, `gpg/` - Shell and development tools
 - `wezterm/` - Terminal emulator with `wezterm.lua` config
 - `claude/` - Claude Code configuration with agents and settings
+
+Linux-only modules in `home/nixos/`:
+- `hyprland/` - Wayland compositor
+- `waybar/` - Status bar
 
 ### External Dependencies
 

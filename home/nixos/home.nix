@@ -24,8 +24,8 @@
     ../../profiles/home/gpg
     ../../profiles/home/wezterm
     ../../profiles/home/starship
-    ../../profiles/home/hyprland
-    ../../profiles/home/waybar
+    ./hyprland
+    ./waybar
     ../../profiles/home/claude
   ];
 }
