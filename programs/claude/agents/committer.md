@@ -2,7 +2,7 @@
 name: committer
 description: "Use this agent when the user requests to commit changes, uses phrases like 'commit these changes', 'create a commit', 'commit with message', or when the user wants to stage and commit files with an appropriate gitmoji-prefixed commit message. This agent should be used proactively after completing a logical chunk of work that should be committed."
 tools: Bash, Read
-model: sonnet
+model: haiku
 color: yellow
 ---
 
