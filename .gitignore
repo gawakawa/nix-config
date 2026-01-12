@@ -2,3 +2,4 @@ result/
 .direnv/
 .mcp.json
 .pre-commit-config.yaml
+settings.local.json
