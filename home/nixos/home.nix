@@ -18,14 +18,14 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ../../profiles/hm/zsh.nix
-    ../../profiles/hm/direnv.nix
-    ../../profiles/hm/git.nix
-    ../../profiles/hm/gpg.nix
-    ../../profiles/hm/wezterm
-    ../../profiles/hm/starship.nix
-    ../../profiles/hm/hyprland.nix
-    ../../profiles/hm/waybar.nix
-    ../../profiles/hm/claude
+    ../../profiles/home/zsh.nix
+    ../../profiles/home/direnv.nix
+    ../../profiles/home/git.nix
+    ../../profiles/home/gpg.nix
+    ../../profiles/home/wezterm
+    ../../profiles/home/starship.nix
+    ../../profiles/home/hyprland.nix
+    ../../profiles/home/waybar.nix
+    ../../profiles/home/claude
   ];
 }

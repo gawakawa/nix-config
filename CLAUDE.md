@@ -43,12 +43,12 @@ Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
   - `darwin/home.nix` - macOS user config
   - `nixos/home.nix` - NixOS user config
 - **profiles/**: Reusable configuration modules
-  - `hm/` - Home Manager modules (shared program configurations)
+  - `home/` - Home Manager modules (shared program configurations)
   - `hosts/packages.nix` - Shared system packages for both platforms
 
 ### Program Modules
 
-Located in `profiles/hm/`, imported by both platforms unless noted:
+Located in `profiles/home/`, imported by both platforms unless noted:
 - `git.nix`, `zsh.nix`, `starship.nix`, `direnv.nix`, `gpg.nix` - Cross-platform
 - `hyprland.nix`, `waybar.nix` - Linux only (Wayland compositor and status bar)
 - `wezterm/` - Directory module with `default.nix` entry point and `wezterm.lua`
@@ -69,7 +69,7 @@ Located in `profiles/hm/`, imported by both platforms unless noted:
 - fcitx5 with mozc for Japanese input (ja_JP.UTF-8 locale)
 - PipeWire audio, systemd-boot, nix-ld enabled
 
-## Key Aliases (from profiles/hm/zsh.nix)
+## Key Aliases (from profiles/home/zsh.nix)
 
 - `nrs` - NixOS rebuild switch (with sudo and impure flag)
 - `drs` - Darwin rebuild switch (with sudo)
