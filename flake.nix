@@ -119,7 +119,7 @@
         nixosConfigurations."nixos" = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/nixos/configuration.nix
+            ./hosts/nixos
             # home-manager
             inputs.home-manager.nixosModules.home-manager
             {
@@ -149,7 +149,7 @@
           system = "aarch64-darwin";
           modules = [
             inputs.mac-app-util.darwinModules.default
-            ./hosts/darwin/configuration.nix
+            ./hosts/mac
             # home-manager
             inputs.home-manager.darwinModules.home-manager
             {
@@ -164,7 +164,7 @@
                   inherit (inputs) self nixpkgs;
                   system = "aarch64-darwin";
                 };
-                users.iota = import ./home/darwin;
+                users.iota = import ./home/mac;
               };
             }
           ];

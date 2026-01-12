@@ -7,7 +7,6 @@
 
   # インポート
   imports = [
-    ./hardware-configuration.nix
     ../../profiles/hosts/packages.nix
   ];
 

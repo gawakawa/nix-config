@@ -36,11 +36,11 @@ Builds are cached via Cachix (`gawakawa` cache).
 Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
 
 - **flake.nix**: Entry point using flake-parts, defines `nixosConfigurations.nixos` and `darwinConfigurations.mac`
-- **hosts/**: System configurations
-  - `darwin/configuration.nix` - macOS system config
-  - `nixos/configuration.nix`, `hardware-configuration.nix` - NixOS system config
-- **home/**: Home Manager configurations
-  - `darwin/` - macOS user config
+- **hosts/**: System configurations (named by hostname)
+  - `mac/` - macOS system config
+  - `nixos/` - NixOS system config
+- **home/**: Home Manager configurations (named by hostname)
+  - `mac/` - macOS user config
   - `nixos/` - NixOS user config
 - **profiles/**: Reusable configuration modules
   - `home/` - Home Manager modules (shared program configurations)
