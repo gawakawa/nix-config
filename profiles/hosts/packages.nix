@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     # Core utilities
     bat
+    curl
     eza
     fd
     jq
