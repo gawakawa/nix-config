@@ -102,10 +102,7 @@
           };
 
           blur = {
-            enabled = true;
-            size = 3;
-            passes = 1;
-            vibrancy = 0.1696;
+            enabled = false;
           };
         };
 
@@ -269,7 +266,6 @@
           "suppressevent maximize, class:.*"
           "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
           "float, class:^(org.wezfurlong.wezterm)$"
-          "noblur, class:^(org.wezfurlong.wezterm)$"
         ];
       };
   };
