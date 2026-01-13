@@ -265,15 +265,11 @@
         ];
 
         # Window rules
-        windowrule = [
-          "suppressevent maximize, class:.*"
-          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
-        ];
-
-        # WezTerm window rules
         windowrulev2 = [
-          "float,class:^(org.wezfurlong.wezterm)$"
-          "noblur,class:^(org.wezfurlong.wezterm)$"
+          "suppressevent maximize, class:.*"
+          "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+          "float, class:^(org.wezfurlong.wezterm)$"
+          "noblur, class:^(org.wezfurlong.wezterm)$"
         ];
       };
   };
