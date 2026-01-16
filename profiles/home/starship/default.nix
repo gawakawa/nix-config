@@ -4,10 +4,7 @@ let
   arrow = ""; # U+E0B0 solid right arrow
 
   # Directory icons
-  iconDocs = "󰈙";
-  iconDownloads = "";
-  iconMusic = "";
-  iconPictures = "";
+  nf-md-folder_home = "󱂵 ";
 
   # Git
   gitBranchSymbol = "";
@@ -33,12 +30,7 @@ in
         format = "[$path ]($style)";
         truncation_length = 0;
         truncate_to_repo = false;
-        substitutions = {
-          "Documents" = "${iconDocs} ";
-          "Downloads" = "${iconDownloads} ";
-          "Music" = "${iconMusic} ";
-          "Pictures" = "${iconPictures} ";
-        };
+        home_symbol = nf-md-folder_home;
       };
 
       git_branch = {
