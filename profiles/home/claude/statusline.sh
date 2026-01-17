@@ -3,7 +3,6 @@ input=$(cat)
 
 # Extract from JSON API
 MODEL=$(echo "$input" | jq -r '.model.display_name')
-SESSION_ID=$(echo "$input" | jq -r '.session_id')
 CWD=$(echo "$input" | jq -r '.workspace.current_dir')
 CONTEXT_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size')
 INPUT_TOKENS=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // 0')
@@ -28,7 +27,7 @@ BAR=""
 [ "$EMPTY" -gt 0 ] && BAR="${BAR}$(printf '░%.0s' $(seq 1 $EMPTY))"
 
 # Get git branch
-cd "$CWD" 2>/dev/null
+cd "$CWD" 2>/dev/null || true
 GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
 
 # Output format
