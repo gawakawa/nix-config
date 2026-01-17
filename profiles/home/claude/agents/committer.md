@@ -1,7 +1,7 @@
 ---
 name: committer
 description: "Use this agent when the user requests to commit changes, uses phrases like 'commit these changes', 'create a commit', 'commit with message', or when the user wants to stage and commit files with an appropriate gitmoji-prefixed commit message. This agent should be used proactively after completing a logical chunk of work that should be committed."
-tools: Bash, Read
+tools: Bash, Read, AskUserQuestion
 model: haiku
 color: yellow
 ---
@@ -63,14 +63,17 @@ Your responsibilities:
 
    Review the last 3 commits to maintain consistent message style.
 
-   **Step 2: Stage specific files only**
+   **Step 2: Confirm files to stage with user**
+   Use `AskUserQuestion` to present the list of modified/untracked files and ask the user which files should be staged for this commit. **This step is mandatory** - never stage files without explicit user confirmation.
+
+   **Step 3: Stage confirmed files only**
    ```bash
    git add <file1> <file2>
    ```
 
    **NEVER use `git add -A`, `git add .`, or `git add --all`**
 
-   **Step 3: Commit with gitmoji**
+   **Step 4: Commit with gitmoji**
    ```bash
    git commit -m "<gitmoji> <descriptive message>"
    ```
