@@ -5,7 +5,6 @@ let
 
   # Directory icons
   nf-md-folder_home = "󱂵 ";
-  nf-cod-root_folder = "";
 
   # Git
   gitBranchSymbol = "";
@@ -33,23 +32,6 @@ in
         truncate_to_repo = false;
         substitutions = {
           "~" = nf-md-folder_home;
-          # Linux
-          "/boot" = "${nf-cod-root_folder} /boot";
-          "/etc" = "${nf-cod-root_folder} /etc";
-          "/home" = "${nf-cod-root_folder} /home";
-          "/nix" = "${nf-cod-root_folder} /nix";
-          "/run" = "${nf-cod-root_folder} /run";
-          "/tmp" = "${nf-cod-root_folder} /tmp";
-          "/usr" = "${nf-cod-root_folder} /usr";
-          "/var" = "${nf-cod-root_folder} /var";
-          # macOS
-          "/Applications" = "${nf-cod-root_folder} /Applications";
-          "/Library" = "${nf-cod-root_folder} /Library";
-          "/System" = "${nf-cod-root_folder} /System";
-          "/Users" = "${nf-cod-root_folder} /Users";
-          "/Volumes" = "${nf-cod-root_folder} /Volumes";
-          "/opt" = "${nf-cod-root_folder} /opt";
-          "/private" = "${nf-cod-root_folder} /private";
         };
       };
 
