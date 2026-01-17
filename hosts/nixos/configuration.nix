@@ -3,14 +3,10 @@
   ...
 }:
 {
-  # NixOS設定
-
-  # インポート
   imports = [
     ../../profiles/hosts/packages.nix
   ];
 
-  # フォント設定
   fonts = {
     packages = with pkgs; [
       fira-code
@@ -43,7 +39,6 @@
     };
   };
 
-  # Nix設定
   nix = {
     enable = true;
     package = pkgs.nix;
@@ -64,7 +59,6 @@
     networkmanager.enable = true;
   };
 
-  # ユーザー設定
   users = {
     defaultUserShell = pkgs.zsh;
     users.iota = {
@@ -80,18 +74,15 @@
     };
   };
 
-  # ブートローダー設定
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
   };
 
-  # タイムゾーン設定
   time = {
     timeZone = "Asia/Tokyo";
   };
 
-  # 地域化設定
   i18n = {
     defaultLocale = "ja_JP.UTF-8";
     extraLocaleSettings = {
@@ -112,7 +103,6 @@
     };
   };
 
-  # サービス設定
   services = {
     displayManager.gdm.enable = false;
     desktopManager.gnome.enable = false;
@@ -133,15 +123,12 @@
     };
   };
 
-  # セキュリティ設定
   security = {
     rtkit.enable = true;
   };
 
-  # システム設定
   system.stateVersion = "25.05";
 
-  # nixpkgs設定
   nixpkgs = {
     config.allowUnfree = true;
   };
@@ -160,7 +147,7 @@
     };
   };
 
-  # パッケージ (Linux固有のもののみ)
+  # Linux-specific packages
   environment.systemPackages = with pkgs; [
     wl-clipboard
     wofi

@@ -11,3 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 3. **Propose solutions** - Only after understanding the cause, suggest fixes
 
 **Never jump to solutions before understanding the problem**. Speculation without evidence leads to wrong fixes.
+
+## Code Style
+
+- Write comments in English.
+- Keep comments minimal—only add them when the code isn't self-explanatory.

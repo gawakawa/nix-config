@@ -120,7 +120,6 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/nixos
-            # home-manager
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -150,7 +149,6 @@
           modules = [
             inputs.mac-app-util.darwinModules.default
             ./hosts/mac
-            # home-manager
             inputs.home-manager.darwinModules.home-manager
             {
               home-manager = {

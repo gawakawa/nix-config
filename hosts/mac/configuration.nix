@@ -4,14 +4,10 @@
   ...
 }:
 {
-  # Darwin設定
-
-  # インポート
   imports = [
     ../../profiles/hosts/packages.nix
   ];
 
-  # フォント設定
   fonts = {
     packages = with pkgs; [
       fira-code
@@ -25,26 +21,22 @@
     ];
   };
 
-  # Nix設定 (Determinate Nix用)
+  # Determinate Nix requires nix.enable = false
   nix.enable = false;
 
-  # zsh有効化
   programs.zsh.enable = true;
 
-  # ユーザー設定
   users.users.iota = {
     name = "iota";
     home = "/Users/iota";
   };
 
-  # システム設定
   system = {
     configurationRevision = self.rev or self.dirtyRev or null;
     stateVersion = 4;
     primaryUser = "iota";
   };
 
-  # Homebrew設定
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";
@@ -64,13 +56,12 @@
     };
   };
 
-  # nixpkgs設定
   nixpkgs = {
     config.allowUnfree = true;
     hostPlatform = "aarch64-darwin";
   };
 
-  # パッケージ (Darwin固有のもののみ)
+  # Darwin-specific packages
   environment.systemPackages = with pkgs; [
     qemu
   ];
