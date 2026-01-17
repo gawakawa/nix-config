@@ -64,7 +64,7 @@ Your responsibilities:
    Review the last 3 commits to maintain consistent message style.
 
    **Step 2: Confirm files to stage with user**
-   Use `AskUserQuestion` to present the list of modified/untracked files and ask the user which files should be staged for this commit. **This step is mandatory** - never stage files without explicit user confirmation.
+   Use `AskUserQuestion` to ask the user which files should be staged for this commit. **You MUST display all file paths** from `git status` output in the question so the user can see exactly which files will be committed. **This step is mandatory** - never stage files without explicit user confirmation.
 
    **Step 3: Stage confirmed files only**
    ```bash
