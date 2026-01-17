@@ -1,5 +1,5 @@
 ---
-paths: programs/starship*
+paths: profiles/home/starship/**
 ---
 
 # Starship Configuration Rules
@@ -47,10 +47,10 @@ format = "[](#9A348E)$directory...";
    ```bash
    CAP=$(printf '\ue0b6')
    ARROW=$(printf '\ue0b0')
-   sed -i "s/__CAP__/$CAP/g" programs/starship.nix
+   sed -i "s/__CAP__/$CAP/g" profiles/home/starship/default.nix
    ```
-3. Format: `nix fmt programs/starship.nix`
-4. Verify bytes: `sed -n '3p' programs/starship.nix | od -c`
+3. Format: `nix fmt profiles/home/starship/default.nix`
+4. Verify bytes: `sed -n '3p' profiles/home/starship/default.nix | od -c`
 
 ### Symbol Reference
 
