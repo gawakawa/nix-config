@@ -5,6 +5,7 @@ let
 
   # Directory icons
   nf-md-folder_home = "󱂵 ";
+  nf-md-folder_cog = "󱁿 ";
 
   # Git
   gitBranchSymbol = "";
@@ -30,8 +31,9 @@ in
         format = "[$path ]($style)";
         truncation_length = 0;
         truncate_to_repo = false;
+        home_symbol = nf-md-folder_home;
         substitutions = {
-          "~" = nf-md-folder_home;
+          "${nf-md-folder_home}/.config" = nf-md-folder_cog;
         };
       };
 
