@@ -13,7 +13,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/pre-compact-backup.sh"
+            "command": "~/.claude/backup-transcript.sh"
           }
         ]
       }
