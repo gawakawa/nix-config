@@ -90,6 +90,10 @@
               settings.exclude = [ "hosts/nixos/hardware-configuration.nix" ];
             };
             selene.enable = true;
+            shellcheck = {
+              enable = true;
+              excludes = [ "\\.envrc$" ];
+            };
           };
 
           devShells.default = pkgs.mkShell {
@@ -101,14 +105,18 @@
             packages = config.pre-commit.settings.enabledPackages;
           };
 
-          treefmt = {
-            programs.nixfmt = {
+          treefmt.programs = {
+            nixfmt = {
               enable = true;
               includes = [ "*.nix" ];
             };
-            programs.stylua = {
+            stylua = {
               enable = true;
               includes = [ "*.lua" ];
+            };
+            shfmt = {
+              enable = true;
+              includes = [ "*.sh" ];
             };
           };
         };

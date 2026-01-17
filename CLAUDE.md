@@ -8,18 +8,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **NixOS** (user must execute): `sudo nixos-rebuild switch --flake ".#nixos" --accept-flake-config --impure`
 - **Darwin** (user must execute): `sudo darwin-rebuild switch --flake ".#mac"`
-- **Format code**: `nix fmt` (uses treefmt-nix with nixfmt-rfc-style and stylua)
+- **Format code**: `nix fmt` (uses treefmt-nix with nixfmt-rfc-style, stylua, shfmt)
 - **Check flake**: `nix flake check`
 - **Update inputs**: `nix flake update` or `nix flake lock --update-input <name>`
 
 ## Development Shell
 
 Enter the dev shell with `nix develop` to get pre-commit hooks:
-- **treefmt**: Format check for Nix and Lua
+- **treefmt**: Format check for Nix, Lua, and Shell scripts
 - **statix**: Nix linter (ignores hardware-configuration.nix)
 - **deadnix**: Unused code detection (ignores hardware-configuration.nix)
-- **actionlint**: GitHub Actions linter
 - **selene**: Lua linter
+- **shellcheck**: Shell script linter
 
 The dev shell also generates `.mcp.json` with NixOS MCP server configuration.
 
