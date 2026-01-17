@@ -6,6 +6,10 @@
       source = ./agents;
       recursive = true;
     };
+    ".claude/skills" = {
+      source = ./skills;
+      recursive = true;
+    };
     ".claude/statusline.sh" = {
       source = ./statusline.sh;
       executable = true;
