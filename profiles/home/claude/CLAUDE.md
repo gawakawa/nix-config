@@ -16,3 +16,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - Write comments in English.
 - Keep comments minimal—only add them when the code isn't self-explanatory.
+
+## Context Backup Recovery
+
+Pre-compaction backups are saved automatically.
+
+**To recover context**, run:
+```bash
+~/.claude/recover-context.sh
+```

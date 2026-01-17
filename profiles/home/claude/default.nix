@@ -20,5 +20,13 @@
       source = ./statusline.sh;
       executable = true;
     };
+    ".claude/pre-compact-backup.sh" = {
+      source = ./pre-compact-backup.sh;
+      executable = true;
+    };
+    ".claude/recover-context.sh" = {
+      source = ./recover-context.sh;
+      executable = true;
+    };
   };
 }

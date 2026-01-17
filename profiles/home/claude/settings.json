@@ -7,6 +7,18 @@
     "command": "~/.claude/statusline.sh",
     "padding": 0
   },
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/pre-compact-backup.sh"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "deny": [
       "Bash(git add -A:*)",
