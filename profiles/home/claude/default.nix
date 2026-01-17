@@ -5,28 +5,28 @@
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
   };
 
-  home.file = {
-    ".claude/settings.json".source = ./settings.json;
-    ".claude/CLAUDE.md".source = ./CLAUDE.md;
-    ".claude/agents" = {
-      source = ./agents;
-      recursive = true;
-    };
-    ".claude/skills" = {
-      source = ./skills;
-      recursive = true;
-    };
-    ".claude/statusline.sh" = {
-      source = ./statusline.sh;
-      executable = true;
-    };
-    ".claude/pre-compact-backup.sh" = {
-      source = ./pre-compact-backup.sh;
-      executable = true;
-    };
-    ".claude/recover-context.sh" = {
-      source = ./recover-context.sh;
-      executable = true;
-    };
-  };
+  home.file =
+    let
+      scripts = builtins.readDir ./scripts;
+      mkScript = name: {
+        name = ".claude/${name}";
+        value = {
+          source = ./scripts/${name};
+          executable = true;
+        };
+      };
+    in
+    {
+      ".claude/settings.json".source = ./settings.json;
+      ".claude/CLAUDE.md".source = ./CLAUDE.md;
+      ".claude/agents" = {
+        source = ./agents;
+        recursive = true;
+      };
+      ".claude/skills" = {
+        source = ./skills;
+        recursive = true;
+      };
+    }
+    // builtins.listToAttrs (map mkScript (builtins.attrNames scripts));
 }
