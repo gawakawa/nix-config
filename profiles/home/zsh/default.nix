@@ -5,6 +5,7 @@ _: {
       v = "nvim";
       nvim = "nix run ~/.config/nvim --";
       c = "claude";
+      ccr = "OPENROUTER_API_KEY=$(pass show openrouter/api-key) command ccr code";
       ls = "eza -a";
       find = "fd";
       grep = "rg";
