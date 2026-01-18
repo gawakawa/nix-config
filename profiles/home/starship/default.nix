@@ -6,6 +6,7 @@ let
   # Directory icons
   nf-md-folder_home = "󱂵 ";
   nf-md-folder_cog = "󱁿 ";
+  nf-dev-rust = "";
 
   # Git
   gitBranchSymbol = "";
@@ -34,6 +35,7 @@ in
         home_symbol = nf-md-folder_home;
         substitutions = {
           "${nf-md-folder_home}/.config" = nf-md-folder_cog;
+          "${nf-md-folder_home}/projects/rust" = "${nf-dev-rust} ";
         };
       };
 
