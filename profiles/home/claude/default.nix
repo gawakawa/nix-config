@@ -5,6 +5,45 @@
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
   };
 
+  programs.claude-code = {
+    enable = true;
+
+    settings = {
+      model = "opus";
+      alwaysThinkingEnabled = true;
+      statusLine = {
+        type = "command";
+        command = "~/.claude/statusline.sh";
+        padding = 0;
+      };
+      hooks = {
+        PreCompact = [
+          {
+            hooks = [
+              {
+                type = "command";
+                command = "~/.claude/backup-transcript.sh";
+              }
+            ];
+          }
+        ];
+      };
+      permissions = {
+        deny = [
+          "Bash(git add -A:*)"
+          "Bash(git add --all:*)"
+          "Bash(git add .:*)"
+          "Bash(git add -u:*)"
+          "Bash(git push:*)"
+        ];
+      };
+    };
+
+    memory.source = ./CLAUDE.md;
+    agentsDir = ./agents;
+    skillsDir = ./skills;
+  };
+
   home.file =
     let
       scripts = builtins.readDir ./scripts;
@@ -16,17 +55,5 @@
         };
       };
     in
-    {
-      ".claude/settings.json".source = ./settings.json;
-      ".claude/CLAUDE.md".source = ./CLAUDE.md;
-      ".claude/agents" = {
-        source = ./agents;
-        recursive = true;
-      };
-      ".claude/skills" = {
-        source = ./skills;
-        recursive = true;
-      };
-    }
-    // builtins.listToAttrs (map mkScript (builtins.attrNames scripts));
+    builtins.listToAttrs (map mkScript (builtins.attrNames scripts));
 }
