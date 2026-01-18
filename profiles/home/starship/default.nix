@@ -9,6 +9,9 @@ let
   nf-dev-rust = "";
   nf-dev-typescript = "";
 
+  # Directory paths
+  devDir = "${nf-md-folder_home}/projects/";
+
   # Git
   gitBranchSymbol = "";
 
@@ -36,8 +39,8 @@ in
         home_symbol = nf-md-folder_home;
         substitutions = {
           "${nf-md-folder_home}/.config" = nf-md-folder_cog;
-          "${nf-md-folder_home}/projects/rust" = "${nf-dev-rust} ";
-          "${nf-md-folder_home}/projects/typescript" = "${nf-dev-typescript} ";
+          "${devDir}rust" = "${nf-dev-rust} ";
+          "${devDir}typescript" = "${nf-dev-typescript} ";
         };
       };
 
