@@ -8,6 +8,7 @@ let
   nf-md-folder_cog = "󱁿 ";
   nf-dev-rust = "";
   nf-dev-typescript = "";
+  nf-dev-nixos = "";
 
   # Directory paths
   devDir = "${nf-md-folder_home}/projects/";
@@ -39,6 +40,7 @@ in
         home_symbol = nf-md-folder_home;
         substitutions = {
           "${nf-md-folder_home}/.config" = nf-md-folder_cog;
+          "${devDir}nix" = "${nf-dev-nixos} ";
           "${devDir}rust" = "${nf-dev-rust} ";
           "${devDir}typescript" = "${nf-dev-typescript} ";
         };
