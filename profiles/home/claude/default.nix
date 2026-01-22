@@ -37,6 +37,9 @@
           "Bash(git push:*)"
         ];
       };
+      enabledPlugins = {
+        "example-skills@anthropic-agent-skills" = true;
+      };
     };
 
     memory.source = ./CLAUDE.md;
