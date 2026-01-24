@@ -35,6 +35,8 @@
           "Bash(git add .:*)"
           "Bash(git add -u:*)"
           "Bash(git push:*)"
+          "Bash(git commit --no-verify:*)"
+          "Bash(git commit -n:*)"
         ];
       };
     };
