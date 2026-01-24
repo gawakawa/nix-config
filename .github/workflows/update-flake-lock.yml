@@ -15,5 +15,6 @@ jobs:
     with:
       auto-merge: true
       branch: update-flake-lock
+      pr-title: "Update flake.lock"
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
