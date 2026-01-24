@@ -135,6 +135,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = {
+                  inherit inputs;
                   inherit (inputs) self nixpkgs;
                   system = "x86_64-linux";
                 };
@@ -167,6 +168,7 @@
                   inputs.mac-app-util.homeManagerModules.default
                 ];
                 extraSpecialArgs = {
+                  inherit inputs;
                   inherit (inputs) self nixpkgs;
                   system = "aarch64-darwin";
                 };

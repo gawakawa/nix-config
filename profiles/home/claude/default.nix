@@ -1,3 +1,7 @@
+{ inputs, system, ... }:
+let
+  mcpPkgs = import inputs.mcp-servers-nix.inputs.nixpkgs { inherit system; };
+in
 {
   home.sessionVariables = {
     ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-5-20251101";
@@ -7,6 +11,13 @@
 
   programs.claude-code = {
     enable = true;
+
+    mcpServers = {
+      nixos = {
+        command = "${mcpPkgs.mcp-nixos}/bin/mcp-nixos";
+        args = [ ];
+      };
+    };
 
     settings = {
       model = "opus";
