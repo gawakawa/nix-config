@@ -38,6 +38,16 @@ _: {
       flake-init() {
           nix flake init -t "github:gawakawa/flake-templates#$1"
       }
+
+      # Push flake outputs to gawakawa cachix
+      push-to-cachix() {
+          if [[ -z "$1" ]]; then
+              echo "Usage: push-to-cachix <flake-output>"
+              echo "Example: push-to-cachix .#devShells.aarch64-darwin.default"
+              return 1
+          fi
+          nix build "$1" --json | jq -r '.[].outputs | to_entries[].value' | cachix push gawakawa
+      }
     '';
     prezto = {
       enable = true;
