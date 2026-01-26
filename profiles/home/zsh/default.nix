@@ -24,14 +24,22 @@ _: {
           mkdir -p "$1" && cd "$1"
       }
 
-      # Set GH_TOKEN secret for flake update workflow in specified repository
+      # Set GitHub Actions secrets
+      # Usage: <func> [repo] (default: gawakawa/<current-dir>)
       set-flake-update-token() {
-          gh secret set GH_TOKEN -b "$(pass show github/pat-flake-update)" -R "$1"
+          local repo="''${1:-gawakawa/$(basename "$PWD")}"
+          gh secret set GH_TOKEN -b "$(pass show github/pat-flake-update)" -R "$repo"
       }
 
-      # Set CACHIX_AUTH_TOKEN secret for Cachix push in specified repository
       set-cachix-token() {
-          gh secret set CACHIX_AUTH_TOKEN -b "$(pass show cachix/auth-token)" -R "$1"
+          local repo="''${1:-gawakawa/$(basename "$PWD")}"
+          gh secret set CACHIX_AUTH_TOKEN -b "$(pass show cachix/auth-token)" -R "$repo"
+      }
+
+      set-all-secrets() {
+          local repo="''${1:-gawakawa/$(basename "$PWD")}"
+          set-flake-update-token "$repo"
+          set-cachix-token "$repo"
       }
 
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
