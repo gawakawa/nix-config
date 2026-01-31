@@ -1,0 +1,43 @@
+name: Cache nixpkgs
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Package name to build (e.g., swift)"
+        required: true
+        type: string
+      platform:
+        description: "Runner platform"
+        required: true
+        type: choice
+        options:
+          - macos-latest
+          - ubuntu-latest
+
+jobs:
+  build:
+    runs-on: ${{ inputs.platform }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: gawakawa
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Get nixpkgs revision
+        id: nixpkgs
+        run: |
+          rev=$(nix flake metadata --json | jq -r '.locks.nodes.nixpkgs.locked.rev')
+          echo "rev=$rev" >> $GITHUB_OUTPUT
+
+      - name: Build package
+        run: |
+          nix build "github:NixOS/nixpkgs/${{ steps.nixpkgs.outputs.rev }}#${{ inputs.package }}" \
+            --accept-flake-config
