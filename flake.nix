@@ -94,6 +94,13 @@
               enable = true;
               excludes = [ "\\.envrc$" ];
             };
+            workflow-timeout = {
+              enable = true;
+              name = "Check GitHub Workflows timeout-minutes";
+              package = pkgs.check-jsonschema;
+              entry = "${pkgs.check-jsonschema}/bin/check-jsonschema --builtin-schema github-workflows-require-timeout";
+              files = "^\\.github/workflows/.*\\.ya?ml$";
+            };
           };
 
           devShells.default = pkgs.mkShell {
