@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Git ref (e.g., refs/pull/23/merge, main)"
+        description: "Branch name or git ref (e.g., update-flake-lock, main)"
         required: true
         type: string
       package:
