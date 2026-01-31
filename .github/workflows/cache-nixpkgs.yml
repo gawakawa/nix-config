@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: "Package to build (e.g., swift)"
+        description: "nixpkgs package name to build"
         required: true
         type: string
       platform:
