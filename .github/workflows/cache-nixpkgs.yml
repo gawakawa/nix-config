@@ -18,7 +18,7 @@ on:
 jobs:
   build:
     runs-on: ${{ inputs.platform }}
-    timeout-minutes: 120
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v6
 
