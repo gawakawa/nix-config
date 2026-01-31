@@ -3,12 +3,8 @@ name: Cache nixpkgs
 on:
   workflow_dispatch:
     inputs:
-      ref:
-        description: "Branch name or git ref (e.g., update-flake-lock, main)"
-        required: true
-        type: string
       package:
-        description: "Package to build (e.g., swift-system)"
+        description: "Package to build (e.g., swift)"
         required: true
         type: string
       platform:
@@ -25,8 +21,6 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ inputs.ref }}
 
       - uses: cachix/install-nix-action@v31
         with:
