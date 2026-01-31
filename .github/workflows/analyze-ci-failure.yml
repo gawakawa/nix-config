@@ -13,7 +13,8 @@ permissions:
 jobs:
   analyze:
     if: >
-      github.event.workflow_run.conclusion == 'failure' &&
+      (github.event.workflow_run.conclusion == 'failure' ||
+       github.event.workflow_run.conclusion == 'cancelled') &&
       github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -24,10 +25,13 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
-            CI failed for this PR. Analyze the failure and post a comment with:
+            CI failed or was cancelled for this PR. Analyze the failure and post a comment with:
             1. Summary of what failed
             2. Root cause analysis
             3. Suggested fix with code if applicable
 
             Use `gh run view ${{ github.event.workflow_run.id }} --log-failed` to get the logs.
+
+            Note: If the cancellation was due to a newer commit superseding this run,
+            just post a brief comment saying "Skipped: superseded by newer commit" and do not analyze.
           allowed_tools: "Bash(gh:*),Read,Grep,Glob"
