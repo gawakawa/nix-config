@@ -3,8 +3,12 @@ name: Cache nixpkgs
 on:
   workflow_dispatch:
     inputs:
-      installable:
-        description: "Nix installable (e.g., github:NixOS/nixpkgs/<rev>#swift)"
+      ref:
+        description: "Git ref (e.g., refs/pull/23/merge, main)"
+        required: true
+        type: string
+      package:
+        description: "Package to build (e.g., swift-system)"
         required: true
         type: string
       platform:
@@ -18,8 +22,12 @@ on:
 jobs:
   build:
     runs-on: ${{ inputs.platform }}
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref }}
+
       - uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
@@ -29,4 +37,4 @@ jobs:
           name: gawakawa
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
-      - run: nix build "${{ inputs.installable }}"
+      - run: nix build "nixpkgs#${{ inputs.package }}" --inputs-from .
