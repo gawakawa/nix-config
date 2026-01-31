@@ -11,7 +11,6 @@ _: {
       grep = "rg";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
       drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
-      init-gh-repo = "git commit -m '🎉 Initial commit' && gh repo create --public --source=. --push && gh repo edit --enable-auto-merge --delete-branch-on-merge --allow-update-branch";
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
@@ -40,6 +39,14 @@ _: {
           local repo="''${1:-gawakawa/$(basename "$PWD")}"
           set-flake-update-token "$repo"
           set-cachix-token "$repo"
+      }
+
+      # Create a new GitHub repo with initial commit and secrets
+      init-gh-repo() {
+          git commit -m '🎉 Initial commit' && \
+          gh repo create --public --source=. --push && \
+          gh repo edit --enable-auto-merge --delete-branch-on-merge --allow-update-branch && \
+          set-all-secrets
       }
 
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
