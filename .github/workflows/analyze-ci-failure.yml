@@ -35,4 +35,4 @@ jobs:
 
             Note: If the cancellation was due to a newer commit superseding this run,
             just post a brief comment saying "Skipped: superseded by newer commit" and do not analyze.
-          claude_args: "--allowedTools Bash(gh:*),Read,Grep,Glob"
+          claude_args: '--allowedTools "Bash(gh:*)" "Read" "Grep" "Glob"'
