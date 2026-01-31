@@ -13,4 +13,4 @@ jobs:
   update-prs:
     uses: gawakawa/.github/.github/workflows/update-pr-branches.yml@main
     secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
