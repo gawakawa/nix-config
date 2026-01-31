@@ -94,7 +94,7 @@
               enable = true;
               excludes = [ "\\.envrc$" ];
             };
-            check-github-workflows-timeout = {
+            workflow-timeout = {
               enable = true;
               name = "Check GitHub Workflows timeout-minutes";
               package = pkgs.check-jsonschema;
