@@ -8,7 +8,6 @@
     fd
     jq
     ripgrep
-    pass
     tree
     unzip
 
