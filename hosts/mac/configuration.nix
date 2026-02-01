@@ -96,4 +96,17 @@
   environment.systemPackages = with pkgs; [
     qemu
   ];
+
+  # GitHub Actions self-hosted runner for flake-templates
+  services.github-runners.flake-templates = {
+    enable = true;
+    name = "macmini";
+    url = "https://github.com/gawakawa/flake-templates";
+    tokenFile = "/var/lib/github-runners/token";
+    replace = true;
+    extraPackages = with pkgs; [
+      cachix
+      nix
+    ];
+  };
 }
