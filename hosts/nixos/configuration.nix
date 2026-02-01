@@ -52,6 +52,14 @@
       ];
       experimental-features = "nix-command flakes";
     };
+    gc = {
+      automatic = true;
+      dates = "monthly";
+      options = "--delete-older-than 30d";
+    };
+    optimise = {
+      automatic = true;
+    };
   };
 
   networking = {
