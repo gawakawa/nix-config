@@ -7,6 +7,25 @@ Unified Nix configuration for NixOS (Linux) and nix-darwin (macOS).
 - Nix with flakes enabled
 - NixOS or nix-darwin
 
+## Setup
+
+### macOS
+
+1. Install Lix:
+   ```bash
+   curl -sSf -L https://install.lix.systems/lix | sh -s -- install
+   ```
+
+2. Source the Nix environment:
+   ```bash
+   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+   ```
+
+3. Apply the configuration:
+   ```bash
+   nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-config#mac
+   ```
+
 ## Usage
 
 ### NixOS
