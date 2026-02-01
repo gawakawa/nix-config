@@ -1,7 +1,5 @@
 { ... }:
 {
-  nix.enable = false;
-
   home = {
     enableNixpkgsReleaseCheck = true;
     stateVersion = "25.05";

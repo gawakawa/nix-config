@@ -71,8 +71,9 @@ Linux-only modules in `home/nixos/`:
 ## Platform Notes
 
 ### Darwin (macOS)
-- Homebrew integration for GUI apps (casks) in `hosts/darwin/configuration.nix`
-- Nix daemon managed by Determinate Nix (`nix.enable = false`)
+- Homebrew integration for GUI apps (casks) in `hosts/mac/configuration.nix`
+- Lix managed by nix-darwin (`nix.enable = true`, `nix.package = pkgs.lix`)
+- Automatic garbage collection and store optimization (daily)
 
 ### Linux (NixOS)
 - Hyprland as Wayland compositor with Waybar status bar

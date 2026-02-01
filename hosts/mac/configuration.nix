@@ -8,6 +8,8 @@
     ../../profiles/hosts/packages.nix
   ];
 
+  ids.gids.nixbld = 350;
+
   fonts = {
     packages = with pkgs; [
       fira-code
@@ -21,8 +23,37 @@
     ];
   };
 
-  # Determinate Nix requires nix.enable = false
-  nix.enable = false;
+  nix = {
+    enable = true;
+    package = pkgs.lixPackageSets.stable.lix;
+    settings = {
+      experimental-features = "nix-command flakes";
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+        "https://gawakawa.cachix.org"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "gawakawa.cachix.org-1:NVSPP7gCC7cr4U7eWhK3MlDGmbU5YkdHqW6+r7oz17c="
+      ];
+      trusted-users = [ "iota" ];
+    };
+    gc = {
+      automatic = true;
+      interval = {
+        Day = 1;
+      };
+      options = "--delete-older-than 30d";
+    };
+    optimise = {
+      automatic = true;
+      interval = {
+        Day = 1;
+      };
+    };
+  };
 
   programs.zsh.enable = true;
 
