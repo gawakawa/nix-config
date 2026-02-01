@@ -71,6 +71,9 @@
     primaryUser = "iota";
   };
 
+  # Disable sleep for self-hosted runner
+  power.sleep.computer = "never";
+
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";
