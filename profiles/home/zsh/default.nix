@@ -1,6 +1,9 @@
 _: {
   programs.zsh = {
     enable = true;
+    sessionVariables = {
+      PASSWORD_STORE_DIR = "$HOME/.password-store";
+    };
     shellAliases = {
       v = "nvim";
       nvim = "nix run ~/.config/nvim --";
