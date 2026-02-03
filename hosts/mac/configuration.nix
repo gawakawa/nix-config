@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   self,
   ...
 }:
@@ -103,16 +104,22 @@
     qemu
   ];
 
-  # GitHub Actions self-hosted runner for flake-templates
-  services.github-runners.flake-templates = {
-    enable = true;
-    name = "macmini";
-    url = "https://github.com/gawakawa/flake-templates";
-    tokenFile = "/var/lib/github-runners/token";
-    replace = true;
-    extraPackages = with pkgs; [
-      cachix
-      nix
-    ];
-  };
+  # GitHub Actions self-hosted runners
+  services.github-runners =
+    lib.genAttrs
+      [
+        "flake-templates"
+        "nix-config"
+      ]
+      (repoName: {
+        enable = true;
+        name = "macmini-${repoName}";
+        url = "https://github.com/gawakawa/${repoName}";
+        tokenFile = "/var/lib/github-runners/token";
+        replace = true;
+        extraPackages = with pkgs; [
+          cachix
+          nix
+        ];
+      });
 }
