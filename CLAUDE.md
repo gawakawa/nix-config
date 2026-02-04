@@ -18,10 +18,12 @@ Enter the dev shell with `nix develop` to get pre-commit hooks:
 - **treefmt**: Format check for Nix, Lua, and Shell scripts
 - **statix**: Nix linter (ignores hardware-configuration.nix)
 - **deadnix**: Unused code detection (ignores hardware-configuration.nix)
+- **actionlint**: GitHub Actions workflow linter
 - **selene**: Lua linter
-- **shellcheck**: Shell script linter
+- **shellcheck**: Shell script linter (excludes `.envrc`)
+- **workflow-timeout**: Ensures GitHub workflows have `timeout-minutes`
 
-The dev shell also generates `.mcp.json` with NixOS MCP server configuration.
+The dev shell generates `.mcp.json` with MCP server configuration (NixOS search + Chrome DevTools).
 
 ## CI Pipeline
 
@@ -63,6 +65,10 @@ Linux-only modules in `home/nixos/`:
 - `hyprland/` - Wayland compositor
 - `waybar/` - Status bar
 
+### Helper Functions (lib/)
+
+- `importSubdirs`: Auto-imports all subdirectories of a path (excludes `default.nix`), used to load profile modules
+
 ### External Dependencies
 
 - **Neovim**: Managed separately at `~/.config/nvim/` (own flake), accessed via alias `nvim = "nix run ~/.config/nvim --"`
@@ -80,10 +86,16 @@ Linux-only modules in `home/nixos/`:
 - fcitx5 with mozc for Japanese input (ja_JP.UTF-8 locale)
 - PipeWire audio, systemd-boot, nix-ld enabled
 
-## Key Aliases (from profiles/home/zsh/)
+## Key Aliases and Functions (from profiles/home/zsh/)
 
+**Aliases:**
 - `nrs` - NixOS rebuild switch (with sudo and impure flag)
 - `drs` - Darwin rebuild switch (with sudo)
 - `v` / `nvim` - Run Neovim from separate flake
 - `c` - Claude CLI
-- `flake-init <template>` - Initialize from gawakawa/flake-templates (zsh function)
+
+**Functions:**
+- `flake-init <template>` - Initialize from gawakawa/flake-templates
+- `init-gh-repo` - Create GitHub repo with initial commit and set secrets
+- `set-all-secrets [repo]` - Set GH_TOKEN and CACHIX_AUTH_TOKEN secrets
+- `push-to-cachix <flake-output>` - Push build outputs to gawakawa cachix cache
