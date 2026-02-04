@@ -59,6 +59,7 @@ nix flake lock --update-input <name>  # Update specific input
 │   ├── mac/
 │   └── nixos/
 ├── lib/        # Utility functions
+├── nvim/       # Neovim configuration (separate flake)
 └── profiles/   # Host-independent shared configurations
     ├── home/   #   Shared Home Manager modules
     └── hosts/  #   Shared host modules
