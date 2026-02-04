@@ -7,8 +7,17 @@ on:
       - main
 
 jobs:
-  nixos:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        include:
+          - platform: nixos
+            runs-on: ubuntu-latest
+            build-target: nixosConfigurations.nixos.config.system.build.toplevel
+          - platform: darwin
+            runs-on: macos-latest
+            build-target: darwinConfigurations.mac.system
+    runs-on: ${{ matrix.runs-on }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -25,28 +34,6 @@ jobs:
       - name: Flake check
         run: nix flake check --accept-flake-config
 
-      - name: Build NixOS configuration
+      - name: Build ${{ matrix.platform }} configuration
         run: |
-          nix build .#nixosConfigurations.nixos.config.system.build.toplevel --accept-flake-config --show-trace
-
-  darwin:
-    runs-on: macos-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GH_TOKEN }}
-
-      - uses: cachix/cachix-action@v16
-        with:
-          name: gawakawa
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-
-      - name: Flake check
-        run: nix flake check --accept-flake-config
-
-      - name: Build Darwin configuration
-        run: |
-          nix build .#darwinConfigurations.mac.system --accept-flake-config --show-trace
+          nix build .#${{ matrix.build-target }} --accept-flake-config --show-trace
