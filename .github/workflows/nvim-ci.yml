@@ -30,7 +30,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Flake check
-        run: nix flake check ./nvim
+        run: nix flake check --accept-flake-config
 
       - name: Build Neovim package
         run: nix build ./nvim

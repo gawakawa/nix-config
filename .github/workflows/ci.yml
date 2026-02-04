@@ -2,9 +2,13 @@ name: "CI"
 
 on:
   pull_request:
+    paths-ignore:
+      - 'nvim/**'
   push:
     branches:
       - main
+    paths-ignore:
+      - 'nvim/**'
 
 jobs:
   build:
