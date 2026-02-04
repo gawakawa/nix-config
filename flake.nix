@@ -89,6 +89,7 @@
               enable = true;
               settings.exclude = [ "hosts/nixos/hardware-configuration.nix" ];
             };
+            actionlint.enable = true;
             selene.enable = true;
             shellcheck = {
               enable = true;

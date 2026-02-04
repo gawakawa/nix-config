@@ -1,0 +1,33 @@
+name: Update nvim Flake Lock
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * 5'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-nvim-flake-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Update nvim flake.lock
+        run: nix flake update --flake ./nvim
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: update-nvim-flake-lock
+          title: "Update nvim/flake.lock"
+          commit-message: "Update nvim/flake.lock"
+          body: "Automated nvim flake.lock update"
