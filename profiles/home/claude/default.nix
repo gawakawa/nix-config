@@ -48,6 +48,8 @@ in
           "Bash(git push:*)"
           "Bash(git commit --no-verify:*)"
           "Bash(git commit -n:*)"
+          "Bash(nix develop:*)"
+          "Bash(nix shell:*)"
         ];
       };
     };

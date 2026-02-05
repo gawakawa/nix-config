@@ -17,6 +17,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Write comments in English.
 - Keep comments minimal—only add them when the code isn't self-explanatory.
 
+## Development Environment
+
+**Do NOT use `nix develop` or `nix shell`**. Use these alternatives instead:
+
+- **direnv**: Automatically loads the environment when entering a directory with `.envrc`. Just `cd` into the project.
+- **comma (`,`)**: Run any package temporarily without installing it. Example: `, cowsay hello`
+
 ## Context Backup Recovery
 
 Pre-compaction backups are saved automatically.
