@@ -12,9 +12,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Check flake**: `nix flake check`
 - **Update inputs**: `nix flake update` or `nix flake lock --update-input <name>`
 
-## Development Shell
+## Pre-commit Hooks
 
-Enter the dev shell with `nix develop` to get pre-commit hooks:
+Available via direnv (auto-loads when entering directory):
 - **treefmt**: Format check for Nix, Lua, and Shell scripts
 - **statix**: Nix linter (ignores hardware-configuration.nix)
 - **deadnix**: Unused code detection (ignores hardware-configuration.nix)
@@ -22,8 +22,6 @@ Enter the dev shell with `nix develop` to get pre-commit hooks:
 - **selene**: Lua linter
 - **shellcheck**: Shell script linter (excludes `.envrc`)
 - **workflow-timeout**: Ensures GitHub workflows have `timeout-minutes`
-
-The dev shell generates `.mcp.json` with MCP server configuration (NixOS search + Chrome DevTools).
 
 ## CI Pipeline
 
@@ -37,41 +35,39 @@ Builds are cached via Cachix (`gawakawa` cache).
 
 Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
 
-- **flake.nix**: Entry point using flake-parts, defines `nixosConfigurations.nixos` and `darwinConfigurations.mac`
-
 ```
 .
-├── flake.nix
-├── home/       # Home Manager configurations (per-host)
+├── flake.nix      # Entry point, imports flake-parts modules from ./flakes
+├── flakes/        # Flake-parts module organization
+│   ├── hosts.nix      # nixosConfigurations.nixos + darwinConfigurations.mac
+│   ├── lib/hosts.nix  # mkNixos and mkDarwin helper functions
+│   ├── devShells.nix  # Development shell configuration
+│   ├── treefmt.nix    # Formatter config (nixfmt, stylua, shfmt)
+│   └── pre-commit.nix # Pre-commit hook definitions
+├── home/          # Home Manager configurations (per-host entry points)
 │   ├── mac/
 │   └── nixos/
-├── hosts/      # System configurations (per-host)
+├── hosts/         # System configurations (per-host)
 │   ├── mac/
 │   └── nixos/
-├── lib/        # Utility functions
-└── profiles/   # Host-independent shared configurations
-    ├── home/   #   Shared Home Manager modules
-    └── hosts/  #   Shared host modules
+├── lib/           # Utility functions (importSubdirs, mkCachixWatchStore)
+├── nvim/          # Neovim configuration (separate flake, built in CI)
+└── profiles/      # Host-independent shared configurations
+    ├── home/      #   Shared Home Manager modules (git, zsh, wezterm, claude, etc.)
+    └── hosts/     #   Shared host modules
 ```
 
-### Program Modules
+### Host Configuration Flow
 
-Located in `profiles/home/`, each module is a directory with `default.nix` (cross-platform):
-- `git/`, `zsh/`, `starship/`, `direnv/`, `gpg/` - Shell and development tools
-- `wezterm/` - Terminal emulator with `wezterm.lua` config
-- `claude/` - Claude Code configuration with agents and settings
+`flakes/lib/hosts.nix` provides:
+- `mkNixos`: Creates NixOS system config with Home Manager integration
+- `mkDarwin`: Creates Darwin system config with Home Manager + mac-app-util
 
-Linux-only modules in `home/nixos/`:
-- `hyprland/` - Wayland compositor
-- `waybar/` - Status bar
-
-### Helper Functions (lib/)
-
-- `importSubdirs`: Auto-imports all subdirectories of a path (excludes `default.nix`), used to load profile modules
+Each host is defined in `flakes/hosts.nix` by specifying `hostPath`, `homePath`, and `username`.
 
 ### External Dependencies
 
-- **Neovim**: Managed separately at `~/.config/nvim/` (own flake), accessed via alias `nvim = "nix run ~/.config/nvim --"`
+- **Neovim**: Separate flake at `./nvim/`, accessible via alias `nvim = "nix run ~/.config/nix-config/nvim --"`
 - **hardware-configuration.nix**: Auto-generated, do not edit manually
 
 ## Platform Notes
@@ -86,11 +82,10 @@ Linux-only modules in `home/nixos/`:
 - fcitx5 with mozc for Japanese input (ja_JP.UTF-8 locale)
 - PipeWire audio, systemd-boot, nix-ld enabled
 
-## Key Aliases and Functions (from profiles/home/zsh/)
+## Key Aliases and Functions (profiles/home/zsh/)
 
 **Aliases:**
-- `nrs` - NixOS rebuild switch (with sudo and impure flag)
-- `drs` - Darwin rebuild switch (with sudo)
+- `nrs` / `drs` - System rebuild (NixOS / Darwin)
 - `v` / `nvim` - Run Neovim from separate flake
 - `c` - Claude CLI
 
