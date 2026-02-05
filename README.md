@@ -52,6 +52,7 @@ nix flake lock --update-input <name>  # Update specific input
 ```
 .
 ├── flake.nix
+├── flakes/     # Flake-parts modules
 ├── home/       # Home Manager configurations (per-host)
 │   ├── mac/
 │   └── nixos/
