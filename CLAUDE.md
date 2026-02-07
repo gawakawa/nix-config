@@ -52,6 +52,7 @@ Unified Nix configuration for NixOS (x86_64-linux) and Darwin (aarch64-darwin):
 │   └── nixos/
 ├── lib/           # Utility functions (importSubdirs, mkCachixWatchStore)
 ├── nvim/          # Neovim configuration (separate flake, built in CI)
+├── overlays/      # Nix package overlays
 └── profiles/      # Host-independent shared configurations
     ├── home/      #   Shared Home Manager modules (git, zsh, wezterm, claude, etc.)
     └── hosts/     #   Shared host modules

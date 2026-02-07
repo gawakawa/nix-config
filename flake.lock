@@ -281,6 +281,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1770444066,
+        "narHash": "sha256-UnSOP7y4kx2Z14oYNDbQs+OAy0U0Yevdyg1YzN4UlbI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "16566a2789fd8d0cafd8c713963fa639e58274fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1761236834,
@@ -386,6 +402,7 @@
         "mcp-servers-nix": "mcp-servers-nix",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_6",
+        "nixpkgs-master": "nixpkgs-master",
         "treefmt-nix": "treefmt-nix_3"
       }
     },

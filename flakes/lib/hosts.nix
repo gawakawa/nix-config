@@ -1,4 +1,7 @@
 { inputs }:
+let
+  localOverlays = import ../../overlays;
+in
 {
   mkNixos =
     {
@@ -12,6 +15,9 @@
       modules = [
         hostPath
         inputs.home-manager.nixosModules.home-manager
+        (_: {
+          nixpkgs.overlays = map (o: o { inherit inputs system; }) localOverlays;
+        })
         {
           home-manager = {
             backupFileExtension = "backup";
@@ -44,6 +50,9 @@
         inputs.mac-app-util.darwinModules.default
         hostPath
         inputs.home-manager.darwinModules.home-manager
+        (_: {
+          nixpkgs.overlays = map (o: o { inherit inputs system; }) localOverlays;
+        })
         {
           home-manager = {
             backupFileExtension = "backup";

@@ -4,7 +4,7 @@ let
 in
 {
   home.sessionVariables = {
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-5-20251101";
+    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-6";
     ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-4-5-20250929";
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
   };

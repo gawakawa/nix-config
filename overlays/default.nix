@@ -1,0 +1,3 @@
+[
+  (import ./claude-code.nix)
+]
