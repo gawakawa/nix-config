@@ -86,6 +86,7 @@
     casks = [
       "amethyst"
       "claude"
+      "google-chrome" # nixpkgs version is marked insecure on Darwin
     ];
     masApps = {
       "LINE" = 539883307;
