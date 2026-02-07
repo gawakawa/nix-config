@@ -2,18 +2,24 @@ name: "CI"
 
 on:
   pull_request:
+    paths-ignore:
+      - 'nvim/**'
   push:
     branches:
       - main
+    paths-ignore:
+      - 'nvim/**'
 
 jobs:
   build:
     strategy:
       matrix:
         include:
-          - runs-on: ubuntu-latest
+          - platform: nixos
+            runs-on: ubuntu-latest
             build-target: nixosConfigurations.nixos.config.system.build.toplevel
-          - runs-on: macos-latest
+          - platform: darwin
+            runs-on: macos-latest
             build-target: darwinConfigurations.mac.system
     runs-on: ${{ matrix.runs-on }}
     timeout-minutes: 10
@@ -32,8 +38,5 @@ jobs:
       - name: Flake check
         run: nix flake check --accept-flake-config
 
-      - name: Build system configuration
+      - name: Build ${{ matrix.platform }} configuration
         run: nix build .#${{ matrix.build-target }} --accept-flake-config --show-trace
-
-      - name: Build Neovim package
-        run: nix build ./nvim --show-trace
