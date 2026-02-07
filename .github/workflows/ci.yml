@@ -2,16 +2,32 @@ name: "CI"
 
 on:
   pull_request:
-    paths-ignore:
-      - 'nvim/**'
   push:
     branches:
       - main
-    paths-ignore:
-      - 'nvim/**'
 
 jobs:
-  build:
+  detect-changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      nix-config: ${{ steps.filter.outputs.nix-config }}
+      nvim: ${{ steps.filter.outputs.nvim }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            nix-config:
+              - '**'
+              - '!nvim/**'
+            nvim:
+              - 'nvim/**'
+
+  build-nix-config:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.nix-config == 'true'
     strategy:
       matrix:
         include:
@@ -40,3 +56,43 @@ jobs:
 
       - name: Build ${{ matrix.platform }} configuration
         run: nix build .#${{ matrix.build-target }} --accept-flake-config --show-trace
+
+  build-nvim:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.nvim == 'true'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: gawakawa
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Flake check
+        run: nix flake check ./nvim --accept-flake-config
+
+      - name: Build Neovim package
+        run: nix build ./nvim
+
+  ci-success:
+    needs: [detect-changes, build-nix-config, build-nvim]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify build-nix-config
+        if: needs.detect-changes.outputs.nix-config == 'true'
+        run: test "${{ needs.build-nix-config.result }}" == "success"
+
+      - name: Verify build-nvim
+        if: needs.detect-changes.outputs.nvim == 'true'
+        run: test "${{ needs.build-nvim.result }}" == "success"
