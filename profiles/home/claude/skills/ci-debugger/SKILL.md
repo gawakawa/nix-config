@@ -4,7 +4,6 @@ description: "Analyze GitHub Actions CI logs to identify failure causes. Use whe
 user-invocable: true
 allowed-tools: Bash, Grep, AskUserQuestion
 model: opus
-context: fork
 ---
 
 # CI Debugger
