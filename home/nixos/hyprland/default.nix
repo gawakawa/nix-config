@@ -265,10 +265,10 @@
         ];
 
         # Window rules
-        windowrulev2 = [
-          "suppressevent maximize, class:.*"
-          "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
-          "float, class:^(org.wezfurlong.wezterm)$"
+        windowrule = [
+          "suppress_event maximize, match:class .*"
+          "no_focus on, match:class ^$ match:title ^$ match:xwayland true match:float true match:fullscreen false match:pin false"
+          "float on, match:class ^(org.wezfurlong.wezterm)$"
         ];
       };
   };
