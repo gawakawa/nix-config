@@ -240,6 +240,14 @@
           ", F9, exec, grimblast copysave screen"
         ];
 
+        # Repeat binds for window resize
+        binde = [
+          "$mainMod CTRL, right, resizeactive, 50 0"
+          "$mainMod CTRL, left, resizeactive, -50 0"
+          "$mainMod CTRL, up, resizeactive, 0 -50"
+          "$mainMod CTRL, down, resizeactive, 0 50"
+        ];
+
         # Repeat binds for volume and brightness
         bindel = [
           ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
