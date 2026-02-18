@@ -74,6 +74,7 @@
       description = "iota";
       extraGroups = [
         "networkmanager"
+        "video"
         "wheel"
       ];
       packages = with pkgs; [
@@ -142,6 +143,7 @@
   };
 
   programs = {
+    light.enable = true;
     hyprland = {
       enable = true;
       xwayland.enable = true;
