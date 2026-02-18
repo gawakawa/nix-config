@@ -49,7 +49,10 @@
       in
       {
         # Monitor configuration
-        monitor = ",preferred,auto,1";
+        monitor = [
+          "DP-1,preferred,0x0,1" # External monitor (top, at origin)
+          "eDP-1,preferred,auto-center-down,1" # Laptop (centered below)
+        ];
 
         # Environment variables
         env = [
