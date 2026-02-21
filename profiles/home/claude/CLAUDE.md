@@ -17,12 +17,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Write comments in English.
 - Keep comments minimal—only add them when the code isn't self-explanatory.
 
-## Development Environment
+## Nix Usage Notes
 
 **Do NOT use `nix develop` or `nix shell`**. Use these alternatives instead:
 
 - **direnv**: Automatically loads the environment when entering a directory with `.envrc`. Just `cd` into the project.
 - **comma (`,`)**: Run any package temporarily without installing it. Example: `, cowsay hello`
+
+**Flake and git tracking**: Nix flakes in Git repositories only see files that have been `git add`-ed. After creating new files, run `git add <file>` before any flake evaluation (`nix build`, `nix flake check`, `nixos-rebuild`, etc.), otherwise the files will be invisible to Nix.
 
 ## Context Backup Recovery
 
