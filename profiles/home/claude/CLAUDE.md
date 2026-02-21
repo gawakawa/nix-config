@@ -25,12 +25,3 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **comma (`,`)**: Run any package temporarily without installing it. Example: `, cowsay hello`
 
 **Flake and git tracking**: Nix flakes in Git repositories only see files that have been `git add`-ed. After creating new files, run `git add <file>` before any flake evaluation (`nix build`, `nix flake check`, `nixos-rebuild`, etc.), otherwise the files will be invisible to Nix.
-
-## Context Backup Recovery
-
-Pre-compaction backups are saved automatically.
-
-**To recover context**, run:
-```bash
-~/.claude/recover-context.sh
-```
