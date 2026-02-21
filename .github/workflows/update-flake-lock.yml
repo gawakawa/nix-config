@@ -18,3 +18,17 @@ jobs:
       pr-title: "Update flake.lock"
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  label:
+    needs: update-flake-lock
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Add dependencies label
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          PR_NUMBER=$(gh pr list --repo "${{ github.repository }}" --head update-flake-lock --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --repo "${{ github.repository }}" --add-label dependencies
+          fi
