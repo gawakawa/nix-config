@@ -12,6 +12,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Never jump to solutions before understanding the problem**. Speculation without evidence leads to wrong fixes.
 
+## Git Workflow
+
+- Always use the `/commit` skill when creating commits.
+
 ## Code Style
 
 - Write comments in English.
