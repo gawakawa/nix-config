@@ -10,5 +10,3 @@ permissions:
 jobs:
   auto-merge:
     uses: gawakawa/.github/.github/workflows/dependabot-auto-merge.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
