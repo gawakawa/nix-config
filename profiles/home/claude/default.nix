@@ -20,7 +20,7 @@ in
     };
 
     settings = {
-      model = "opus";
+      model = "opusplan";
       alwaysThinkingEnabled = true;
       statusLine = {
         type = "command";
