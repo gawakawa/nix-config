@@ -22,15 +22,6 @@
         '';
         launchWezterm = pkgs.writeShellScript "launch-wezterm" ''
           wezterm &
-          ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
-            case $line in
-              openwindow*wezfurlong.wezterm*)
-                hyprctl dispatch focuswindow class:org.wezfurlong.wezterm
-                ${resizeFloating}
-                exit 0
-                ;;
-            esac
-          done
         '';
         swapFloatingTiled = pkgs.writeShellScript "swap-floating-tiled" ''
           is_floating=$(hyprctl activewindow -j | ${pkgs.jq}/bin/jq '.floating')
@@ -276,7 +267,6 @@
         windowrule = [
           "suppress_event maximize, match:class .*"
           "no_focus on, match:class ^$ match:title ^$ match:xwayland true match:float true match:fullscreen false match:pin false"
-          "float on, match:class ^(org.wezfurlong.wezterm)$"
         ];
       };
   };
