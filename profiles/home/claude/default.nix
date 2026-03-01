@@ -41,6 +41,11 @@ in
         ];
       };
       permissions = {
+        ask = [
+          "Bash(rm *)"
+          "Bash(mv *)"
+          "Bash(ln *)"
+        ];
         deny = [
           "Bash(git add -A:*)"
           "Bash(git add --all:*)"

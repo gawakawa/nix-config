@@ -77,7 +77,6 @@ _: {
         "history"
         "directory"
         "spectrum"
-        "utility"
         "completion"
         "syntax-highlighting"
         "history-substring-search"
