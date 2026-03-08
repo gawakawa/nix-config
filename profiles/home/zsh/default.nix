@@ -54,7 +54,7 @@ _: {
 
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
       flake-init() {
-          nix flake init -t "github:gawakawa/flake-templates#$1"
+          NIX_CONFIG="access-tokens = github.com=$(gh auth token)" nix flake init -t "github:gawakawa/flake-templates#$1"
       }
 
       # Push flake outputs to gawakawa cachix
