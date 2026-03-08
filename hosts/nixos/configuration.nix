@@ -143,7 +143,6 @@
   };
 
   programs = {
-    light.enable = true;
     hyprland = {
       enable = true;
       xwayland.enable = true;
@@ -159,6 +158,7 @@
 
   # Linux-specific packages
   environment.systemPackages = with pkgs; [
+    brightnessctl
     wl-clipboard
     wofi
   ];
