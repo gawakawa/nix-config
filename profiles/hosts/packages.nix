@@ -24,7 +24,7 @@
 
     # Terminal tools
     httpie
-    neofetch
+    fastfetch
     rlwrap
     codex
     claude-code
