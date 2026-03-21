@@ -38,7 +38,7 @@ jobs:
             runs-on: macos-latest
             build-target: darwinConfigurations.mac.system
     runs-on: ${{ matrix.runs-on }}
-    timeout-minutes: 10
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v6
 
