@@ -5,13 +5,13 @@
 }:
 
 let
-  version = "1.0.0-rc.1";
+  version = "0.3.4";
 
   src = pkgs.fetchFromGitHub {
     owner = "cordx56";
     repo = "rustowl";
     rev = "v${version}";
-    hash = "sha256-CXuwbg39sboKxuJTNpq3KVqjTTOQp1Af4XWZLjorHdM=";
+    hash = "sha256-pCeVLTiZk2Pv00AK2JlZ1kHrOX1V9iGNaJCdx7hIL+8=";
   };
 
   toolchain = pkgs.rust-bin.fromRustupToolchainFile "${src}/rust-toolchain.toml";
