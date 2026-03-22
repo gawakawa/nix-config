@@ -189,6 +189,12 @@
           "$mainMod, up, movefocus, u"
           "$mainMod, down, movefocus, d"
 
+          # Swap window position
+          "$mainMod SHIFT, left, swapwindow, l"
+          "$mainMod SHIFT, right, swapwindow, r"
+          "$mainMod SHIFT, up, swapwindow, u"
+          "$mainMod SHIFT, down, swapwindow, d"
+
           # Swap floating and tiled window states
           "$mainMod, Tab, exec, ${swapFloatingTiled}"
 
