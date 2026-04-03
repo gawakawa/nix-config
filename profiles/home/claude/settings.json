@@ -25,7 +25,14 @@
       "Bash(git add --all *)",
       "Bash(git add . *)",
       "Bash(git add -u *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git reset --hard *)"
+    ],
+    "ask": [
+      "Bash(git restore *)",
+      "Bash(git commit --amend *)",
+      "Bash(terraform apply *)",
+      "Bash(opentofu apply *)"
     ]
   }
 }
