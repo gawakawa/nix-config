@@ -73,6 +73,7 @@
       isNormalUser = true;
       description = "iota";
       extraGroups = [
+        "docker"
         "networkmanager"
         "video"
         "wheel"
@@ -140,6 +141,11 @@
 
   nixpkgs = {
     config.allowUnfree = true;
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
   };
 
   programs = {
