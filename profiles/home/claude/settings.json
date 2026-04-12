@@ -31,8 +31,9 @@
     "ask": [
       "Bash(git restore *)",
       "Bash(git commit --amend *)",
-      "Bash(terraform apply *)",
-      "Bash(opentofu apply *)"
+      "Bash(terraform * apply *)",
+      "Bash(opentofu * apply *)",
+      "Bash(tofu * apply *)"
     ]
   }
 }
