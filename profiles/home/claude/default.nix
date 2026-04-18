@@ -60,9 +60,9 @@ in
       };
     };
 
-    memory.source = ./CLAUDE.md;
+    context = ./CLAUDE.md;
     agentsDir = ./agents;
-    skillsDir = ./skills;
+    skills = ./skills;
   };
 
   home.file =
