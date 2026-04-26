@@ -1,3 +1,9 @@
+vim.filetype.add({
+	pattern = {
+		[".*/.github/workflows/.*%.ya?ml"] = "yaml.ghaction",
+	},
+})
+
 return {
 	name = "nvim-lint",
 	dir = "@nvim_lint@",
@@ -33,7 +39,7 @@ return {
 			terraform = { "tflint" },
 			nix = { "statix", "deadnix" },
 			lua = { "selene" },
-			yaml = { "actionlint" },
+			ghaction = { "actionlint" },
 			c = { "clangtidy" },
 			cpp = { "clangtidy" },
 			css = { "stylelint" },
