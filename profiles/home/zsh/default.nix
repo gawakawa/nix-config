@@ -44,6 +44,30 @@ _: {
           set-cachix-token "$repo"
       }
 
+      # Set flake-lock-updater GitHub App secrets
+      # Usage: set-flake-lock-updater-secrets <repo>
+      set-flake-lock-updater-secrets() {
+          local repo="$1"
+          if [[ -z "$repo" ]]; then
+              echo "Usage: set-flake-lock-updater-secrets <repo>"
+              return 1
+          fi
+          pass github/apps/flake-lock-updater/app-id | gh secret set FLAKE_LOCK_UPDATER_APP_ID -R "$repo"
+          pass github/apps/flake-lock-updater/private-key | gh secret set FLAKE_LOCK_UPDATER_PRIVATE_KEY -R "$repo"
+      }
+
+      # Set pr-branch-updater GitHub App secrets
+      # Usage: set-pr-branch-updater-secrets <repo>
+      set-pr-branch-updater-secrets() {
+          local repo="$1"
+          if [[ -z "$repo" ]]; then
+              echo "Usage: set-pr-branch-updater-secrets <repo>"
+              return 1
+          fi
+          pass github/apps/pr-branch-updater/app-id | gh secret set PR_BRANCH_UPDATER_APP_ID -R "$repo"
+          pass github/apps/pr-branch-updater/private-key | gh secret set PR_BRANCH_UPDATER_PRIVATE_KEY -R "$repo"
+      }
+
       # Create a new GitHub repo with initial commit and secrets
       init-gh-repo() {
           git commit -m '🎉 Initial commit' && \
