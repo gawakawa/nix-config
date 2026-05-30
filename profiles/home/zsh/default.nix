@@ -44,6 +44,18 @@ _: {
           set-cachix-token "$repo"
       }
 
+      # Set gawakawa-bot GitHub App secrets
+      # Usage: set-bot-secrets <repo>
+      set-bot-secrets() {
+          local repo="$1"
+          if [[ -z "$repo" ]]; then
+              echo "Usage: set-bot-secrets <repo>"
+              return 1
+          fi
+          pass github/apps/gawakawa-bot/app-id | gh secret set BOT_APP_ID -R "$repo"
+          pass github/apps/gawakawa-bot/private-key | gh secret set BOT_PRIVATE_KEY -R "$repo"
+      }
+
       # Create a new GitHub repo with initial commit and secrets
       init-gh-repo() {
           git commit -m '🎉 Initial commit' && \
