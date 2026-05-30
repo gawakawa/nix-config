@@ -2,278 +2,275 @@
   pkgs,
   ...
 }:
+let
+  resizeFloating = pkgs.writeShellScript "resize-floating" ''
+    info=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[0]')
+    w=$(echo $info | ${pkgs.jq}/bin/jq '.width')
+    h=$(echo $info | ${pkgs.jq}/bin/jq '.height')
+    rt=$(echo $info | ${pkgs.jq}/bin/jq '.reserved[1]')
+    tw=$((w * 95 / 100 - 40))
+    th=$((h - rt - 40))
+    hyprctl dispatch resizeactive exact $tw $th
+    hyprctl dispatch moveactive exact 20 $((rt + 20))
+  '';
+  launchWezterm = pkgs.writeShellScript "launch-wezterm" ''
+    wezterm &
+  '';
+  swapFloatingTiled = pkgs.writeShellScript "swap-floating-tiled" ''
+    is_floating=$(hyprctl activewindow -j | ${pkgs.jq}/bin/jq '.floating')
+    if [ "$is_floating" = "true" ]; then
+      hyprctl dispatch settiled
+      hyprctl dispatch cyclenext
+      hyprctl dispatch setfloating
+      ${resizeFloating}
+    else
+      hyprctl dispatch setfloating
+      ${resizeFloating}
+      hyprctl dispatch cyclenext
+      hyprctl dispatch settiled
+    fi
+  '';
+in
 {
   home.packages = [ pkgs.grimblast ];
 
   wayland.windowManager.hyprland = {
+    configType = "lua";
     enable = true;
     systemd.enable = true;
-    settings =
-      let
-        resizeFloating = pkgs.writeShellScript "resize-floating" ''
-          info=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[0]')
-          w=$(echo $info | ${pkgs.jq}/bin/jq '.width')
-          h=$(echo $info | ${pkgs.jq}/bin/jq '.height')
-          rt=$(echo $info | ${pkgs.jq}/bin/jq '.reserved[1]')
-          tw=$((w * 95 / 100 - 40))
-          th=$((h - rt - 40))
-          hyprctl dispatch resizeactive exact $tw $th
-          hyprctl dispatch moveactive exact 20 $((rt + 20))
-        '';
-        launchWezterm = pkgs.writeShellScript "launch-wezterm" ''
-          wezterm &
-        '';
-        swapFloatingTiled = pkgs.writeShellScript "swap-floating-tiled" ''
-          is_floating=$(hyprctl activewindow -j | ${pkgs.jq}/bin/jq '.floating')
-          if [ "$is_floating" = "true" ]; then
-            hyprctl dispatch settiled
-            hyprctl dispatch cyclenext
-            hyprctl dispatch setfloating
-            ${resizeFloating}
-          else
-            hyprctl dispatch setfloating
-            ${resizeFloating}
-            hyprctl dispatch cyclenext
-            hyprctl dispatch settiled
-          fi
-        '';
-      in
-      {
-        # Monitor configuration
-        monitor = [
-          "DP-1,preferred,0x0,1" # External monitor (top, at origin)
-          "eDP-1,preferred,auto-center-down,1" # Laptop (centered below)
-        ];
+    extraConfig = ''
+      -- Hyprland Lua Configuration
 
-        # Environment variables
-        env = [
-          "XCURSOR_SIZE,24"
-          "HYPRCURSOR_SIZE,24"
-          "GTK_IM_MODULE,fcitx"
-          "QT_IM_MODULE,fcitx"
-          "XMODIFIERS,@im=fcitx"
-          "SDL_IM_MODULE,fcitx"
-          "GLFW_IM_MODULE,ibus"
-          "INPUT_METHOD,fcitx5"
-          "IMSETTINGS_MODULE,fcitx5"
-        ];
+      ------------------
+      ---- MONITORS ----
+      ------------------
+      hl.monitor({ output = "DP-1", mode = "preferred", position = "0x0", scale = "1" })
+      hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto-center-down", scale = "1" })
 
-        # Programs
-        "$menu" = "wofi --show drun";
-        "$mainMod" = "SUPER";
+      ---------------------
+      ---- MY PROGRAMS ----
+      ---------------------
+      local mainMod = "SUPER"
+      local menu = "wofi --show drun"
 
-        # Autostart programs
-        exec-once = [
-          "fcitx5 -d"
-          "waybar"
-          "google-chrome-stable"
-          "${launchWezterm}"
-        ];
+      -------------------
+      ---- AUTOSTART ----
+      -------------------
+      hl.on("hyprland.start", function()
+        hl.exec_cmd("fcitx5 -d")
+        hl.exec_cmd("waybar")
+        hl.exec_cmd("google-chrome-stable")
+        hl.exec_cmd("${launchWezterm}")
+      end)
 
-        # General settings
+      -------------------------------
+      ---- ENVIRONMENT VARIABLES ----
+      -------------------------------
+      hl.env("XCURSOR_SIZE", "24")
+      hl.env("HYPRCURSOR_SIZE", "24")
+      hl.env("GTK_IM_MODULE", "fcitx")
+      hl.env("QT_IM_MODULE", "fcitx")
+      hl.env("XMODIFIERS", "@im=fcitx")
+      hl.env("SDL_IM_MODULE", "fcitx")
+      hl.env("GLFW_IM_MODULE", "ibus")
+      hl.env("INPUT_METHOD", "fcitx5")
+      hl.env("IMSETTINGS_MODULE", "fcitx5")
+
+      -----------------------
+      ---- LOOK AND FEEL ----
+      -----------------------
+      hl.config({
         general = {
-          gaps_in = 5;
-          gaps_out = 20;
-          border_size = 2;
-          "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-          "col.inactive_border" = "rgba(595959aa)";
-          resize_on_border = false;
-          allow_tearing = false;
-          layout = "dwindle";
-        };
+          gaps_in = 5,
+          gaps_out = 20,
+          border_size = 2,
+          col = {
+            active_border = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
+            inactive_border = "rgba(595959aa)",
+          },
+          resize_on_border = false,
+          allow_tearing = false,
+          layout = "dwindle",
+        },
 
-        # Decoration settings
         decoration = {
-          rounding = 10;
-          active_opacity = 1.0;
-          inactive_opacity = 1.0;
+          rounding = 10,
+          active_opacity = 1.0,
+          inactive_opacity = 1.0,
 
           shadow = {
-            enabled = true;
-            range = 4;
-            render_power = 3;
-            color = "rgba(1a1a1aee)";
-          };
+            enabled = true,
+            range = 4,
+            render_power = 3,
+            color = 0xee1a1a1a,
+          },
 
           blur = {
-            enabled = false;
-          };
-        };
+            enabled = false,
+          },
+        },
 
-        # Animation settings
         animations = {
-          enabled = true;
+          enabled = true,
+        },
 
-          bezier = [
-            "easeOutQuint,0.23,1,0.32,1"
-            "easeInOutCubic,0.65,0.05,0.36,1"
-            "linear,0,0,1,1"
-            "almostLinear,0.5,0.5,0.75,1.0"
-            "quick,0.15,0,0.1,1"
-          ];
-
-          animation = [
-            "global, 1, 10, default"
-            "border, 1, 5.39, easeOutQuint"
-            "windows, 1, 4.79, easeOutQuint"
-            "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
-            "windowsOut, 1, 1.49, linear, popin 87%"
-            "fadeIn, 1, 1.73, almostLinear"
-            "fadeOut, 1, 1.46, almostLinear"
-            "fade, 1, 3.03, quick"
-            "layers, 1, 3.81, easeOutQuint"
-            "layersIn, 1, 4, easeOutQuint, fade"
-            "layersOut, 1, 1.5, linear, fade"
-            "fadeLayersIn, 1, 1.79, almostLinear"
-            "fadeLayersOut, 1, 1.39, almostLinear"
-            "workspaces, 1, 1.94, almostLinear, fade"
-            "workspacesIn, 1, 1.21, almostLinear, fade"
-            "workspacesOut, 1, 1.94, almostLinear, fade"
-          ];
-        };
-
-        # Layout settings
         dwindle = {
-          pseudotile = true;
-          preserve_split = true;
-        };
+          preserve_split = true,
+        },
 
         master = {
-          new_status = "master";
-        };
+          new_status = "master",
+        },
 
-        # Misc settings
         misc = {
-          force_default_wallpaper = 1;
-          disable_hyprland_logo = false;
-        };
+          force_default_wallpaper = 1,
+          disable_hyprland_logo = false,
+        },
 
-        # Input settings
         input = {
-          kb_layout = "us";
-          follow_mouse = 1;
-          sensitivity = 0;
+          kb_layout = "us",
+          follow_mouse = 1,
+          sensitivity = 0,
 
           touchpad = {
-            natural_scroll = true;
-            scroll_factor = 0.3;
-          };
-        };
+            natural_scroll = true,
+            scroll_factor = 0.3,
+          },
+        },
+      })
 
-        # Device-specific config
-        device = {
-          name = "epic-mouse-v1";
-          sensitivity = -0.5;
-        };
+      -- Device-specific config
+      hl.device({
+        name = "epic-mouse-v1",
+        sensitivity = -0.5,
+      })
 
-        # Key bindings
-        bind = [
-          # Basic binds
-          "$mainMod, C, killactive,"
-          "$mainMod, M, exit,"
-          "$mainMod, F, exec, hyprctl dispatch setfloating && ${resizeFloating}"
-          "$mainMod, T, settiled,"
-          "$mainMod, R, exec, $menu"
-          "$mainMod, P, pseudo,"
-          "$mainMod, J, togglesplit,"
+      -----------------------
+      ---- ANIMATIONS ----
+      -----------------------
+      hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1},    {0.32, 1}    } })
+      hl.curve("easeInOutCubic", { type = "bezier", points = { {0.65, 0.05}, {0.36, 1}    } })
+      hl.curve("linear",         { type = "bezier", points = { {0, 0},       {1, 1}       } })
+      hl.curve("almostLinear",   { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}    } })
+      hl.curve("quick",          { type = "bezier", points = { {0.15, 0},    {0.1, 1}     } })
 
-          # Application shortcuts
-          "$mainMod, W, exec, ${launchWezterm}"
-          "$mainMod, B, exec, google-chrome-stable"
-          "$mainMod, S, exec, slack"
-          "$mainMod, D, exec, discord"
+      hl.animation({ leaf = "global",        enabled = true,  speed = 10,   bezier = "default" })
+      hl.animation({ leaf = "border",        enabled = true,  speed = 5.39, bezier = "easeOutQuint" })
+      hl.animation({ leaf = "windows",       enabled = true,  speed = 4.79, bezier = "easeOutQuint" })
+      hl.animation({ leaf = "windowsIn",     enabled = true,  speed = 4.1,  bezier = "easeOutQuint", style = "popin 87%" })
+      hl.animation({ leaf = "windowsOut",    enabled = true,  speed = 1.49, bezier = "linear",       style = "popin 87%" })
+      hl.animation({ leaf = "fadeIn",        enabled = true,  speed = 1.73, bezier = "almostLinear" })
+      hl.animation({ leaf = "fadeOut",       enabled = true,  speed = 1.46, bezier = "almostLinear" })
+      hl.animation({ leaf = "fade",          enabled = true,  speed = 3.03, bezier = "quick" })
+      hl.animation({ leaf = "layers",        enabled = true,  speed = 3.81, bezier = "easeOutQuint" })
+      hl.animation({ leaf = "layersIn",      enabled = true,  speed = 4,    bezier = "easeOutQuint", style = "fade" })
+      hl.animation({ leaf = "layersOut",     enabled = true,  speed = 1.5,  bezier = "linear",       style = "fade" })
+      hl.animation({ leaf = "fadeLayersIn",  enabled = true,  speed = 1.79, bezier = "almostLinear" })
+      hl.animation({ leaf = "fadeLayersOut", enabled = true,  speed = 1.39, bezier = "almostLinear" })
+      hl.animation({ leaf = "workspaces",    enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
+      hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "almostLinear", style = "fade" })
+      hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 
-          # Move focus with arrow keys
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
+      ---------------------
+      ---- KEYBINDINGS ----
+      ---------------------
 
-          # Swap window position
-          "$mainMod SHIFT, left, swapwindow, l"
-          "$mainMod SHIFT, right, swapwindow, r"
-          "$mainMod SHIFT, up, swapwindow, u"
-          "$mainMod SHIFT, down, swapwindow, d"
+      -- Basic binds
+      hl.bind(mainMod .. " + C", hl.dsp.window.close())
+      hl.bind(mainMod .. " + M", hl.dsp.exit())
+      hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("hyprctl dispatch setfloating && ${resizeFloating}"))
+      hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("hyprctl dispatch settiled"))
+      hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+      hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+      hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
 
-          # Swap floating and tiled window states
-          "$mainMod, Tab, exec, ${swapFloatingTiled}"
+      -- Application shortcuts
+      hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("${launchWezterm}"))
+      hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("google-chrome-stable"))
+      hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("discord"))
 
-          # Switch workspaces
-          "$mainMod, 1, workspace, 1"
-          "$mainMod, 2, workspace, 2"
-          "$mainMod, 3, workspace, 3"
-          "$mainMod, 4, workspace, 4"
-          "$mainMod, 5, workspace, 5"
-          "$mainMod, 6, workspace, 6"
-          "$mainMod, 7, workspace, 7"
-          "$mainMod, 8, workspace, 8"
-          "$mainMod, 9, workspace, 9"
-          "$mainMod, 0, workspace, 10"
+      -- Move focus with arrow keys
+      hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
+      hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
+      hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
+      hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
-          # Move active window to workspace
-          "$mainMod SHIFT, 1, movetoworkspace, 1"
-          "$mainMod SHIFT, 2, movetoworkspace, 2"
-          "$mainMod SHIFT, 3, movetoworkspace, 3"
-          "$mainMod SHIFT, 4, movetoworkspace, 4"
-          "$mainMod SHIFT, 5, movetoworkspace, 5"
-          "$mainMod SHIFT, 6, movetoworkspace, 6"
-          "$mainMod SHIFT, 7, movetoworkspace, 7"
-          "$mainMod SHIFT, 8, movetoworkspace, 8"
-          "$mainMod SHIFT, 9, movetoworkspace, 9"
-          "$mainMod SHIFT, 0, movetoworkspace, 10"
+      -- Swap window position
+      hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.swap({ direction = "left" }))
+      hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.swap({ direction = "right" }))
+      hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.swap({ direction = "up" }))
+      hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.swap({ direction = "down" }))
 
-          # Special workspace
-          "$mainMod, S, togglespecialworkspace, magic"
-          "$mainMod SHIFT, S, movetoworkspace, special:magic"
+      -- Swap floating and tiled window states
+      hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("${swapFloatingTiled}"))
 
-          # Scroll through workspaces
-          "$mainMod, mouse_down, workspace, e+1"
-          "$mainMod, mouse_up, workspace, e-1"
+      -- Switch workspaces with mainMod + [0-9]
+      -- Move active window to a workspace with mainMod + SHIFT + [0-9]
+      for i = 1, 10 do
+        local key = i % 10
+        hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i }))
+        hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+      end
 
-          # Input method toggle
-          "CTRL, space, exec, fcitx5-remote -t"
+      -- Special workspace (scratchpad)
+      hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
+      hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
-          # Screenshot (PrintScreen key is recognized as F9)
-          ", F9, exec, grimblast copysave screen"
-        ];
+      -- Scroll through workspaces
+      hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+      hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
-        # Repeat binds for window resize
-        binde = [
-          "$mainMod CTRL, right, resizeactive, 50 0"
-          "$mainMod CTRL, left, resizeactive, -50 0"
-          "$mainMod CTRL, up, resizeactive, 0 -50"
-          "$mainMod CTRL, down, resizeactive, 0 50"
-        ];
+      -- Input method toggle
+      hl.bind("CTRL + space", hl.dsp.exec_cmd("fcitx5-remote -t"))
 
-        # Repeat binds for volume and brightness
-        bindel = [
-          ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-          ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-          ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-          ",XF86MonBrightnessUp, exec, light -A 5"
-          ",XF86MonBrightnessDown, exec, light -U 5"
-        ];
+      -- Screenshot
+      hl.bind("F9", hl.dsp.exec_cmd("grimblast copysave screen"))
 
-        # Locked binds for media control
-        bindl = [
-          ", XF86AudioNext, exec, playerctl next"
-          ", XF86AudioPause, exec, playerctl play-pause"
-          ", XF86AudioPlay, exec, playerctl play-pause"
-          ", XF86AudioPrev, exec, playerctl previous"
-        ];
+      -- Repeat binds for window resize
+      hl.bind(mainMod .. " + CTRL + right", hl.dsp.exec_cmd("hyprctl dispatch resizeactive 50 0"),   { repeating = true })
+      hl.bind(mainMod .. " + CTRL + left",  hl.dsp.exec_cmd("hyprctl dispatch resizeactive -50 0"),  { repeating = true })
+      hl.bind(mainMod .. " + CTRL + up",    hl.dsp.exec_cmd("hyprctl dispatch resizeactive 0 -50"),  { repeating = true })
+      hl.bind(mainMod .. " + CTRL + down",  hl.dsp.exec_cmd("hyprctl dispatch resizeactive 0 50"),   { repeating = true })
 
-        # Mouse binds for moving/resizing windows
-        bindm = [
-          "$mainMod, mouse:272, movewindow"
-          "$mainMod, mouse:273, resizewindow"
-        ];
+      -- Volume and brightness
+      hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
+      hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
+      hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
+      hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
+      hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("light -A 5"),                                     { locked = true, repeating = true })
+      hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("light -U 5"),                                     { locked = true, repeating = true })
 
-        # Window rules
-        windowrule = [
-          "suppress_event maximize, match:class .*"
-          "no_focus on, match:class ^$ match:title ^$ match:xwayland true match:float true match:fullscreen false match:pin false"
-        ];
-      };
+      -- Media control
+      hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
+      hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+      hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+      hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+
+      -- Mouse binds for moving/resizing windows
+      hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+      hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+      --------------------------------
+      ---- WINDOWS AND WORKSPACES ----
+      --------------------------------
+      hl.window_rule({
+        name = "suppress-maximize-events",
+        match = { class = ".*" },
+        suppress_event = "maximize",
+      })
+
+      hl.window_rule({
+        name = "fix-xwayland-drags",
+        match = {
+          class = "^$",
+          title = "^$",
+          xwayland = true,
+          float = true,
+          fullscreen = false,
+          pin = false,
+        },
+        no_focus = true,
+      })
+    '';
   };
 }
