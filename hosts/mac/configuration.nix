@@ -118,6 +118,7 @@
         url = "https://github.com/gawakawa/${repoName}";
         tokenFile = "/var/lib/github-runners/token";
         replace = true;
+        nodeRuntimes = [ "node24" ];
         extraPackages = with pkgs; [
           cachix
           nix
