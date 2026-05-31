@@ -4,6 +4,6 @@
 
   services.gpg-agent = {
     enable = true;
-    pinentry.package = pkgs.pinentry-qt;
+    pinentry.package = pkgs.pinentry-tty;
   };
 }
