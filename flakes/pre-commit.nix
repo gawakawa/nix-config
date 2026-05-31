@@ -13,6 +13,10 @@ _: {
           settings.exclude = [ "hosts/nixos/hardware-configuration.nix" ];
         };
         actionlint.enable = true;
+        zizmor = {
+          enable = true;
+          args = [ "--offline" ];
+        };
         selene.enable = true;
         shellcheck = {
           enable = true;
