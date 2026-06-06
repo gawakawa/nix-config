@@ -1,39 +1,36 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Be concise. Don't pad sentences that can stand on their own.
 
 ## Problem-Solving Approach
 
-Always follow this order when debugging:
+When debugging, always follow this order:
 
-1. Understand the current state - Gather facts about what is actually happening
-2. Identify the root cause - Analyze the facts to determine why it's happening
-3. Propose solutions - Only after understanding the cause, suggest fixes
+1. Understand the current state
+2. Identify the root cause
+3. Propose solutions
 
-Never jump to solutions before understanding the problem. Speculation without evidence leads to wrong fixes.
+Never jump to solutions before understanding the problem.
 
 ## Git Workflow
 
-- Always use the `/commit` skill when creating commits.
-- Always use the `/pr` skill when creating pull requests.
-- Never use `git add -A`, `git add .`, or `git add --all`. Stage files explicitly by name. These commands risk accidentally committing secrets, large binaries, or unrelated changes — staging explicitly keeps every commit intentional and reviewable.
+- Use the `/commit` skill for commits, `/pr` skill for pull requests.
+- Never use `git add -A`, `git add .`, or `git add --all`. Stage files explicitly by name.
 
 ## Planning
 
-- When planning, split the work into appropriately-sized tasks and track progress with the task tool.
-- An appropriate unit is one small enough to revert cleanly if a problem arises.
+- Split work into tasks small enough to revert cleanly if needed, and track progress with the task tool.
 - Commit each completed task with the `/commit` skill.
 
 ## Code Style
 
-- Write comments in English.
-- Keep comments minimal—only add them when the code isn't self-explanatory.
+- Write comments in English, only when the code isn't self-explanatory.
 
 ## Nix Usage Notes
 
-Do NOT use `nix develop` or `nix shell`. Use these alternatives instead:
+Never use `nix develop` or `nix shell`. Instead:
 
-- direnv: Automatically loads the environment when entering a directory with `.envrc`. Just `cd` into the project.
-- comma (`,`): Run any package temporarily without installing it. Example: `, cowsay hello`
+- direnv: loads automatically on `cd`.
+- comma (`,`): run packages without installing. Example: `, cowsay hello`
 
-Flake and git tracking: Nix flakes in Git repositories only see files that have been `git add`-ed. After creating new files, run `git add <file>` before any flake evaluation (`nix build`, `nix flake check`, `nixos-rebuild`, etc.), otherwise the files will be invisible to Nix.
+New files are invisible to flake eval until `git add`-ed. Run `git add <file>` before `nix build`, `nix flake check`, `nixos-rebuild`, etc.
