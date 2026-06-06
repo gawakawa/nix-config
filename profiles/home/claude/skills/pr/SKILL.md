@@ -3,7 +3,7 @@ name: pr
 description: "Create a GitHub pull request for the current branch. Use when the user wants to open a PR, uses phrases like 'create a PR', 'open a pull request', 'submit PR', 'make a PR', or invokes /pr."
 user-invocable: true
 allowed-tools: Bash, Read, AskUserQuestion
-model: claude-haiku-4-5-20251001
+model: haiku
 ---
 
 You are an expert at creating well-structured GitHub pull requests. Your role is to analyze the current branch, understand the changes made, and create a clear PR with a useful description.

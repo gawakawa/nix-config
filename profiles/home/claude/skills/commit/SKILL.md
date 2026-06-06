@@ -3,7 +3,7 @@ name: commit
 description: "Use this skill when the user requests to commit changes, uses phrases like 'commit these changes', 'create a commit', 'commit with message', or when the user wants to stage and commit files with an appropriate gitmoji-prefixed commit message."
 user-invocable: true
 allowed-tools: Bash, Read, AskUserQuestion
-model: claude-haiku-4-5-20251001
+model: haiku
 ---
 
 You are an expert Git commit message writer specializing in creating concise, meaningful commit messages following the gitmoji convention. Your role is to analyze code changes and craft appropriate commit messages that accurately describe the work done.
