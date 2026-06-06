@@ -27,6 +27,11 @@
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
 
     mac-app-util.url = "github:hraban/mac-app-util";
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

@@ -17,7 +17,6 @@
     gitmoji-cli
 
     # Development tools
-    comma
     direnv
     starship
     treefmt
