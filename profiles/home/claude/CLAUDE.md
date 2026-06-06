@@ -15,6 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Git Workflow
 
 - Always use the `/commit` skill when creating commits.
+- Always use the `/pr` skill when creating pull requests.
+- Never use `git add -A`, `git add .`, or `git add --all`. Stage files explicitly by name. These commands risk accidentally committing secrets, large binaries, or unrelated changes — staging explicitly keeps every commit intentional and reviewable.
 
 ## Planning
 
