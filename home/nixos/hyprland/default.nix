@@ -72,7 +72,7 @@ in
       hl.env("QT_IM_MODULE", "fcitx")
       hl.env("XMODIFIERS", "@im=fcitx")
       hl.env("SDL_IM_MODULE", "fcitx")
-      hl.env("GLFW_IM_MODULE", "ibus")
+      hl.env("GLFW_IM_MODULE", "fcitx")
       hl.env("INPUT_METHOD", "fcitx5")
       hl.env("IMSETTINGS_MODULE", "fcitx5")
 
@@ -219,9 +219,6 @@ in
       -- Scroll through workspaces
       hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
       hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
-
-      -- Input method toggle
-      hl.bind("CTRL + space", hl.dsp.exec_cmd("fcitx5-remote -t"))
 
       -- Screenshot
       hl.bind("F9", hl.dsp.exec_cmd("grimblast copysave screen"))
