@@ -3,6 +3,7 @@ name: migrate-to-github-app
 description: "Migrate GitHub Actions from PAT to GitHub App auth."
 user-invocable: true
 disable-model-invocation: true
+allowed-tools: Read, Edit, Write, TaskCreate, AskUserQuestion, Bash(ls:*), Bash(sleep:*), Bash(gh secret list:*), Bash(gh run list:*), Bash(gh run watch:*), Bash(gh workflow run:*)
 model: sonnet
 ---
 
