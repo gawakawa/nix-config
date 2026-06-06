@@ -2,6 +2,7 @@
 name: skill-creator
 description: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.
 license: Complete terms in LICENSE.txt
+user-invocable: true
 model: sonnet
 ---
 
@@ -304,13 +305,14 @@ Any example files and directories not needed for the skill should be deleted. Th
 
 ##### Frontmatter
 
-Write the YAML frontmatter with `name`, `description`, and `model`:
+Write the YAML frontmatter with `name`, `description`, `user-invocable`, and `model`:
 
 - `name`: The skill name
 - `description`: This is the primary triggering mechanism for your skill, and helps Claude understand when to use the skill.
   - Include both what the Skill does and specific triggers/contexts for when to use it.
   - Include all "when to use" information here - Not in the body. The body is only loaded after triggering, so "When to Use This Skill" sections in the body are not helpful to Claude.
   - Example description for a `docx` skill: "Comprehensive document creation, editing, and analysis with support for tracked changes, comments, formatting preservation, and text extraction. Use when Claude needs to work with professional documents (.docx files) for: (1) Creating new documents, (2) Modifying or editing content, (3) Working with tracked changes, (4) Adding comments, or any other document tasks"
+- `user-invocable`: Whether the user can invoke this skill directly with `/skill-name`. Always specify `true` or `false` explicitly.
 - `model`: The model to use when this skill runs. Always specify using the short alias form: `haiku`, `sonnet`, or `opus`.
 
 ##### Body
