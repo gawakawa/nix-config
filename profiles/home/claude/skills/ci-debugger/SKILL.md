@@ -2,6 +2,7 @@
 name: ci-debugger
 description: "Analyze GitHub Actions CI logs to identify failure causes. Use when user wants to debug CI failures, investigate workflow errors, or understand why a build failed. Triggers on phrases like 'debug CI', 'why did CI fail', 'analyze workflow failure', 'check CI logs', 'CIが失敗しています', 'CIが落ちた', 'ワークフローのエラーを調査', 'ビルドが失敗した'. Accepts run ID or PR number as argument."
 user-invocable: true
+disable-model-invocation: false
 allowed-tools: Bash, Grep, AskUserQuestion
 model: opus
 ---

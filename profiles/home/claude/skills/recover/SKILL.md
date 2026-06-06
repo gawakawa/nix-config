@@ -2,6 +2,7 @@
 name: recover
 description: "Recover pre-compaction context from backup transcripts. Use when the user wants to restore conversation context after compaction, uses phrases like 'recover context', 'restore backup', or invokes /recover."
 user-invocable: true
+disable-model-invocation: true
 allowed-tools: Bash
 model: haiku
 ---
