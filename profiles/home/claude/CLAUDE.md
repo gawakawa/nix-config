@@ -16,6 +16,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - Always use the `/commit` skill when creating commits.
 
+## Planning
+
+- When planning, split the work into appropriately-sized tasks and track progress with the task tool.
+- An appropriate unit is one small enough to revert cleanly if a problem arises.
+- Commit each completed task with the `/commit` skill.
+
 ## Code Style
 
 - Write comments in English.
