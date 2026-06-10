@@ -28,5 +28,6 @@
     codex
     claude-code
     tdf
+    xdg-user-dirs
   ];
 }
