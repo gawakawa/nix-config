@@ -27,5 +27,6 @@
     rlwrap
     codex
     claude-code
+    tdf
   ];
 }
