@@ -28,11 +28,6 @@ _: {
 
       # Set GitHub Actions secrets
       # Usage: <func> [repo] (default: gawakawa/<current-dir>)
-      set-flake-update-token() {
-          local repo="''${1:-gawakawa/$(basename "$PWD")}"
-          gh secret set GH_TOKEN -b "$(pass show github/pat-flake-update)" -R "$repo"
-      }
-
       set-cachix-token() {
           local repo="''${1:-gawakawa/$(basename "$PWD")}"
           gh secret set CACHIX_AUTH_TOKEN -b "$(pass show cachix/auth-token)" -R "$repo"
@@ -40,7 +35,7 @@ _: {
 
       set-all-secrets() {
           local repo="''${1:-gawakawa/$(basename "$PWD")}"
-          set-flake-update-token "$repo"
+          set-bot-secrets "$repo"
           set-cachix-token "$repo"
       }
 
