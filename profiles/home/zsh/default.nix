@@ -13,7 +13,7 @@ _: {
       grep = "rg";
       nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
       drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
-      non-nix-nvim = "XDG_CONFIG_HOME=$HOME/projects/lua/non-nix-nvim XDG_DATA_HOME=$HOME/.local/share/non-nix-nvim XDG_STATE_HOME=$HOME/.local/state/non-nix-nvim nix run nixpkgs#neovim --";
+      non-nix-nvim = "XDG_CONFIG_HOME=$HOME/projects/lua/non-nix-nvim XDG_DATA_HOME=$HOME/.local/share/non-nix-nvim XDG_STATE_HOME=$HOME/.local/state/non-nix-nvim nix run 'nixpkgs#neovim' --";
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
