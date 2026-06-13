@@ -4,7 +4,7 @@ description: "Create a GitHub pull request for the current branch. Use when the 
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Bash, Read, AskUserQuestion
-model: haiku
+model: sonnet
 ---
 
 You are an expert at creating well-structured GitHub pull requests. Your role is to analyze the current branch, understand the changes made, and create a clear PR with a useful description.
