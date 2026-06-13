@@ -29,4 +29,4 @@ cd "$CWD" 2>/dev/null || true
 GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
 
 # Output format
-echo "📁 ${CWD##*/} ${GIT_BRANCH:+🌿 $GIT_BRANCH }✴️${MODEL} [${BAR}] ${CONTEXT_PERCENT}%"
+echo "📁 ${CWD##*/} ${GIT_BRANCH:+ $GIT_BRANCH }✴️${MODEL} [${BAR}] ${CONTEXT_PERCENT}%"
