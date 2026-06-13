@@ -5,8 +5,7 @@ _: {
       PASSWORD_STORE_DIR = "$HOME/.password-store";
     };
     shellAliases = {
-      v = "nvim";
-      nvim = "nix run ~/.config/nix-config/nvim --";
+      v = "nix run ~/.config/nix-config/nvim --";
       c = "claude";
       ccr = "OPENROUTER_API_KEY=$(pass show openrouter/api-key) command ccr code";
       ls = "eza -a";
