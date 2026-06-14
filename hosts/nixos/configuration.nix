@@ -124,6 +124,7 @@
         variant = "";
       };
     };
+    resolved.enable = true; # local DNS cache via stub resolver (127.0.0.53)
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
