@@ -124,6 +124,10 @@
         variant = "";
       };
     };
+    resolved = {
+      enable = true; # local DNS cache via stub resolver (127.0.0.53)
+      settings.Resolve.LLMNR = "false"; # disable LLMNR to prevent link-local name poisoning
+    };
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
