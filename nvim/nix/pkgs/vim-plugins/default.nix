@@ -116,13 +116,7 @@ let
 
   rustowl-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "rustowl";
-    version = "1.0.0-rc.1";
-    src = pkgs.fetchFromGitHub {
-      owner = "cordx56";
-      repo = "rustowl";
-      rev = "v1.0.0-rc.1";
-      hash = "sha256-CXuwbg39sboKxuJTNpq3KVqjTTOQp1Af4XWZLjorHdM=";
-    };
+    inherit (pkgs.callPackage ../rustowl/source.nix { }) version src;
   };
 
   claude-code-nvim = pkgs.vimUtils.buildVimPlugin {
