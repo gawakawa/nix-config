@@ -65,8 +65,6 @@
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
-    # Realtek RTL8852BE のパワーセーブが idle 復帰レイテンシ(~90ms)と
-    # スループット乱高下(45-135Mbps)を招くため無効化する。
     networkmanager.wifi.powersave = false;
   };
 
