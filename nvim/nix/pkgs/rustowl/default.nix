@@ -5,13 +5,13 @@
 }:
 
 let
-  version = "0.3.4";
+  version = "0.4.0";
 
   src = pkgs.fetchFromGitHub {
     owner = "cordx56";
     repo = "rustowl";
     rev = "v${version}";
-    hash = "sha256-pCeVLTiZk2Pv00AK2JlZ1kHrOX1V9iGNaJCdx7hIL+8=";
+    hash = "sha256-ULjCCcU1wFfFrRmjky3E25WD0YN7ighSPLj36PqSUG8=";
   };
 
   toolchain = pkgs.rust-bin.fromRustupToolchainFile "${src}/rust-toolchain.toml";
@@ -36,6 +36,9 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [ pkgs.zlib ];
+
+  # Integration tests invoke a prebuilt target/release/rustowl, absent in the Nix sandbox
+  doCheck = false;
 
   RUSTOWL_TOOLCHAIN = toolchainTOML.toolchain.channel;
   RUSTUP_TOOLCHAIN = toolchainName;

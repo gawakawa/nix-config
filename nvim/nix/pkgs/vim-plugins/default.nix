@@ -116,12 +116,12 @@ let
 
   rustowl-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "rustowl";
-    version = "1.0.0-rc.1";
+    version = "0.4.0";
     src = pkgs.fetchFromGitHub {
       owner = "cordx56";
       repo = "rustowl";
-      rev = "v1.0.0-rc.1";
-      hash = "sha256-CXuwbg39sboKxuJTNpq3KVqjTTOQp1Af4XWZLjorHdM=";
+      rev = "v0.4.0";
+      hash = "sha256-ULjCCcU1wFfFrRmjky3E25WD0YN7ighSPLj36PqSUG8=";
     };
   };
 
