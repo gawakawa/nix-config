@@ -17,6 +17,11 @@
     };
   };
 
+  xdg.configFile."fcitx5/conf/fcitx5-skk.conf".text = ''
+    [Behavior]
+    InitialInputMode=0
+  '';
+
   xdg.dataFile."fcitx5/skk/dictionary_list".text = ''
     type=file,file=${config.xdg.dataHome}/fcitx5/skk/user.dict,mode=readwrite
     type=file,file=${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L,mode=readonly
