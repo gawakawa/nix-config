@@ -15,6 +15,8 @@
 
       pull.rebase = false;
       push.autoSetupRemote = true;
+
+      ghq.root = "~/projects";
     };
   };
 }
