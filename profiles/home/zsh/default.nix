@@ -73,6 +73,18 @@ _: {
           fi
           nix build "$1" --json | jq -r '.[].outputs | to_entries[].value' | cachix push gawakawa
       }
+
+      # Select a ghq-managed repository with fzf (preview README) and cd into it
+      ghq-fzf() {
+          local src=$(ghq list | fzf --preview "bat --color=always --style=header,grid --line-range :80 $(ghq root)/{}/README.*")
+          if [ -n "$src" ]; then
+              BUFFER="cd $(ghq root)/$src"
+              zle accept-line
+          fi
+          zle -R -c
+      }
+      zle -N ghq-fzf
+      bindkey '^g' ghq-fzf
     '';
     prezto = {
       enable = true;
