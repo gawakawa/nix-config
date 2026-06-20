@@ -15,6 +15,7 @@
     git
     gh
     gitmoji-cli
+    ghq
 
     # Development tools
     direnv
