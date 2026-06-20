@@ -41,6 +41,12 @@ in
         ];
       };
       permissions = {
+        allow = [
+          "Skill(commit)"
+          "Skill(pr)"
+          "Skill(ci-debugger)"
+          "Skill(skill-creator)"
+        ];
         ask = [
           "Bash(rm *)"
           "Bash(mv *)"
