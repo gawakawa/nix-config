@@ -108,6 +108,11 @@
       LC_TELEPHONE = "ja_JP.UTF-8";
       LC_TIME = "ja_JP.UTF-8";
     };
+    inputMethod = {
+      type = "fcitx5";
+      enable = true;
+      fcitx5.addons = [ pkgs.fcitx5-mozc ];
+    };
   };
 
   services = {
