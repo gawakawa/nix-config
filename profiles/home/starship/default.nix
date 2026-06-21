@@ -6,9 +6,6 @@ let
   # Directory icons
   nf-md-folder_home = "󱂵 ";
   nf-md-folder_cog = "󱁿 ";
-  nf-dev-rust = "";
-  nf-dev-typescript = "";
-  nf-dev-nixos = "";
   nf-dev-github = ""; # U+E709
 
   # Directory paths
@@ -41,9 +38,6 @@ in
         home_symbol = nf-md-folder_home;
         substitutions = {
           "${nf-md-folder_home}/.config" = nf-md-folder_cog;
-          "${devDir}nix" = "${nf-dev-nixos} ";
-          "${devDir}rust" = "${nf-dev-rust} ";
-          "${devDir}typescript" = "${nf-dev-typescript} ";
           "${devDir}github.com" = "${nf-dev-github} ";
         };
       };
