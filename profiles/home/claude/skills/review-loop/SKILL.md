@@ -22,17 +22,11 @@ Arm the goal, then invoke the skill:
 /review-loop high
 ```
 
-While the condition is unmet, `/goal`'s Stop hook re-drives another turn; this
-skill's instructions stay in context, so each re-drive runs one more iteration.
-When a round prints `REVIEW-LOOP-STATUS: CLEAN` (or iteration 5 is reached) the
-goal auto-clears and the loop ends. Press Esc to stop early. (`/goal` is
-user-only and can't be set from a skill, so you type that one line to arm it.)
+Press Esc to stop early. (`/goal` is user-only and can't be set from a skill, so you type that one line to arm it.)
 
 ## One iteration
 
-Every turn — including each `/goal` re-drive — execute this whole section from
-step 1, starting with a **fresh** `/code-review`. Never re-emit a status off a
-previous round or work from stale findings.
+Run steps 1–5 in order, starting with a **fresh** `/code-review` each time.
 
 **Effort**: use the argument if provided (low|medium|high|max); else `high`.
 
@@ -42,25 +36,20 @@ previous round or work from stale findings.
    already shows changes, tell the user that the branch has pre-existing uncommitted
    work — the commit step asks which files to stage, so it won't be swept in without
    their selection.
-2. **Triage** — dispatch a read-only Plan subagent (Agent, `subagent_type: Plan`)
-   with the findings. Following the global problem-solving order (understand →
-   root cause → fix), return per finding: `needs_fix` (bool), `reason`,
-   `root_cause`, `fix_plan`. Constraint: analysis only — use **only** Read, Grep,
-   and Glob; do **not** run Bash, and do not edit or write any files.
+2. **Triage** — dispatch a Plan subagent (Agent, `subagent_type: Plan`) with the
+   findings. Per finding return: `needs_fix` (bool), `reason`, `root_cause`,
+   `fix_plan`. Use only Read, Grep, and Glob — do not run Bash.
 3. **Surface** — print the triage as a markdown `[FIX]/[SKIP]` list before any
    fix lands.
 4. **Act**:
    - If any finding needs fixing → apply each `fix_plan` (Edit/Write/Bash). Do
      **not** commit. RESULT = `FIXED`.
-   - If nothing needs fixing → RESULT = `CLEAN`. If `git status --short` shows
-     uncommitted fixes from earlier rounds, run `/commit` once to land them (the
-     commit skill confirms which files to stage).
+   - If nothing needs fixing → RESULT = `CLEAN`.
 5. **Conclude**:
+   - If RESULT is `CLEAN`, run `git status --short`; if non-empty, run `/commit`
+     once (the commit skill confirms which files to stage).
    - Run `git status --short`. If it shows uncommitted changes, say so **loudly**
-     and list them — this covers a `FIXED` round (fixes commit on the final `CLEAN`
-     round, or await your decision if the cap stops the loop here) and a `CLEAN`
-     round whose `/commit` did not land (a stuck commit is for you to resolve, not a
-     reason to re-review).
+     and list them.
    - Set `N` = the iteration number on the most recent prior `REVIEW-LOOP-STATUS:`
      line in this conversation, + 1 (or `1` if none). If `N == 1` and RESULT is
      `FIXED`, remind the user that a bare `/review-loop` runs once — to repeat
