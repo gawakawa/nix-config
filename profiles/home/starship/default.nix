@@ -38,7 +38,7 @@ in
         home_symbol = nf-md-home;
         substitutions = {
           "${nf-md-home}/.config" = nf-md-folder_cog;
-          "${devDir}github.com" = "${nf-dev-github}";
+          "${devDir}github.com" = "${nf-dev-github} ";
         };
       };
 
