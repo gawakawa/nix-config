@@ -17,6 +17,11 @@ Guidance for Claude Code in this repository.
 - Format: `nix fmt` · Check: `nix flake check` (includes treefmt format check)
 - Pre-commit hooks auto-load via direnv; defined in `flakes/pre-commit.nix`.
 
+## Local repos (ghq + gwq)
+
+- ghq clones flat to `~/projects/github.com/<owner>/<repo>`.
+- gwq manages worktrees beside them at `~/projects/github.com/<owner>/<repo>=<branch>`.
+
 ## Layout
 
 flake-parts config for NixOS (x86_64-linux) + Darwin (aarch64-darwin).

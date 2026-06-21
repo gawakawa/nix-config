@@ -3,6 +3,7 @@ _: {
     enable = true;
     sessionVariables = {
       NIXCFG_DIR = "$HOME/projects/github.com/gawakawa/nix-config";
+      GH_OWNER = "gawakawa";
     };
     shellAliases = {
       v = "nix run \"$NIXCFG_DIR/nvim\" --";
@@ -27,16 +28,17 @@ _: {
       }
 
       # Set GitHub Actions secrets
-      # Usage: <func> [repo] (default: gawakawa/<current-dir>)
+      # Usage: <func> [repo] (default: $GH_OWNER/<current-dir>)
       set-cachix-token() {
-          local repo="''${1:-gawakawa/$(basename "$PWD")}"
-          gh secret set CACHIX_AUTH_TOKEN -b "$(pass show cachix/auth-token)" -R "$repo"
+          local repo="''${1:-$GH_OWNER/$(basename "$PWD")}"
+          local token
+          token="$(pass show cachix/auth-token)" && \
+          gh secret set CACHIX_AUTH_TOKEN -b "$token" -R "$repo"
       }
 
       set-all-secrets() {
-          local repo="''${1:-gawakawa/$(basename "$PWD")}"
-          set-bot-secrets "$repo"
-          set-cachix-token "$repo"
+          local repo="''${1:-$GH_OWNER/$(basename "$PWD")}"
+          set-bot-secrets "$repo" && set-cachix-token "$repo"
       }
 
       # Set gawakawa-bot GitHub App secrets
@@ -47,21 +49,32 @@ _: {
               echo "Usage: set-bot-secrets <repo>"
               return 1
           fi
-          pass github/apps/gawakawa-bot/app-id | gh secret set BOT_APP_ID -R "$repo"
-          pass github/apps/gawakawa-bot/private-key | gh secret set BOT_PRIVATE_KEY -R "$repo"
+          local app_id private_key
+          app_id="$(pass github/apps/gawakawa-bot/app-id)" && \
+          private_key="$(pass github/apps/gawakawa-bot/private-key)" && \
+          gh secret set BOT_APP_ID -b "$app_id" -R "$repo" && \
+          gh secret set BOT_PRIVATE_KEY -b "$private_key" -R "$repo"
       }
 
-      # Create a new GitHub repo with initial commit and secrets
+      # Create a new GitHub repo and clone it into the ghq/gwq structure
+      # Usage: init-gh-repo <name>
       init-gh-repo() {
-          git commit -m '🎉 Initial commit' && \
-          gh repo create --public --source=. --push && \
-          gh repo edit --enable-auto-merge --delete-branch-on-merge --allow-update-branch && \
-          set-all-secrets
+          local name="$1"
+          if [[ -z "$name" || "$name" == */* ]]; then
+              echo "Usage: init-gh-repo <name> (no slashes)"
+              return 1
+          fi
+          local repo="$GH_OWNER/$name"
+          gh repo create "$repo" --public && \
+          gh repo edit "$repo" --enable-auto-merge --delete-branch-on-merge --allow-update-branch && \
+          ghq get "$repo" && \
+          set-all-secrets "$repo" && \
+          cd "$(ghq root)/github.com/$repo"
       }
 
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
       flake-init() {
-          NIX_CONFIG="access-tokens = github.com=$(gh auth token)" nix flake init -t "github:gawakawa/flake-templates#$1"
+          NIX_CONFIG="access-tokens = github.com=$(gh auth token)" nix flake init -t "github:$GH_OWNER/flake-templates#$1"
       }
 
       # Push flake outputs to gawakawa cachix
