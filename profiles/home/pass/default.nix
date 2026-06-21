@@ -1,8 +1,9 @@
+{ config, ... }:
 {
   programs.password-store = {
     enable = true;
     settings = {
-      PASSWORD_STORE_DIR = "$XDG_DATA_HOME/password-store";
+      PASSWORD_STORE_DIR = "${config.home.homeDirectory}/projects/github.com/gawakawa/password-store";
     };
   };
 }
