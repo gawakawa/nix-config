@@ -69,6 +69,7 @@ in
           "Skill(pr)"
           "Skill(ci-debugger)"
           "Skill(skill-creator)"
+          "Skill(review-loop)"
         ];
         ask = [
           "Bash(rm *)"
