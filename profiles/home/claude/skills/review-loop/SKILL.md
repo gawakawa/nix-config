@@ -41,7 +41,7 @@ Dispatch a read-only Plan subagent (Agent tool, `subagent_type: Plan`) with:
 - The full findings from Step 2.
 - The current codebase context (relevant files if needed).
 - Instruction: follow the global problem-solving order — understand the current state, identify the root cause, then propose a fix. For each finding return a JSON-like structured assessment: `needs_fix` (bool), `reason` (why or why not), `root_cause` (if needs_fix), `fix_plan` (concrete steps if needs_fix).
-- Constraint: the subagent must NOT edit or write files and must NOT run Bash commands that write to files (no output redirections, no file-creating tools) — analysis only.
+- Constraint: analysis only — use **only** Read, Grep, and Glob to inspect code. Do **not** run Bash, and do not edit or write any files.
 
 ### Step 4: Surface triage
 
