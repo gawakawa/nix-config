@@ -14,7 +14,7 @@ in
       KeepAlive = true;
       EnvironmentVariables = {
         GNUPGHOME = "${config.home.homeDirectory}/.gnupg";
-        PASSWORD_STORE_DIR = "${config.home.homeDirectory}/.password-store";
+        PASSWORD_STORE_DIR = config.programs.password-store.settings.PASSWORD_STORE_DIR;
       };
     };
   };
