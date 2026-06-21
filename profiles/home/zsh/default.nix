@@ -102,7 +102,7 @@ _: {
           local repo="$GH_OWNER/$name"
           gh repo create "$repo" --public && \
           gh repo edit "$repo" --enable-auto-merge --delete-branch-on-merge --allow-update-branch && \
-          ghq get "$repo" && \
+          ghq get -p "$repo" && \
           set-all-secrets "$repo" && \
           cd "$(ghq root)/github.com/$repo" || return 1
           if [[ -n "$template" ]]; then
