@@ -22,6 +22,7 @@ in
 
     settings = {
       model = "opusplan";
+      advisorModel = "opus";
       alwaysThinkingEnabled = true;
       statusLine = {
         type = "command";
