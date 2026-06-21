@@ -38,7 +38,10 @@ previous round or work from stale findings.
 
 1. **Review** — invoke the code-review skill via the Skill tool, passing effort
    as the positional arg (e.g. `args: "high"`). Never `--fix`/`--ultra`. Capture
-   the findings.
+   the findings. On the **first** iteration (`N` will be 1), if `git status --short`
+   already shows changes, tell the user that the branch has pre-existing uncommitted
+   work — the commit step asks which files to stage, so it won't be swept in without
+   their selection.
 2. **Triage** — dispatch a read-only Plan subagent (Agent, `subagent_type: Plan`)
    with the findings. Following the global problem-solving order (understand →
    root cause → fix), return per finding: `needs_fix` (bool), `reason`,
@@ -49,18 +52,23 @@ previous round or work from stale findings.
 4. **Act**:
    - If any finding needs fixing → apply each `fix_plan` (Edit/Write/Bash). Do
      **not** commit. RESULT = `FIXED`.
-   - If nothing needs fixing → if `git status` / `git diff main...HEAD` shows
-     uncommitted fixes from earlier rounds, run `/commit` once to land them all.
-     RESULT = `CLEAN`.
-5. **Conclude** — set `N` = the iteration number on the most recent prior
-   `REVIEW-LOOP-STATUS:` line in this conversation, + 1 (or `1` if none), and
-   print as the **final line**, exactly:
+   - If nothing needs fixing → RESULT = `CLEAN`. If `git status --short` shows
+     uncommitted fixes from earlier rounds, run `/commit` once to land them (the
+     commit skill confirms which files to stage).
+5. **Conclude**:
+   - Run `git status --short`. If it shows uncommitted changes, say so **loudly**
+     and list them — this covers a `FIXED` round (fixes commit on the final `CLEAN`
+     round, or await your decision if the cap stops the loop here) and a `CLEAN`
+     round whose `/commit` did not land (a stuck commit is for you to resolve, not a
+     reason to re-review).
+   - Set `N` = the iteration number on the most recent prior `REVIEW-LOOP-STATUS:`
+     line in this conversation, + 1 (or `1` if none). If `N == 1` and RESULT is
+     `FIXED`, remind the user that a bare `/review-loop` runs once — to repeat
+     automatically, arm a `/goal` as shown in **Run it as a loop**.
+   - Print as the **final line**, exactly:
 
    ```
    REVIEW-LOOP-STATUS: <RESULT> | iteration <N>
    ```
 
    This line is the only thing `/goal` reads to decide whether to re-drive.
-
-If the loop stops on the turn cap while RESULT was `FIXED`, the applied fixes are
-left **uncommitted** for the user to review and decide on.
