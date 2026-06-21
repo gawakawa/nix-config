@@ -57,11 +57,46 @@ _: {
       }
 
       # Create a new GitHub repo and clone it into the ghq/gwq structure
-      # Usage: init-gh-repo <name>
+      # Usage: init-gh-repo <name> [-t <template>]
+      #   -t <template>  apply a flake template from gawakawa/flake-templates,
+      #                  then commit & push the initialized repo
       init-gh-repo() {
-          local name="$1"
-          if [[ -z "$name" || "$name" == */* ]]; then
-              echo "Usage: init-gh-repo <name> (no slashes)"
+          local name="" template=""
+          while [[ $# -gt 0 ]]; do
+              case "$1" in
+                  -t)
+                      if [[ -z "$2" ]]; then
+                          echo "Usage: init-gh-repo <name> -t <template>"
+                          return 1
+                      fi
+                      if [[ -n "$template" ]]; then
+                          echo "Usage: init-gh-repo <name> [-t <template>] (one template only)"
+                          return 1
+                      fi
+                      template="$2"
+                      shift 2
+                      ;;
+                  -*)
+                      echo "init-gh-repo: unknown option: $1"
+                      echo "Usage: init-gh-repo <name> [-t <template>]"
+                      return 1
+                      ;;
+                  *)
+                      if [[ -n "$name" ]]; then
+                          echo "Usage: init-gh-repo <name> [-t <template>] (one name only)"
+                          return 1
+                      fi
+                      name="$1"
+                      shift
+                      ;;
+              esac
+          done
+          if [[ -z "$name" ]]; then
+              echo "Usage: init-gh-repo <name> [-t <template>]"
+              return 1
+          fi
+          if [[ "$name" == */* ]]; then
+              echo "init-gh-repo: name must not contain slashes: $name"
               return 1
           fi
           local repo="$GH_OWNER/$name"
@@ -69,12 +104,22 @@ _: {
           gh repo edit "$repo" --enable-auto-merge --delete-branch-on-merge --allow-update-branch && \
           ghq get "$repo" && \
           set-all-secrets "$repo" && \
-          cd "$(ghq root)/github.com/$repo"
+          cd "$(ghq root)/github.com/$repo" || return 1
+          if [[ -n "$template" ]]; then
+              flake-init "$template" && \
+              git add -A && \
+              git commit -m ":tada: Initialize from $template template" && \
+              git push -u origin HEAD
+          fi
       }
 
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
       flake-init() {
-          NIX_CONFIG="access-tokens = github.com=$(gh auth token)" nix flake init -t "github:$GH_OWNER/flake-templates#$1"
+          NIX_CONFIG="access-tokens = github.com=$(gh auth token)" \
+              nix flake init -t "github:$GH_OWNER/flake-templates#$1" || {
+              echo "flake-init: failed to initialize template '$1' from github:$GH_OWNER/flake-templates" >&2
+              return 1
+          }
       }
 
       # Push flake outputs to gawakawa cachix
