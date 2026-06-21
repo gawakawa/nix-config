@@ -4,14 +4,12 @@ let
   arrow = ""; # U+E0B0 solid right arrow
 
   # Directory icons
-  nf-md-folder_home = "󱂵 ";
+  nf-md-home = "󰋜 ";
   nf-md-folder_cog = "󱁿 ";
-  nf-dev-rust = "";
-  nf-dev-typescript = "";
-  nf-dev-nixos = "";
+  nf-dev-github = ""; # U+E709
 
   # Directory paths
-  devDir = "${nf-md-folder_home}/projects/";
+  devDir = "${nf-md-home}/projects/";
 
   # Git
   gitBranchSymbol = "";
@@ -37,12 +35,10 @@ in
         format = "[$path ]($style)";
         truncation_length = 0;
         truncate_to_repo = false;
-        home_symbol = nf-md-folder_home;
+        home_symbol = nf-md-home;
         substitutions = {
-          "${nf-md-folder_home}/.config" = nf-md-folder_cog;
-          "${devDir}nix" = "${nf-dev-nixos} ";
-          "${devDir}rust" = "${nf-dev-rust} ";
-          "${devDir}typescript" = "${nf-dev-typescript} ";
+          "${nf-md-home}/.config" = nf-md-folder_cog;
+          "${devDir}github.com" = "${nf-dev-github} ";
         };
       };
 
