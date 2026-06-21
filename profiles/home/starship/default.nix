@@ -9,6 +9,7 @@ let
   nf-dev-rust = "";
   nf-dev-typescript = "";
   nf-dev-nixos = "";
+  nf-dev-github = ""; # U+E709
 
   # Directory paths
   devDir = "${nf-md-folder_home}/projects/";
@@ -43,6 +44,7 @@ in
           "${devDir}nix" = "${nf-dev-nixos} ";
           "${devDir}rust" = "${nf-dev-rust} ";
           "${devDir}typescript" = "${nf-dev-typescript} ";
+          "${devDir}github.com" = "${nf-dev-github} ";
         };
       };
 
