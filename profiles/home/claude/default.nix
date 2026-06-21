@@ -39,6 +39,28 @@ in
             ];
           }
         ];
+        PreToolUse = [
+          {
+            matcher = "Bash";
+            hooks =
+              let
+                deny = ifPattern: reason: {
+                  type = "command";
+                  "if" = ifPattern;
+                  command = "~/.claude/deny.sh '${reason}'";
+                };
+                bulkAddReason = "Stage files explicitly by name instead: git add <file>.";
+                resetHardReason = "Use git reset --soft to move HEAD while keeping changes, git revert to undo a commit, or git restore <file> (git checkout -- <file>) to discard specific working-tree changes.";
+              in
+              [
+                (deny "Bash(git add -A:*)" bulkAddReason)
+                (deny "Bash(git add --all:*)" bulkAddReason)
+                (deny "Bash(git add -u:*)" bulkAddReason)
+                (deny "Bash(git add .:*)" bulkAddReason)
+                (deny "Bash(git reset --hard:*)" resetHardReason)
+              ];
+          }
+        ];
       };
       permissions = {
         allow = [
@@ -59,11 +81,6 @@ in
           "Bash(tofu * apply *)"
         ];
         deny = [
-          "Bash(git add -A:*)"
-          "Bash(git add --all:*)"
-          "Bash(git add .:*)"
-          "Bash(git add -u:*)"
-          "Bash(git reset --hard:*)"
           "Bash(git commit --no-verify:*)"
           "Bash(git commit -n:*)"
           "Bash(nix develop:*)"
