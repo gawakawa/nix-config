@@ -1,15 +1,18 @@
 _: {
   programs.zsh = {
     enable = true;
+    sessionVariables = {
+      NIXCFG_DIR = "$HOME/projects/github.com/gawakawa/nix-config";
+    };
     shellAliases = {
-      v = "nix run ~/.config/nix-config/nvim --";
+      v = "nix run \"$NIXCFG_DIR/nvim\" --";
       c = "claude";
       ccr = "OPENROUTER_API_KEY=$(pass show openrouter/api-key) command ccr code";
       ls = "eza -a";
       find = "fd";
       grep = "rg";
-      nrs = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config#nixos\" --accept-flake-config --impure";
-      drs = "sudo darwin-rebuild switch --flake \"$HOME/.config/nix-config#mac\"";
+      nrs = "sudo nixos-rebuild switch --flake \"$NIXCFG_DIR#nixos\" --accept-flake-config --impure";
+      drs = "sudo darwin-rebuild switch --flake \"$NIXCFG_DIR#mac\"";
       non-nix-nvim = "XDG_CONFIG_HOME=$HOME/projects/github.com/gawakawa/non-nix-nvim XDG_DATA_HOME=$HOME/.local/share/non-nix-nvim XDG_STATE_HOME=$HOME/.local/state/non-nix-nvim nix run 'nixpkgs#neovim' --";
     };
     initContent = ''
