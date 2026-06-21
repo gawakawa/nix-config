@@ -21,9 +21,14 @@ Unified Nix configuration for NixOS (Linux) and nix-darwin (macOS).
    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
    ```
 
-3. Apply the configuration:
+3. Clone this repository into the ghq-managed path:
    ```bash
-   nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix-config#mac
+   git clone https://github.com/gawakawa/nix-config ~/projects/github.com/gawakawa/nix-config
+   ```
+
+4. Apply the configuration:
+   ```bash
+   nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/projects/github.com/gawakawa/nix-config#mac
    ```
 
 ## Usage
