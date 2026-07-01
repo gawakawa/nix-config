@@ -36,10 +36,23 @@ in
         truncation_length = 0;
         truncate_to_repo = false;
         home_symbol = nf-md-home;
-        substitutions = {
-          "${nf-md-home}/.config" = nf-md-folder_cog;
-          "${devDir}github.com" = "${nf-dev-github} ";
-        };
+        substitutions = [
+          {
+            from = "${nf-md-home}/.config";
+            to = nf-md-folder_cog;
+          }
+          {
+            from = "${devDir}github.com";
+            to = "${nf-dev-github} ";
+          }
+          {
+            # Strip gwq worktree branch suffix (=<branch>) from directory path.
+            # gwq names worktrees as <repo>=<branch>, causing double display with git_branch.
+            from = "=[^/]+";
+            to = "";
+            regex = true;
+          }
+        ];
       };
 
       git_branch = {
