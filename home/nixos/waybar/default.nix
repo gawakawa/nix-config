@@ -1,4 +1,32 @@
-_: {
+let
+  # Icon glyphs, generated from numeric Nerd Font codepoints (never typed
+  # directly) so their bytes can't be silently dropped/corrupted:
+  #   - clock/battery/network/bluetooth icons: extracted byte-for-byte from
+  #     the previously working config (git rev a9e568f).
+  #   - pulseaudio icons: extracted byte-for-byte from a verified external
+  #     Waybar config (Uliboooo/dotfiles .config/waybar/config.hypr.jsonc).
+  icons = {
+    clock = ""; # U+F017 nf-fa-clock_o
+    batteryLevels = [
+      ""
+      ""
+      ""
+      ""
+      ""
+    ]; # U+F244..U+F240 nf-fa-battery (empty..full)
+    wifi = ""; # U+F1EB nf-fa-wifi
+    wifiOff = "󰤮"; # U+F092E nf-md-wifi-off
+    bluetooth = ""; # U+F294 nf-fa-bluetooth
+    bluetoothOff = "󰂲"; # U+F00B2 nf-md-bluetooth-off
+    volumeMuted = "󰝟"; # U+F075F nf-md-volume-off
+    volumeLevels = [
+      "󰕿"
+      "󰖀"
+      "󰕾"
+    ]; # U+F057F/F0580/F057E nf-md-volume low/med/high
+  };
+in
+{
   programs.waybar = {
     enable = true;
     systemd.enable = false;
@@ -17,6 +45,7 @@ _: {
           "network"
           "bluetooth"
           "battery"
+          "tray"
         ];
 
         "hyprland/workspaces" = {
@@ -25,43 +54,32 @@ _: {
         };
 
         clock = {
-          format = " {:%H:%M}";
+          format = icons.clock + " {:%H:%M}";
         };
 
         pulseaudio = {
           format = "{icon} {volume}%";
-          format-muted = "󰝟";
+          format-muted = icons.volumeMuted + " MUTED";
           format-icons = {
-            headphone = "";
-            default = [
-              ""
-              ""
-              ""
-            ];
+            default = icons.volumeLevels;
           };
         };
 
         battery = {
           format = "{capacity}% {icon}";
-          format-icons = [
-            ""
-            ""
-            ""
-            ""
-            ""
-          ];
+          format-icons = icons.batteryLevels;
         };
 
         network = {
-          format-wifi = "";
-          format-disconnected = "󰤮";
+          format-wifi = icons.wifi;
+          format-disconnected = icons.wifiOff;
           tooltip-format = "{essid} ({ipaddr})";
           on-click = "wezterm start -- wifitui";
         };
 
         bluetooth = {
-          format = "";
-          format-disabled = "󰂲";
+          format = icons.bluetooth;
+          format-disabled = icons.bluetoothOff;
           format-connected = " {num_connections}";
           tooltip-format = "{controller_alias}\t{controller_address}";
           tooltip-format-connected = "{device_enumerate}";
@@ -120,7 +138,7 @@ _: {
         opacity: 0.8;
       }
 
-      /* Workspaces — blue, active pink, urgent red */
+      /* Workspaces -- blue, active pink, urgent red */
       #workspaces {
         color: #89b4fa;
         border: 1px solid #89b4fa;
@@ -140,13 +158,13 @@ _: {
         color: #f38ba8;
       }
 
-      /* Clock — mauve */
+      /* Clock -- mauve */
       #clock {
         color: #cba6f7;
         border: 1px solid #cba6f7;
       }
 
-      /* Pulseaudio — green, muted greyed out */
+      /* Pulseaudio -- green, muted greyed out */
       #pulseaudio {
         color: #a6e3a1;
         border: 1px solid #a6e3a1;
@@ -158,19 +176,19 @@ _: {
         text-decoration: line-through;
       }
 
-      /* Network — sky */
+      /* Network -- sky */
       #network {
         color: #89dceb;
         border: 1px solid #89dceb;
       }
 
-      /* Bluetooth — lavender */
+      /* Bluetooth -- lavender */
       #bluetooth {
         color: #b4befe;
         border: 1px solid #b4befe;
       }
 
-      /* Battery — peach, with charging/warning/critical accents */
+      /* Battery -- peach, with charging/warning/critical accents */
       #battery {
         color: #fab387;
         border: 1px solid #fab387;
