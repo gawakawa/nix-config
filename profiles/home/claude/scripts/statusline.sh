@@ -28,5 +28,9 @@ BAR=""
 cd "$CWD" 2>/dev/null || true
 GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
 
+# Strip gwq worktree branch suffix (=<branch>) from directory basename
+DIR=${CWD##*/}
+DIR=${DIR%%=*}
+
 # Output format
-echo "📁 ${CWD##*/} ${GIT_BRANCH:+ $GIT_BRANCH }✴️${MODEL} [${BAR}] ${CONTEXT_PERCENT}%"
+echo "📁 ${DIR} ${GIT_BRANCH:+ $GIT_BRANCH }✴️${MODEL} [${BAR}] ${CONTEXT_PERCENT}%"
