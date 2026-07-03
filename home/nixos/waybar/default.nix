@@ -46,7 +46,7 @@ _: {
           format-connected = " {num_connections}";
           tooltip-format = "{controller_alias}\t{controller_address}";
           tooltip-format-connected = "{device_enumerate}";
-          on-click = "bluetooth-wofi";
+          on-click = "DMENU_BLUETOOTH_LAUNCHER='wofi --dmenu' dmenu-bluetooth";
         };
       };
     };
