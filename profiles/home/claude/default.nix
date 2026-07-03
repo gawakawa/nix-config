@@ -70,6 +70,7 @@ in
           "Skill(ci-debugger)"
           "Skill(skill-creator)"
           "Skill(review-loop)"
+          "mcp__nixos"
         ];
         ask = [
           "Bash(rm *)"
