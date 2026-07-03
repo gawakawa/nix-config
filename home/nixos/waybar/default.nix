@@ -14,6 +14,7 @@ _: {
         modules-right = [
           "clock"
           "network"
+          "bluetooth"
           "battery"
         ];
 
@@ -36,6 +37,16 @@ _: {
           format-wifi = "";
           format-disconnected = "󰤮";
           tooltip-format = "{essid} ({ipaddr})";
+          on-click = "networkmanager_dmenu";
+        };
+
+        bluetooth = {
+          format = "";
+          format-disabled = "󰂲";
+          format-connected = " {num_connections}";
+          tooltip-format = "{controller_alias}\t{controller_address}";
+          tooltip-format-connected = "{device_enumerate}";
+          on-click = "bluetooth-wofi";
         };
       };
     };
@@ -60,7 +71,7 @@ _: {
         background-color: rgba(255, 255, 255, 0.2);
       }
 
-      #clock, #battery, #network, #pulseaudio, #tray {
+      #clock, #battery, #network, #bluetooth, #pulseaudio, #tray {
         padding: 0 10px;
       }
 
