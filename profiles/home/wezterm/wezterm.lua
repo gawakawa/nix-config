@@ -42,7 +42,7 @@ wezterm.on("format-tab-title", function(tab, _tabs, _panes, _cfg, _hover, max_wi
 end)
 
 -- Leader key and keybindings
-config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 1000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
 	-- Pane splitting
 	{ key = "d", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
