@@ -12,8 +12,6 @@ _: {
       ls = "eza -a";
       find = "fd";
       grep = "rg";
-      nrs = "sudo nixos-rebuild switch --flake \"$NIXCFG_DIR#nixos\" --accept-flake-config --impure";
-      drs = "sudo darwin-rebuild switch --flake \"$NIXCFG_DIR#mac\"";
       non-nix-nvim = "XDG_CONFIG_HOME=$HOME/projects/github.com/gawakawa/non-nix-nvim XDG_DATA_HOME=$HOME/.local/share/non-nix-nvim XDG_STATE_HOME=$HOME/.local/state/non-nix-nvim nix run 'nixpkgs#neovim' --";
     };
     initContent = ''
@@ -25,6 +23,30 @@ _: {
 
       mkcd() {
           mkdir -p "$1" && cd "$1"
+      }
+
+      # Resolve the nix-config flake path: main worktree by default,
+      # or the gwq worktree for <branch> when given
+      _nixcfg_flake() {
+          if [[ -z "$1" ]]; then
+              echo "$NIXCFG_DIR"
+          else
+              gwq get -g "nix-config:$1"
+          fi
+      }
+
+      # Usage: nrs [branch]  (branch -> nix-config=<branch> gwq worktree)
+      nrs() {
+          local dir
+          dir=$(_nixcfg_flake "$1") || return 1
+          sudo nixos-rebuild switch --flake "$dir#nixos" --accept-flake-config --impure
+      }
+
+      # Usage: drs [branch]  (branch -> nix-config=<branch> gwq worktree)
+      drs() {
+          local dir
+          dir=$(_nixcfg_flake "$1") || return 1
+          sudo darwin-rebuild switch --flake "$dir#mac"
       }
 
       # Set GitHub Actions secrets
