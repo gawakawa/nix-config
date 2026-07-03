@@ -25,15 +25,28 @@ _: {
           mkdir -p "$1" && cd "$1"
       }
 
-      # Rebuild from the nix-config repo, or a gwq worktree when a branch is given
-      # Usage: nrs [branch]  (branch -> nix-config=<branch> worktree)
-      nrs() {
-          sudo nixos-rebuild switch --flake "$NIXCFG_DIR''${1:+=$1}#nixos" --accept-flake-config --impure
+      # Resolve the nix-config flake path: main worktree by default,
+      # or the gwq worktree for <branch> when given
+      _nixcfg_flake() {
+          if [[ -z "$1" ]]; then
+              echo "$NIXCFG_DIR"
+          else
+              gwq get -g "nix-config:$1"
+          fi
       }
 
-      # Usage: drs [branch]  (branch -> nix-config=<branch> worktree)
+      # Usage: nrs [branch]  (branch -> nix-config=<branch> gwq worktree)
+      nrs() {
+          local dir
+          dir=$(_nixcfg_flake "$1") || return 1
+          sudo nixos-rebuild switch --flake "$dir#nixos" --accept-flake-config --impure
+      }
+
+      # Usage: drs [branch]  (branch -> nix-config=<branch> gwq worktree)
       drs() {
-          sudo darwin-rebuild switch --flake "$NIXCFG_DIR''${1:+=$1}#mac"
+          local dir
+          dir=$(_nixcfg_flake "$1") || return 1
+          sudo darwin-rebuild switch --flake "$dir#mac"
       }
 
       # Set GitHub Actions secrets
