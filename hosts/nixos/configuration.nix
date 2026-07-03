@@ -68,6 +68,11 @@
     networkmanager.wifi.powersave = false;
   };
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
   users = {
     defaultUserShell = pkgs.zsh;
     users.iota = {
