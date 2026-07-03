@@ -1,4 +1,4 @@
 { pkgs, ... }:
 {
-  home.packages = [ pkgs.dmenu-bluetooth ];
+  home.packages = [ pkgs.bluetui ];
 }

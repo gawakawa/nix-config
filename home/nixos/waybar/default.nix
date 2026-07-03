@@ -37,7 +37,7 @@ _: {
           format-wifi = "";
           format-disconnected = "󰤮";
           tooltip-format = "{essid} ({ipaddr})";
-          on-click = "networkmanager_dmenu";
+          on-click = "wezterm start -- wifitui";
         };
 
         bluetooth = {
@@ -46,7 +46,7 @@ _: {
           format-connected = " {num_connections}";
           tooltip-format = "{controller_alias}\t{controller_address}";
           tooltip-format-connected = "{device_enumerate}";
-          on-click = "DMENU_BLUETOOTH_LAUNCHER='wofi --dmenu' dmenu-bluetooth";
+          on-click = "wezterm start -- bluetui";
         };
       };
     };
