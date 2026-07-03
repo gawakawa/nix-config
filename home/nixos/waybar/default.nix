@@ -37,7 +37,7 @@ _: {
           format-wifi = "";
           format-disconnected = "󰤮";
           tooltip-format = "{essid} ({ipaddr})";
-          on-click = "networkmanager_dmenu";
+          on-click = "wezterm start -- wifitui";
         };
 
         bluetooth = {
