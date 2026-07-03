@@ -24,9 +24,9 @@ wezterm.on("format-tab-title", function(tab, _tabs, _panes, _cfg, _hover, max_wi
 	end
 
 	local edge_foreground = background
-	local title = "   "
-		.. wezterm.truncate_right(basename(tab.active_pane.current_working_dir.file_path), max_width - 1)
-		.. "   "
+	local dir = basename(tab.active_pane.current_working_dir.file_path)
+	dir = dir:gsub("=.*", "") -- strip gwq worktree branch suffix (=<branch>)
+	local title = "   " .. wezterm.truncate_right(dir, max_width - 1) .. "   "
 
 	return {
 		{ Background = { Color = edge_background } },
@@ -42,7 +42,7 @@ wezterm.on("format-tab-title", function(tab, _tabs, _panes, _cfg, _hover, max_wi
 end)
 
 -- Leader key and keybindings
-config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 1000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
 	-- Pane splitting
 	{ key = "d", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
