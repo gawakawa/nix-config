@@ -12,8 +12,6 @@ _: {
       ls = "eza -a";
       find = "fd";
       grep = "rg";
-      nrs = "sudo nixos-rebuild switch --flake \"$NIXCFG_DIR#nixos\" --accept-flake-config --impure";
-      drs = "sudo darwin-rebuild switch --flake \"$NIXCFG_DIR#mac\"";
       non-nix-nvim = "XDG_CONFIG_HOME=$HOME/projects/github.com/gawakawa/non-nix-nvim XDG_DATA_HOME=$HOME/.local/share/non-nix-nvim XDG_STATE_HOME=$HOME/.local/state/non-nix-nvim nix run 'nixpkgs#neovim' --";
     };
     initContent = ''
@@ -25,6 +23,17 @@ _: {
 
       mkcd() {
           mkdir -p "$1" && cd "$1"
+      }
+
+      # Rebuild from the nix-config repo, or a gwq worktree when a branch is given
+      # Usage: nrs [branch]  (branch -> nix-config=<branch> worktree)
+      nrs() {
+          sudo nixos-rebuild switch --flake "$NIXCFG_DIR''${1:+=$1}#nixos" --accept-flake-config --impure
+      }
+
+      # Usage: drs [branch]  (branch -> nix-config=<branch> worktree)
+      drs() {
+          sudo darwin-rebuild switch --flake "$NIXCFG_DIR''${1:+=$1}#mac"
       }
 
       # Set GitHub Actions secrets
