@@ -49,7 +49,9 @@ in
         modules-center = [ ];
         modules-right = [
           "backlight"
+          "backlight/slider"
           "pulseaudio"
+          "pulseaudio/slider"
           "clock"
           "network"
           "bluetooth"
@@ -76,10 +78,22 @@ in
           on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
+        "pulseaudio/slider" = {
+          min = 0;
+          max = 100;
+          orientation = "horizontal";
+        };
+
         backlight = {
           format = "{icon} {percent}%";
           format-icons = icons.brightnessLevels;
           scroll-step = 5;
+        };
+
+        "backlight/slider" = {
+          min = 0;
+          max = 100;
+          orientation = "horizontal";
         };
 
         battery = {
@@ -199,6 +213,39 @@ in
       #backlight {
         color: #f9e2af;
         border: 1px solid #f9e2af;
+      }
+
+      /* Volume/brightness sliders -- Mac-style thin rounded track */
+      #pulseaudio-slider,
+      #backlight-slider {
+        padding: 0 8px;
+        margin: 4px 3px;
+        min-width: 90px;
+      }
+
+      #pulseaudio-slider trough,
+      #backlight-slider trough {
+        min-height: 6px;
+        border-radius: 6px;
+        background-color: rgba(108, 112, 134, 0.5);
+      }
+
+      #pulseaudio-slider highlight {
+        border-radius: 6px;
+        background-color: #a6e3a1;
+      }
+
+      #backlight-slider highlight {
+        border-radius: 6px;
+        background-color: #f9e2af;
+      }
+
+      #pulseaudio-slider slider,
+      #backlight-slider slider {
+        min-width: 12px;
+        min-height: 12px;
+        border-radius: 50%;
+        background-color: #cdd6f4;
       }
 
       /* Network -- sky */
