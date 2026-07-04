@@ -45,20 +45,23 @@ in
             matcher = "Bash";
             hooks =
               let
-                deny = ifPattern: reason: {
+                # `if` only gates whether deny.sh runs; deny.sh re-checks the
+                # real command from stdin before denying, since `if`'s prefix
+                # matcher fails open on ${...} and compound commands.
+                deny = kind: ifPattern: reason: {
                   type = "command";
                   "if" = ifPattern;
-                  command = "~/.claude/deny.sh '${reason}'";
+                  command = "~/.claude/deny.sh ${kind} '${reason}'";
                 };
                 bulkAddReason = "Stage files explicitly by name instead: git add <file>.";
                 resetHardReason = "Use git reset --soft to move HEAD while keeping changes, git revert to undo a commit, or git restore <file> (git checkout -- <file>) to discard specific working-tree changes.";
               in
               [
-                (deny "Bash(git add -A:*)" bulkAddReason)
-                (deny "Bash(git add --all:*)" bulkAddReason)
-                (deny "Bash(git add -u:*)" bulkAddReason)
-                (deny "Bash(git add .:*)" bulkAddReason)
-                (deny "Bash(git reset --hard:*)" resetHardReason)
+                (deny "add" "Bash(git add -A:*)" bulkAddReason)
+                (deny "add" "Bash(git add --all:*)" bulkAddReason)
+                (deny "add" "Bash(git add -u:*)" bulkAddReason)
+                (deny "add" "Bash(git add .:*)" bulkAddReason)
+                (deny "reset" "Bash(git reset --hard:*)" resetHardReason)
               ];
           }
         ];
