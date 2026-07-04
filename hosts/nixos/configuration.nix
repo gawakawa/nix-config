@@ -142,9 +142,8 @@
       alsa.support32Bit = true;
       pulse.enable = true;
     };
-    # Grant the "video" group write access to /sys/class/backlight, so
-    # brightnessctl (and Waybar's backlight module) can adjust brightness
-    # without root.
+    # brightnessctl's udev rules grant the "video" group write access to
+    # /sys/class/backlight, so brightness can be adjusted without root.
     udev.packages = [ pkgs.brightnessctl ];
   };
 

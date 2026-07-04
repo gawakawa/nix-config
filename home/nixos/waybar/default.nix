@@ -31,7 +31,7 @@ let
       "󰃚"
       "󰃝"
       "󰃠"
-    ]; # U+F00DA/F00DD/F00E0 nf-md-brightness_1/4/7 low/mid/high (verified via NotoSansNerdFont-SemiBold.ttf cmap)
+    ]; # U+F00DA/F00DD/F00E0 nf-md-brightness_1/4/7 low/mid/high
   };
 in
 {
