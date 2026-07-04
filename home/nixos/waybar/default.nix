@@ -5,6 +5,9 @@ let
   #     the previously working config (git rev a9e568f).
   #   - pulseaudio icons: extracted byte-for-byte from a verified external
   #     Waybar config (Uliboooo/dotfiles .config/waybar/config.hypr.jsonc).
+  #   - brightness icons: codepoints looked up in the installed
+  #     NotoSansNerdFont-SemiBold.ttf cmap (nerd-fonts.noto), not typed from
+  #     memory, then rendered via `chr()` and byte-verified with `od`.
   icons = {
     clock = ""; # U+F017 nf-fa-clock_o
     batteryLevels = [
@@ -24,6 +27,11 @@ let
       "󰖀"
       "󰕾"
     ]; # U+F057F/F0580/F057E nf-md-volume low/med/high
+    brightnessLevels = [
+      "󰃚"
+      "󰃝"
+      "󰃠"
+    ]; # U+F00DA/F00DD/F00E0 nf-md-brightness_1/4/7 low/mid/high
   };
 in
 {
@@ -40,7 +48,8 @@ in
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ ];
         modules-right = [
-          "pulseaudio"
+          "group/backlight-drawer"
+          "group/pulseaudio-drawer"
           "clock"
           "network"
           "bluetooth"
@@ -63,6 +72,47 @@ in
           format-icons = {
             default = icons.volumeLevels;
           };
+          scroll-step = 5; # match the 5% step used by the Hyprland volume keybindings
+        };
+
+        "pulseaudio/slider" = {
+          min = 0;
+          max = 100;
+          orientation = "horizontal";
+        };
+
+        "group/pulseaudio-drawer" = {
+          orientation = "horizontal";
+          drawer = {
+            click-to-reveal = true;
+          };
+          modules = [
+            "pulseaudio"
+            "pulseaudio/slider"
+          ];
+        };
+
+        backlight = {
+          format = "{icon} {percent}%";
+          format-icons = icons.brightnessLevels;
+          scroll-step = 5;
+        };
+
+        "backlight/slider" = {
+          min = 0;
+          max = 100;
+          orientation = "horizontal";
+        };
+
+        "group/backlight-drawer" = {
+          orientation = "horizontal";
+          drawer = {
+            click-to-reveal = true;
+          };
+          modules = [
+            "backlight"
+            "backlight/slider"
+          ];
         };
 
         battery = {
@@ -116,6 +166,7 @@ in
 
       #workspaces,
       #clock,
+      #backlight,
       #pulseaudio,
       #network,
       #bluetooth,
@@ -131,6 +182,7 @@ in
 
       #workspaces:hover,
       #clock:hover,
+      #backlight:hover,
       #pulseaudio:hover,
       #network:hover,
       #bluetooth:hover,
@@ -174,6 +226,45 @@ in
         color: #6c7086;
         border-color: #6c7086;
         text-decoration: line-through;
+      }
+
+      /* Backlight -- yellow */
+      #backlight {
+        color: #f9e2af;
+        border: 1px solid #f9e2af;
+      }
+
+      /* Volume/brightness sliders -- Mac-style thin rounded track */
+      #pulseaudio-slider,
+      #backlight-slider {
+        padding: 0 8px;
+        margin: 4px 3px;
+        min-width: 90px;
+      }
+
+      #pulseaudio-slider trough,
+      #backlight-slider trough {
+        min-height: 6px;
+        border-radius: 6px;
+        background-color: rgba(108, 112, 134, 0.5);
+      }
+
+      #pulseaudio-slider highlight {
+        border-radius: 6px;
+        background-color: #a6e3a1;
+      }
+
+      #backlight-slider highlight {
+        border-radius: 6px;
+        background-color: #f9e2af;
+      }
+
+      #pulseaudio-slider slider,
+      #backlight-slider slider {
+        min-width: 12px;
+        min-height: 12px;
+        border-radius: 50%;
+        background-color: #cdd6f4;
       }
 
       /* Network -- sky */
