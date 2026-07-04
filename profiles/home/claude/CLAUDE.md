@@ -15,8 +15,6 @@ Never jump to solutions before understanding the problem.
 ## Git Workflow
 
 - Use the `/commit` skill for commits, `/pr` skill for pull requests.
-- Never use `git add -A`, `git add .`, or `git add --all`. Stage files explicitly by name.
-- Use `git revert` to undo commits, not `git reset`.
 
 ## Planning
 

@@ -45,20 +45,29 @@ in
             matcher = "Bash";
             hooks =
               let
-                deny = ifPattern: reason: {
+                # `if` only gates whether deny.sh runs; deny.sh re-checks the
+                # real command from stdin before denying, since `if`'s prefix
+                # matcher fails open on ${...} and compound commands. The
+                # match regex is passed through as-is so this `let` block is
+                # the single place that maps a guard to its pattern.
+                deny = matchRegex: ifPattern: reason: {
                   type = "command";
                   "if" = ifPattern;
-                  command = "~/.claude/deny.sh '${reason}'";
+                  command = "~/.claude/deny.sh '${matchRegex}' '${reason}'";
                 };
                 bulkAddReason = "Stage files explicitly by name instead: git add <file>.";
                 resetHardReason = "Use git reset --soft to move HEAD while keeping changes, git revert to undo a commit, or git restore <file> (git checkout -- <file>) to discard specific working-tree changes.";
+                addRegex = "^[[:space:]]*git[[:space:]]+add[[:space:]]+(-A|--all|-u|\\.)([[:space:]]|$)";
+                resetRegex = "^[[:space:]]*git[[:space:]]+reset[[:space:]]+--hard([[:space:]]|$)";
               in
-              [
-                (deny "Bash(git add -A:*)" bulkAddReason)
-                (deny "Bash(git add --all:*)" bulkAddReason)
-                (deny "Bash(git add -u:*)" bulkAddReason)
-                (deny "Bash(git add .:*)" bulkAddReason)
-                (deny "Bash(git reset --hard:*)" resetHardReason)
+              (map (ifPattern: deny addRegex ifPattern bulkAddReason) [
+                "Bash(git add -A:*)"
+                "Bash(git add --all:*)"
+                "Bash(git add -u:*)"
+                "Bash(git add .:*)"
+              ])
+              ++ [
+                (deny resetRegex "Bash(git reset --hard:*)" resetHardReason)
               ];
           }
         ];
