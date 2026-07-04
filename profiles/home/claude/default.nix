@@ -23,6 +23,7 @@ in
     settings = {
       model = "opusplan";
       advisorModel = "opus";
+      language = "japanese";
       alwaysThinkingEnabled = true;
       statusLine = {
         type = "command";
