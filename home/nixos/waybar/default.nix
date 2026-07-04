@@ -5,6 +5,9 @@ let
   #     the previously working config (git rev a9e568f).
   #   - pulseaudio icons: extracted byte-for-byte from a verified external
   #     Waybar config (Uliboooo/dotfiles .config/waybar/config.hypr.jsonc).
+  #   - brightness icons: codepoints looked up in the installed
+  #     NotoSansNerdFont-SemiBold.ttf cmap (nerd-fonts.noto), not typed from
+  #     memory, then rendered via `chr()` and byte-verified with `od`.
   icons = {
     clock = ""; # U+F017 nf-fa-clock_o
     batteryLevels = [
@@ -24,6 +27,11 @@ let
       "󰖀"
       "󰕾"
     ]; # U+F057F/F0580/F057E nf-md-volume low/med/high
+    brightnessLevels = [
+      "󰃚"
+      "󰃝"
+      "󰃠"
+    ]; # U+F00DA/F00DD/F00E0 nf-md-brightness_1/4/7 low/mid/high (verified via NotoSansNerdFont-SemiBold.ttf cmap)
   };
 in
 {
@@ -40,6 +48,7 @@ in
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ ];
         modules-right = [
+          "backlight"
           "pulseaudio"
           "clock"
           "network"
@@ -63,6 +72,15 @@ in
           format-icons = {
             default = icons.volumeLevels;
           };
+          scroll-step = 5; # match the 5% step used by the Hyprland volume keybindings
+          on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        };
+
+        backlight = {
+          format = "{icon} {percent}%";
+          format-icons = icons.brightnessLevels;
+          on-scroll-up = "brightnessctl set 5%+";
+          on-scroll-down = "brightnessctl set 5%-";
         };
 
         battery = {
@@ -116,6 +134,7 @@ in
 
       #workspaces,
       #clock,
+      #backlight,
       #pulseaudio,
       #network,
       #bluetooth,
@@ -131,6 +150,7 @@ in
 
       #workspaces:hover,
       #clock:hover,
+      #backlight:hover,
       #pulseaudio:hover,
       #network:hover,
       #bluetooth:hover,
@@ -174,6 +194,12 @@ in
         color: #6c7086;
         border-color: #6c7086;
         text-decoration: line-through;
+      }
+
+      /* Backlight -- yellow */
+      #backlight {
+        color: #f9e2af;
+        border: 1px solid #f9e2af;
       }
 
       /* Network -- sky */
