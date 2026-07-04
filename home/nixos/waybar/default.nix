@@ -79,8 +79,7 @@ in
         backlight = {
           format = "{icon} {percent}%";
           format-icons = icons.brightnessLevels;
-          on-scroll-up = "brightnessctl set 5%+";
-          on-scroll-down = "brightnessctl set 5%-";
+          scroll-step = 5;
         };
 
         battery = {
