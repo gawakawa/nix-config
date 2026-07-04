@@ -190,6 +190,25 @@ in
         opacity: 0.8;
       }
 
+      /* The group/pulseaudio#pulseaudio-group and group/backlight#backlight-group
+         wrappers reuse the leader module's own #pulseaudio/#backlight id (only
+         the "#..." suffix becomes a class), so the chip rules above also match
+         the wrapper. Reset it there via the class the suffix actually adds,
+         leaving the inner leader module as the only visible chip. */
+      #pulseaudio.pulseaudio-group,
+      #backlight.backlight-group {
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      #pulseaudio.pulseaudio-group:hover,
+      #backlight.backlight-group:hover {
+        opacity: 1;
+      }
+
       /* Workspaces -- blue, active pink, urgent red */
       #workspaces {
         color: #89b4fa;
