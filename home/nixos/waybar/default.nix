@@ -48,8 +48,8 @@ in
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ ];
         modules-right = [
-          "group/backlight"
-          "group/pulseaudio"
+          "group/backlight#backlight-group"
+          "group/pulseaudio#pulseaudio-group"
           "clock"
           "network"
           "bluetooth"
@@ -73,7 +73,6 @@ in
             default = icons.volumeLevels;
           };
           scroll-step = 5; # match the 5% step used by the Hyprland volume keybindings
-          on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
         "pulseaudio/slider" = {
@@ -82,7 +81,7 @@ in
           orientation = "horizontal";
         };
 
-        "group/pulseaudio" = {
+        "group/pulseaudio#pulseaudio-group" = {
           orientation = "horizontal";
           drawer = {
             click-to-reveal = true;
@@ -105,7 +104,7 @@ in
           orientation = "horizontal";
         };
 
-        "group/backlight" = {
+        "group/backlight#backlight-group" = {
           orientation = "horizontal";
           drawer = {
             click-to-reveal = true;
