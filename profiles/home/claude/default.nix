@@ -80,6 +80,7 @@ in
           "Skill(ci-debugger)"
           "Skill(skill-creator)"
           "Skill(review-loop)"
+          "Skill(japanese-tech-writing)"
           "mcp__nixos"
         ];
         ask = [
