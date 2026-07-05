@@ -12,6 +12,7 @@ _: {
       ls = "eza -a";
       find = "fd";
       grep = "rg";
+      init-env = "nix run github:gawakawa/init-env";
       non-nix-nvim = "XDG_CONFIG_HOME=$HOME/projects/github.com/gawakawa/non-nix-nvim XDG_DATA_HOME=$HOME/.local/share/non-nix-nvim XDG_STATE_HOME=$HOME/.local/state/non-nix-nvim nix run 'nixpkgs#neovim' --";
     };
     initContent = ''
@@ -76,63 +77,6 @@ _: {
           private_key="$(pass github/apps/gawakawa-bot/private-key)" && \
           gh secret set BOT_APP_ID -b "$app_id" -R "$repo" && \
           gh secret set BOT_PRIVATE_KEY -b "$private_key" -R "$repo"
-      }
-
-      # Create a new GitHub repo and clone it into the ghq/gwq structure
-      # Usage: init-gh-repo <name> [-t <template>]
-      #   -t <template>  apply a flake template from gawakawa/flake-templates,
-      #                  then commit & push the initialized repo
-      init-gh-repo() {
-          local name="" template=""
-          while [[ $# -gt 0 ]]; do
-              case "$1" in
-                  -t)
-                      if [[ -z "$2" ]]; then
-                          echo "Usage: init-gh-repo <name> -t <template>"
-                          return 1
-                      fi
-                      if [[ -n "$template" ]]; then
-                          echo "Usage: init-gh-repo <name> [-t <template>] (one template only)"
-                          return 1
-                      fi
-                      template="$2"
-                      shift 2
-                      ;;
-                  -*)
-                      echo "init-gh-repo: unknown option: $1"
-                      echo "Usage: init-gh-repo <name> [-t <template>]"
-                      return 1
-                      ;;
-                  *)
-                      if [[ -n "$name" ]]; then
-                          echo "Usage: init-gh-repo <name> [-t <template>] (one name only)"
-                          return 1
-                      fi
-                      name="$1"
-                      shift
-                      ;;
-              esac
-          done
-          if [[ -z "$name" ]]; then
-              echo "Usage: init-gh-repo <name> [-t <template>]"
-              return 1
-          fi
-          if [[ "$name" == */* ]]; then
-              echo "init-gh-repo: name must not contain slashes: $name"
-              return 1
-          fi
-          local repo="$GH_OWNER/$name"
-          gh repo create "$repo" --public && \
-          gh repo edit "$repo" --enable-auto-merge --delete-branch-on-merge --allow-update-branch && \
-          ghq get -p "$repo" && \
-          set-all-secrets "$repo" && \
-          cd "$(ghq root)/github.com/$repo" || return 1
-          if [[ -n "$template" ]]; then
-              flake-init "$template" && \
-              git add -A && \
-              git commit -m ":tada: Initialize from $template template" && \
-              git push -u origin HEAD
-          fi
       }
 
       # Initialize flake using template from https://github.com/gawakawa/flake-templates
