@@ -30,9 +30,22 @@ let
       hyprctl dispatch settiled
     fi
   '';
+
+  # NOTE: not using home.pointerCursor here because HYPRCURSOR_THEME/XCURSOR_THEME
+  # must go through hl.env (see ENVIRONMENT VARIABLES below) for the same startup-
+  # timing reason as the other hl.env-only vars (GTK_IM_MODULE, etc.) in this file.
+  cursor = import ./cursor { inherit pkgs; };
 in
 {
-  home.packages = [ pkgs.grimblast ];
+  home = {
+    packages = [ pkgs.grimblast ];
+
+    # XCursor theme (GTK/QT/XWayland apps like Chrome) and hyprcursor theme
+    # (native Wayland, scales cleanly across mixed-DPI monitors).
+    file.".icons/${cursor.xcursorThemeName}".source = "${cursor.theme}/${cursor.xcursorThemeName}";
+    file.".local/share/icons/${cursor.hyprcursorThemeName}".source =
+      "${cursor.theme}/${cursor.hyprcursorThemeName}";
+  };
 
   wayland.windowManager.hyprland = {
     configType = "lua";
@@ -66,8 +79,10 @@ in
       -------------------------------
       ---- ENVIRONMENT VARIABLES ----
       -------------------------------
-      hl.env("XCURSOR_SIZE", "24")
-      hl.env("HYPRCURSOR_SIZE", "24")
+      hl.env("XCURSOR_THEME", "${cursor.xcursorThemeName}")
+      hl.env("XCURSOR_SIZE", "${toString cursor.defaultCursorSize}")
+      hl.env("HYPRCURSOR_THEME", "${cursor.hyprcursorThemeName}")
+      hl.env("HYPRCURSOR_SIZE", "${toString cursor.defaultCursorSize}")
       hl.env("GTK_IM_MODULE", "fcitx")
       hl.env("QT_IM_MODULE", "fcitx")
       hl.env("XMODIFIERS", "@im=fcitx")
@@ -136,6 +151,10 @@ in
             natural_scroll = true,
             scroll_factor = 0.3,
           },
+        },
+
+        cursor = {
+          enable_hyprcursor = true,
         },
       })
 
