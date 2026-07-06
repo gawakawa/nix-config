@@ -1,4 +1,10 @@
-{ inputs, system, ... }:
+{
+  inputs,
+  system,
+  pkgs,
+  lib,
+  ...
+}:
 let
   mcpPkgs = import inputs.mcp-servers-nix.inputs.nixpkgs { inherit system; };
 in
@@ -12,6 +18,18 @@ in
 
   programs.claude-code = {
     enable = true;
+
+    # ponytail's hooks invoke `node`; keep it on Claude's PATH only, not global.
+    package = pkgs.symlinkJoin {
+      name = "claude-code-with-node";
+      paths = [ pkgs.claude-code ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/claude --prefix PATH : ${lib.makeBinPath [ pkgs.nodejs ]}
+      '';
+    };
+
+    plugins = [ inputs.ponytail ];
 
     mcpServers = {
       nixos = {
