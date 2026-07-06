@@ -30,9 +30,84 @@ let
       hyprctl dispatch settiled
     fi
   '';
+
+  # Hyprland's built-in teardrop logo (extracted from Hyprland/assets/header.svg,
+  # rotated -30deg to match the compositor's own fallback cursor), packaged as an
+  # installable cursor theme in both hyprcursor (vector) and XCursor (raster) formats.
+  cursorLogoSvg = ./cursor/hyprland-logo.svg;
+  cursorTheme =
+    pkgs.runCommand "hyprland-logo-cursor-theme"
+      {
+        nativeBuildInputs = [
+          pkgs.resvg
+          pkgs.xcursorgen
+          pkgs.hyprcursor
+          pkgs.xcur2png
+        ];
+      }
+      ''
+        mkdir -p hc-src/hyprcursors/left_ptr
+        cp ${cursorLogoSvg} hc-src/hyprcursors/left_ptr/logo.svg
+
+        cat > hc-src/manifest.hl <<EOF
+        name = HyprlandLogo
+        description = Hyprland's built-in teardrop logo, as an installable cursor theme
+        version = 0.1
+        cursors_directory = hyprcursors
+        EOF
+
+        cat > hc-src/hyprcursors/left_ptr/meta.hl <<EOF
+        resize_algorithm = bilinear
+        hotspot_x = 0.230
+        hotspot_y = 0.037
+        define_override = arrow
+        define_override = default
+        define_override = left_ptr
+        define_size = 32, logo.svg
+        EOF
+
+        mkdir -p hcout
+        hyprcursor-util --create hc-src --output hcout
+        mkdir -p $out/hyprland_logo
+        cp -r hcout/theme_HyprlandLogo/. $out/hyprland_logo/
+
+        mkdir -p pngs
+        for sz in 24 32 48 64 96; do
+          resvg -w "$sz" -h "$sz" ${cursorLogoSvg} "pngs/logo-$sz.png"
+        done
+
+        cat > hyprland-logo.conf <<EOF
+        24 6 1 pngs/logo-24.png
+        32 7 1 pngs/logo-32.png
+        48 11 2 pngs/logo-48.png
+        64 15 2 pngs/logo-64.png
+        96 22 4 pngs/logo-96.png
+        EOF
+
+        xcursorgen hyprland-logo.conf left_ptr
+
+        mkdir -p $out/hyprland-logo/cursors
+        cp left_ptr $out/hyprland-logo/cursors/left_ptr
+        ln -s left_ptr $out/hyprland-logo/cursors/default
+        ln -s left_ptr $out/hyprland-logo/cursors/arrow
+
+        cat > $out/hyprland-logo/index.theme <<EOF
+        [Icon Theme]
+        Name=Hyprland Logo
+        Comment=Hyprland's built-in teardrop logo, as an installable cursor theme
+        Inherits=Adwaita
+        EOF
+      '';
 in
 {
-  home.packages = [ pkgs.grimblast ];
+  home = {
+    packages = [ pkgs.grimblast ];
+
+    # XCursor theme (GTK/QT/XWayland apps like Chrome) and hyprcursor theme
+    # (native Wayland, scales cleanly across mixed-DPI monitors).
+    file.".icons/hyprland-logo".source = "${cursorTheme}/hyprland-logo";
+    file.".local/share/icons/hyprland_logo".source = "${cursorTheme}/hyprland_logo";
+  };
 
   wayland.windowManager.hyprland = {
     configType = "lua";
@@ -66,7 +141,9 @@ in
       -------------------------------
       ---- ENVIRONMENT VARIABLES ----
       -------------------------------
+      hl.env("XCURSOR_THEME", "hyprland-logo")
       hl.env("XCURSOR_SIZE", "32")
+      hl.env("HYPRCURSOR_THEME", "hyprland_logo")
       hl.env("HYPRCURSOR_SIZE", "32")
       hl.env("GTK_IM_MODULE", "fcitx")
       hl.env("QT_IM_MODULE", "fcitx")
@@ -136,6 +213,10 @@ in
             natural_scroll = true,
             scroll_factor = 0.3,
           },
+        },
+
+        cursor = {
+          enable_hyprcursor = true,
         },
       })
 
