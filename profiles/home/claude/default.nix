@@ -106,6 +106,7 @@ in
     context = ./CLAUDE.md;
     agentsDir = ./agents;
     skills = ./skills;
+    plugins = [ inputs.agent-skills ];
   };
 
   home.file =
