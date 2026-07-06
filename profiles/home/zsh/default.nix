@@ -130,7 +130,7 @@ _: {
 
           local current b
           current=$(git symbolic-ref --quiet --short HEAD)
-          targets=(''${''${gone:*wt}:#''${(b)current}})
+          targets=(''${''${gone:*wt}:#$current})
 
           if (( ''${#targets} == 0 )); then
               echo "gwq-prune: no worktrees to prune"
@@ -141,14 +141,22 @@ _: {
           printf '  %s\n' $targets
           [[ "$1" == "--dry-run" ]] && return 0
 
+          [[ -t 0 ]] || { echo "gwq-prune: not running interactively, aborting" >&2; return 1; }
           printf 'Remove these worktrees and local branches? [y/N] '
           local ans
           read -r ans
           [[ "$ans" == [yY]* ]] || { echo "gwq-prune: aborted"; return 1; }
 
+          local -a failed
           for b in $targets; do
-              gwq remove -b --force-delete-branch "$b"
+              gwq remove -b --force-delete-branch "$b" || failed+=("$b")
           done
+
+          if (( ''${#failed} > 0 )); then
+              echo "gwq-prune: failed to remove: ''${(j:, :)failed}" >&2
+              return 1
+          fi
+          echo "gwq-prune: removed ''${#targets} worktree(s)"
       }
     '';
     prezto = {
