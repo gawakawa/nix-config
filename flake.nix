@@ -32,6 +32,11 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agent-skills = {
+      url = "github:addyosmani/agent-skills";
+      flake = false;
+    };
   };
 
   outputs =
