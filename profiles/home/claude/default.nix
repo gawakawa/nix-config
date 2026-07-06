@@ -1,4 +1,9 @@
-{ inputs, system, ... }:
+{
+  inputs,
+  system,
+  pkgs,
+  ...
+}:
 let
   mcpPkgs = import inputs.mcp-servers-nix.inputs.nixpkgs { inherit system; };
 in
@@ -12,6 +17,10 @@ in
 
   programs.claude-code = {
     enable = true;
+
+    # ponytail's hooks invoke `node`; claude-code-with-node keeps it off the
+    # global PATH (plain claude-code is still used as a system package).
+    package = pkgs.claude-code-with-node;
 
     mcpServers = {
       nixos = {
@@ -106,7 +115,10 @@ in
     context = ./CLAUDE.md;
     agentsDir = ./agents;
     skills = ./skills;
-    plugins = [ inputs.agent-skills ];
+    plugins = [
+      inputs.agent-skills
+      inputs.ponytail
+    ];
   };
 
   home.file =
