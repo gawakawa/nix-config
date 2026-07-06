@@ -109,6 +109,55 @@ _: {
       }
       zle -N ghq-fzf
       bindkey '^g' ghq-fzf
+
+      # Prune gwq worktrees whose upstream branch is gone from the remote,
+      # like `git fetch --prune`. Also deletes the local branch.
+      # Usage: gwq-prune [--dry-run]
+      gwq-prune() {
+          git fetch --prune || return 1
+
+          local -a gone
+          gone=(''${(@f)$(git for-each-ref --format '%(refname:short) %(upstream:track)' refs/heads/ \
+              | awk '$2 == "[gone]" { print $1 }')})
+
+          if (( ''${#gone} == 0 )); then
+              echo "gwq-prune: no worktrees to prune"
+              return 0
+          fi
+
+          local -a wt targets
+          wt=(''${(@f)$(gwq list --json | jq -r '.[] | select(.is_main == false) | .branch')})
+
+          local current b
+          current=$(git symbolic-ref --quiet --short HEAD)
+          targets=(''${''${gone:*wt}:#$current})
+
+          if (( ''${#targets} == 0 )); then
+              echo "gwq-prune: no worktrees to prune"
+              return 0
+          fi
+
+          echo "gwq-prune: worktrees with gone upstream:"
+          printf '  %s\n' $targets
+          [[ "$1" == "--dry-run" ]] && return 0
+
+          [[ -t 0 ]] || { echo "gwq-prune: not running interactively, aborting" >&2; return 1; }
+          printf 'Remove these worktrees and local branches? [y/N] '
+          local ans
+          read -r ans
+          [[ "$ans" == [yY]* ]] || { echo "gwq-prune: aborted"; return 1; }
+
+          local -a failed
+          for b in $targets; do
+              gwq remove -b --force-delete-branch "$b" || failed+=("$b")
+          done
+
+          if (( ''${#failed} > 0 )); then
+              echo "gwq-prune: failed to remove: ''${(j:, :)failed}" >&2
+              return 1
+          fi
+          echo "gwq-prune: removed ''${#targets} worktree(s)"
+      }
     '';
     prezto = {
       enable = true;
