@@ -22,8 +22,6 @@ in
     # global PATH (plain claude-code is still used as a system package).
     package = pkgs.claude-code-with-node;
 
-    plugins = [ inputs.ponytail ];
-
     mcpServers = {
       nixos = {
         command = "${mcpPkgs.mcp-nixos}/bin/mcp-nixos";
@@ -117,6 +115,10 @@ in
     context = ./CLAUDE.md;
     agentsDir = ./agents;
     skills = ./skills;
+    plugins = [
+      inputs.agent-skills
+      inputs.ponytail
+    ];
   };
 
   home.file =
