@@ -2,7 +2,6 @@
   inputs,
   system,
   pkgs,
-  lib,
   ...
 }:
 let
@@ -19,15 +18,9 @@ in
   programs.claude-code = {
     enable = true;
 
-    # ponytail's hooks invoke `node`; keep it on Claude's PATH only, not global.
-    package = pkgs.symlinkJoin {
-      name = "claude-code-with-node";
-      paths = [ pkgs.claude-code ];
-      nativeBuildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/claude --prefix PATH : ${lib.makeBinPath [ pkgs.nodejs ]}
-      '';
-    };
+    # ponytail's hooks invoke `node`; claude-code-with-node keeps it off the
+    # global PATH (plain claude-code is still used as a system package).
+    package = pkgs.claude-code-with-node;
 
     plugins = [ inputs.ponytail ];
 
