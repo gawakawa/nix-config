@@ -1,53 +1,14 @@
 <svg viewBox="61.6600 349.1600 319.6800 319.6800" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="319.6800" height="319.6800">
   <defs>
     <style>
-      .st0 {
-        fill: url(#a);
-      }
-
-      .st1 {
-        fill: url(#b);
-      }
-
-      .st2 {
-        fill: url(#c);
-      }
-
-      .st3 {
-        fill: url(#d);
-      }
-
-      .st4 {
-        fill: url(#e);
-      }
-
-      .st5 {
-        fill: url(#f);
-      }
-
-      .st6 {
-        fill: url(#g);
-      }
-
       .st7 {
         fill: url(#h);
       }
-
-      .st8 {
-        fill: url(#i);
-      }
-    </style><style class="darkreader darkreader--sync" media="screen"/>
+    </style>
     <linearGradient gradientUnits="userSpaceOnUse" y2="491.29" x2="561.93" y1="593.85" x1="561.93" id="i">
-      <stop stop-color="#00a8f4" offset="0" style="--darkreader-inline-stopcolor: var(--darkreader-background-00a8f4, #0086c3);" data-darkreader-inline-stopcolor=""/>
-      <stop stop-color="#00e5d0" offset="1" style="--darkreader-inline-stopcolor: var(--darkreader-background-00e5d0, #00b7a6);" data-darkreader-inline-stopcolor=""/>
+      <stop stop-color="#00a8f4" offset="0"/>
+      <stop stop-color="#00e5d0" offset="1"/>
     </linearGradient>
-    <linearGradient xlink:href="#i" y2="491.58" x2="630.69" y1="567.48" x1="630.69" id="c"/>
-    <linearGradient xlink:href="#i" y2="493.77" x2="480.34" y1="596.04" x1="480.34" id="a"/>
-    <linearGradient xlink:href="#i" y2="470.31" x2="392.86" y1="567.48" x1="392.86" id="b"/>
-    <linearGradient xlink:href="#i" y2="491.73" x2="804.79" y1="567.48" x1="804.79" id="f"/>
-    <linearGradient xlink:href="#i" y2="463.46" x2="883.97" y1="569.67" x1="883.97" id="g"/>
-    <linearGradient xlink:href="#i" y2="465.94" x2="671.56" y1="567.48" x1="671.56" id="d"/>
-    <linearGradient xlink:href="#i" y2="491.58" x2="724.23" y1="569.67" x1="724.23" id="e"/>
     <linearGradient xlink:href="#i" y2="346.78" x2="202.09" y1="659.7" x1="202.09" id="h"/>
   </defs>
   <g transform="rotate(-30 202.3 503.37)">

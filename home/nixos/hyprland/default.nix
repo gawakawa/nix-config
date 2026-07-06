@@ -48,6 +48,10 @@ let
     64
     96
   ];
+  # The size Hyprland actually runs with (XCURSOR_SIZE/HYPRCURSOR_SIZE below).
+  # Must be a member of cursorSizes so the XCursor raster generated for it
+  # exists exactly (no libXcursor fallback to the nearest available size).
+  defaultCursorSize = 32;
   # Where in the (square) logo the pointer's "click point" sits, as a 0-1 fraction
   # of width/height. Single source of truth for both the hyprcursor meta.hl and the
   # XCursor xcursorgen.conf hotspots below.
@@ -75,14 +79,14 @@ let
         mkdir -p hc-src/hyprcursors/left_ptr
         cp ${cursorLogoSvg} hc-src/hyprcursors/left_ptr/logo.svg
 
-        cat > hc-src/manifest.hl <<EOF
+        cat > hc-src/manifest.hl <<'EOF'
         name = ${hyprcursorThemeName}
         description = ${cursorDescription}
         version = 0.1
         cursors_directory = hyprcursors
         EOF
 
-        cat > hc-src/hyprcursors/left_ptr/meta.hl <<EOF
+        cat > hc-src/hyprcursors/left_ptr/meta.hl <<'EOF'
         resize_algorithm = bilinear
         hotspot_x = ${toString cursorHotspotXRatio}
         hotspot_y = ${toString cursorHotspotYRatio}
@@ -102,7 +106,7 @@ let
           resvg -w "$sz" -h "$sz" ${cursorLogoSvg} "pngs/logo-$sz.png"
         done
 
-        cat > hyprland-logo.conf <<EOF
+        cat > hyprland-logo.conf <<'EOF'
         ${xcursorgenConfLines}
         EOF
 
@@ -113,7 +117,7 @@ let
         ln -s left_ptr $out/${xcursorThemeName}/cursors/default
         ln -s left_ptr $out/${xcursorThemeName}/cursors/arrow
 
-        cat > $out/${xcursorThemeName}/index.theme <<EOF
+        cat > $out/${xcursorThemeName}/index.theme <<'EOF'
         [Icon Theme]
         Name=Hyprland Logo
         Comment=${cursorDescription}
@@ -164,9 +168,9 @@ in
       ---- ENVIRONMENT VARIABLES ----
       -------------------------------
       hl.env("XCURSOR_THEME", "${xcursorThemeName}")
-      hl.env("XCURSOR_SIZE", "32")
+      hl.env("XCURSOR_SIZE", "${toString defaultCursorSize}")
       hl.env("HYPRCURSOR_THEME", "${hyprcursorThemeName}")
-      hl.env("HYPRCURSOR_SIZE", "32")
+      hl.env("HYPRCURSOR_SIZE", "${toString defaultCursorSize}")
       hl.env("GTK_IM_MODULE", "fcitx")
       hl.env("QT_IM_MODULE", "fcitx")
       hl.env("XMODIFIERS", "@im=fcitx")
