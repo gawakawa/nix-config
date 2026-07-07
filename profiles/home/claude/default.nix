@@ -9,7 +9,7 @@ let
 in
 {
   home.sessionVariables = {
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-8";
+    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-7";
     ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
     CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
