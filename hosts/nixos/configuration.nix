@@ -67,7 +67,7 @@
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
-    networkmanager.wifi.powersave = false;
+    networkmanager.wifi.powersave = true;
   };
 
   hardware.bluetooth = {
