@@ -67,12 +67,12 @@
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
-    networkmanager.wifi.powersave = false;
+    networkmanager.wifi.powersave = true;
   };
 
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = true;
+    powerOnBoot = false;
   };
 
   users = {
@@ -131,6 +131,7 @@
       enable = true; # local DNS cache via stub resolver (127.0.0.53)
       settings.Resolve.LLMNR = "false"; # disable LLMNR to prevent link-local name poisoning
     };
+    power-profiles-daemon.enable = true;
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
