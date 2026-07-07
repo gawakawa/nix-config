@@ -436,7 +436,28 @@
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-master": "nixpkgs-master",
         "ponytail": "ponytail",
+        "silentSDDM": "silentSDDM",
         "treefmt-nix": "treefmt-nix_3"
+      }
+    },
+    "silentSDDM": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782837720,
+        "narHash": "sha256-6t35AM4lhK7kQTH103YMICyHzMofZMgs+xIJ9kgMZ4I=",
+        "owner": "uiriansan",
+        "repo": "SilentSDDM",
+        "rev": "3b55533612bc66a225b8babc6abfc5f24d04f4ac",
+        "type": "github"
+      },
+      "original": {
+        "owner": "uiriansan",
+        "repo": "SilentSDDM",
+        "type": "github"
       }
     },
     "systems": {
