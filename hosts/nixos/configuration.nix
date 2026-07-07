@@ -1,10 +1,12 @@
 {
+  inputs,
   pkgs,
   ...
 }:
 {
   imports = [
     ../../profiles/hosts/packages.nix
+    inputs.silentSDDM.nixosModules.default
   ];
 
   fonts = {
@@ -161,6 +163,10 @@
     hyprland = {
       enable = true;
       xwayland.enable = true;
+    };
+    silentSDDM = {
+      enable = true;
+      theme = "default";
     };
     zsh.enable = true;
     nix-ld = {
