@@ -137,6 +137,11 @@
       settings.Resolve.LLMNR = "false"; # disable LLMNR to prevent link-local name poisoning
     };
     power-profiles-daemon.enable = true;
+    # Ignore lid close on AC power; battery keeps the systemd default (suspend).
+    logind.settings.Login = {
+      HandleLidSwitchExternalPower = "ignore";
+      HandleLidSwitchDocked = "ignore";
+    };
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
