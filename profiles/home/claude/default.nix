@@ -99,6 +99,8 @@ in
           "Bash(git push:*)"
           "Bash(git restore:*)"
           "Bash(git commit --amend:*)"
+          "Bash(git rebase:*)"
+          "Bash(git pull --rebase:*)"
           "Bash(terraform * apply *)"
           "Bash(opentofu * apply *)"
           "Bash(tofu * apply *)"
