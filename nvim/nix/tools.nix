@@ -18,6 +18,7 @@ let
     deno
     gopls
     lua-language-server
+    ocamlPackages.ocaml-lsp
     prisma-language-server
     ps-pkgs.purescript-language-server
     ruff
@@ -39,7 +40,10 @@ let
       shfmt.package
       terraform.package
     ])
-    ++ [ ps-pkgs.purs-tidy ];
+    ++ [
+      ps-pkgs.purs-tidy
+      pkgs.ocamlPackages.ocamlformat
+    ];
 
   linters = with pkgs; [
     actionlint

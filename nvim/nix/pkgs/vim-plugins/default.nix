@@ -205,6 +205,8 @@ with pkgs.vimPlugins;
       lua
       markdown
       nix
+      ocaml
+      ocaml_interface
       prisma
       purescript
       rust
