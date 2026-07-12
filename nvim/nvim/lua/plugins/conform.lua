@@ -20,6 +20,7 @@ return {
 				bash = { "shfmt" },
 				zsh = { "shfmt" },
 				nix = { "nixfmt" },
+				ocaml = { "ocamlformat" },
 				rust = { "rustfmt" },
 				purescript = { "purs_tidy" },
 				python = { "ruff_format", "ruff_organize_imports" },

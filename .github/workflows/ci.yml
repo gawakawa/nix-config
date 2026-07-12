@@ -65,7 +65,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.nvim == 'true'
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    timeout-minutes: 20
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
