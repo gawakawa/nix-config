@@ -1,5 +1,7 @@
 {
+  config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -171,6 +173,20 @@
     enable = true;
     autoPrune.enable = true;
   };
+
+  # Hide the broken "Hyprland (uwsm-managed)" SDDM entry: nixpkgs' hyprland
+  # package ships hyprland-uwsm.desktop unconditionally, but this repo never
+  # enables programs.uwsm, so selecting it freezes the greeter.
+  services.displayManager.sessionPackages = lib.mkForce [
+    (pkgs.symlinkJoin {
+      name = "hyprland-session-no-uwsm";
+      paths = [ config.programs.hyprland.package ];
+      postBuild = ''
+        rm -f $out/share/wayland-sessions/hyprland-uwsm.desktop
+      '';
+      passthru.providedSessions = [ "hyprland" ];
+    })
+  ];
 
   programs = {
     hyprland = {
