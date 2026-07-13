@@ -83,6 +83,7 @@ in
         ];
       };
       permissions = {
+        defaultMode = "auto";
         allow = [
           "Skill(commit)"
           "Skill(pr)"
