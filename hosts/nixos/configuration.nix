@@ -56,11 +56,6 @@
       ];
       experimental-features = "nix-command flakes";
     };
-    gc = {
-      automatic = true;
-      dates = "monthly";
-      options = "--delete-older-than 30d";
-    };
     optimise = {
       automatic = true;
     };
@@ -203,6 +198,14 @@
       libraries = with pkgs; [
         deno
       ];
+    };
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        dates = "weekly";
+        extraArgs = "--keep-since 30d --keep 3";
+      };
     };
   };
 
