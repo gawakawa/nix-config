@@ -273,9 +273,9 @@ in
         color: #b4befe;
       }
 
-      /* Battery -- peach, with charging/warning/critical accents */
+      /* Battery -- white, charging green, warning/critical accents */
       #battery {
-        color: #fab387;
+        color: #cdd6f4;
       }
 
       #battery.charging {
