@@ -15,11 +15,15 @@ in
   # hooks. Wrap it separately so plain `claude-code` (used as a system
   # package) doesn't gain a global `node` dependency.
   claude-code-with-node = final.symlinkJoin {
-    name = "claude-code-with-node";
+    name = "claude-code-with-node-${final.claude-code.version}";
     paths = [ final.claude-code ];
     nativeBuildInputs = [ final.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/claude --prefix PATH : ${final.lib.makeBinPath [ final.nodejs ]}
     '';
+    # Preserve version/meta so Home Manager's programs.claude-code module can
+    # detect the version and use persistent personal plugins instead of the
+    # legacy --plugin-dir wrapper.
+    inherit (final.claude-code) version meta;
   };
 }
