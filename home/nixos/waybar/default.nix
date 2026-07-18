@@ -173,6 +173,7 @@ in
       #battery,
       #tray {
         background-color: rgba(30, 30, 46, 0.6);
+        border: 1px solid #9399b2;
         border-radius: 10px;
         padding: 0 12px;
         margin: 4px 3px;
@@ -193,7 +194,6 @@ in
       /* Workspaces -- blue, active pink, urgent red */
       #workspaces {
         color: #89b4fa;
-        border: 1px solid #89b4fa;
         padding: 0 8px;
       }
 
@@ -213,25 +213,21 @@ in
       /* Clock -- mauve */
       #clock {
         color: #cba6f7;
-        border: 1px solid #cba6f7;
       }
 
       /* Pulseaudio -- green, muted greyed out */
       #pulseaudio {
         color: #a6e3a1;
-        border: 1px solid #a6e3a1;
       }
 
       #pulseaudio.muted {
         color: #6c7086;
-        border-color: #6c7086;
         text-decoration: line-through;
       }
 
       /* Backlight -- yellow */
       #backlight {
         color: #f9e2af;
-        border: 1px solid #f9e2af;
       }
 
       /* Volume/brightness sliders -- Mac-style thin rounded track */
@@ -270,34 +266,28 @@ in
       /* Network -- sky */
       #network {
         color: #89dceb;
-        border: 1px solid #89dceb;
       }
 
       /* Bluetooth -- lavender */
       #bluetooth {
         color: #b4befe;
-        border: 1px solid #b4befe;
       }
 
-      /* Battery -- peach, with charging/warning/critical accents */
+      /* Battery -- white, charging green, warning/critical accents */
       #battery {
-        color: #fab387;
-        border: 1px solid #fab387;
+        color: #cdd6f4;
       }
 
       #battery.charging {
         color: #a6e3a1;
-        border-color: #a6e3a1;
       }
 
       #battery.warning:not(.charging) {
         color: #f9e2af;
-        border-color: #f9e2af;
       }
 
       #battery.critical:not(.charging) {
         color: #f38ba8;
-        border-color: #f38ba8;
       }
 
       #tray {
