@@ -71,7 +71,6 @@ in
       -------------------
       hl.on("hyprland.start", function()
         hl.exec_cmd("waybar")
-        hl.exec_cmd("google-chrome-stable")
         hl.exec_cmd("${launchWezterm}")
       end)
 
