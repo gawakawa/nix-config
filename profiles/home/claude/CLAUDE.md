@@ -16,11 +16,6 @@ Never jump to solutions before understanding the problem.
 
 - Use the `/commit` skill for commits, `/pr` skill for pull requests.
 
-## Planning
-
-- Split work into tasks small enough to revert cleanly if needed, and track progress with the task tool.
-- Commit each completed task with the `/commit` skill.
-
 ## Code Style
 
 - Write comments in English, only when the code isn't self-explanatory.
