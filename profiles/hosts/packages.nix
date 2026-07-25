@@ -28,7 +28,6 @@
     fastfetch
     rlwrap
     codex
-    claude-code
     tdf
     xdg-user-dirs
   ];
