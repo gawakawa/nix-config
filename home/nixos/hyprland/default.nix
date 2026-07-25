@@ -4,14 +4,15 @@
 }:
 let
   resizeFloating = pkgs.writeShellScript "resize-floating" ''
+    hyprctl dispatch 'hl.dsp.window.float({ action = "enable" })'
     info=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '.[0]')
     w=$(echo $info | ${pkgs.jq}/bin/jq '.width')
     h=$(echo $info | ${pkgs.jq}/bin/jq '.height')
     rt=$(echo $info | ${pkgs.jq}/bin/jq '.reserved[1]')
     tw=$((w * 95 / 100 - 40))
     th=$((h - rt - 40))
-    hyprctl dispatch resizeactive exact $tw $th
-    hyprctl dispatch moveactive exact 20 $((rt + 20))
+    hyprctl dispatch "hl.dsp.window.resize({ x = $tw, y = $th })"
+    hyprctl dispatch "hl.dsp.window.move({ x = 20, y = $((rt + 20)) })"
   '';
   launchWezterm = pkgs.writeShellScript "launch-wezterm" ''
     wezterm &
@@ -19,15 +20,13 @@ let
   swapFloatingTiled = pkgs.writeShellScript "swap-floating-tiled" ''
     is_floating=$(hyprctl activewindow -j | ${pkgs.jq}/bin/jq '.floating')
     if [ "$is_floating" = "true" ]; then
-      hyprctl dispatch settiled
-      hyprctl dispatch cyclenext
-      hyprctl dispatch setfloating
+      hyprctl dispatch 'hl.dsp.window.float({ action = "disable" })'
+      hyprctl dispatch 'hl.dsp.window.cycle_next()'
       ${resizeFloating}
     else
-      hyprctl dispatch setfloating
       ${resizeFloating}
-      hyprctl dispatch cyclenext
-      hyprctl dispatch settiled
+      hyprctl dispatch 'hl.dsp.window.cycle_next()'
+      hyprctl dispatch 'hl.dsp.window.float({ action = "disable" })'
     fi
   '';
 
@@ -196,8 +195,8 @@ in
       -- Basic binds
       hl.bind(mainMod .. " + C", hl.dsp.window.close())
       hl.bind(mainMod .. " + M", hl.dsp.exit())
-      hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("hyprctl dispatch setfloating && ${resizeFloating}"))
-      hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("hyprctl dispatch settiled"))
+      hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("${resizeFloating}"))
+      hl.bind(mainMod .. " + T", hl.dsp.window.float({ action = "disable" }))
       hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
       hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
       hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
@@ -242,10 +241,10 @@ in
       hl.bind("F9", hl.dsp.exec_cmd("grimblast copysave screen"))
 
       -- Repeat binds for window resize
-      hl.bind(mainMod .. " + CTRL + right", hl.dsp.exec_cmd("hyprctl dispatch resizeactive 50 0"),   { repeating = true })
-      hl.bind(mainMod .. " + CTRL + left",  hl.dsp.exec_cmd("hyprctl dispatch resizeactive -50 0"),  { repeating = true })
-      hl.bind(mainMod .. " + CTRL + up",    hl.dsp.exec_cmd("hyprctl dispatch resizeactive 0 -50"),  { repeating = true })
-      hl.bind(mainMod .. " + CTRL + down",  hl.dsp.exec_cmd("hyprctl dispatch resizeactive 0 50"),   { repeating = true })
+      hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ x =  50, y =   0, relative = true }), { repeating = true })
+      hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ x = -50, y =   0, relative = true }), { repeating = true })
+      hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.resize({ x =   0, y = -50, relative = true }), { repeating = true })
+      hl.bind(mainMod .. " + CTRL + down",  hl.dsp.window.resize({ x =   0, y =  50, relative = true }), { repeating = true })
 
       -- Volume and brightness
       hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
