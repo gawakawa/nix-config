@@ -32,7 +32,7 @@ in
 
     settings = {
       model = "opusplan";
-      advisorModel = "opus";
+      advisorModel = "fable";
       language = "japanese";
       alwaysThinkingEnabled = true;
       statusLine = {
