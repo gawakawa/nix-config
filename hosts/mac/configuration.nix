@@ -103,6 +103,7 @@
   # Darwin-specific packages
   environment.systemPackages = with pkgs; [
     qemu
+    (callPackage ./packages/terminal-browser.nix { })
   ];
 
   # GitHub Actions self-hosted runners
