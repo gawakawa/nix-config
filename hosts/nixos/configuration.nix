@@ -212,6 +212,7 @@
   # Linux-specific packages
   environment.systemPackages = with pkgs; [
     brightnessctl
+    (callPackage ./packages/terminal-browser.nix { })
     wl-clipboard
     wofi
   ];
