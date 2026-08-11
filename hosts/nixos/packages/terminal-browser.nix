@@ -17,12 +17,18 @@
   gtk3,
   libdrm,
   libgbm,
+  libx11,
+  libxcb,
+  libxcomposite,
+  libxdamage,
+  libxext,
+  libxfixes,
   libxkbcommon,
+  libxrandr,
   nspr,
   nss,
   pango,
   systemd,
-  xorg,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "terminal-browser";
@@ -53,18 +59,18 @@ stdenv.mkDerivation (finalAttrs: {
     gtk3
     libdrm
     libgbm
+    libx11
+    libxcb
+    libxcomposite
+    libxdamage
+    libxext
+    libxfixes
     libxkbcommon
+    libxrandr
     nspr
     nss
     pango
     systemd
-    xorg.libX11
-    xorg.libxcb
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrandr
   ];
 
   # Bundled electron binary depends on the sibling libffmpeg.so.
