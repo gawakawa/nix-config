@@ -17,9 +17,9 @@ _: {
     };
     initContent = ''
       export PATH=$HOME/.deno/bin:$PATH
-      export PATH=$HOME/.local/bin:$PATH
       export PATH=$HOME/.pack/bin:$PATH
       export PATH=$HOME/.ghcup/bin:$PATH
+      export PATH=$PATH:$HOME/.local/bin
       export NIX_PATH=$HOME/.nix-defexpr/channels:$NIX_PATH
 
       mkcd() {
