@@ -52,6 +52,11 @@
       url = "github:cloudflare/skills";
       flake = false;
     };
+
+    mattpocock-skills = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
   };
 
   outputs =

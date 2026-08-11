@@ -31,7 +31,10 @@ in
           };
         };
       in
-      builtins.listToAttrs (map mkScript (builtins.attrNames scripts));
+      builtins.listToAttrs (map mkScript (builtins.attrNames scripts))
+      // {
+        ".claude/skills/grilling".source = "${inputs.mattpocock-skills}/skills/productivity/grilling";
+      };
   };
 
   programs.claude-code = {
@@ -106,6 +109,7 @@ in
           "Skill(skill-creator)"
           "Skill(review-loop)"
           "Skill(japanese-tech-writing)"
+          "Skill(grilling)"
           "mcp__nixos"
         ];
         ask = [
