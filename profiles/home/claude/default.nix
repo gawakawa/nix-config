@@ -136,5 +136,9 @@ in
         };
       };
     in
-    builtins.listToAttrs (map mkScript (builtins.attrNames scripts));
+    builtins.listToAttrs (map mkScript (builtins.attrNames scripts))
+    // {
+      ".claude/skills/terminal-browser".source =
+        "${pkgs.terminal-browser}/share/terminal-browser/skills/default/terminal-browser";
+    };
 }

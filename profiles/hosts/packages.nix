@@ -29,6 +29,7 @@
     rlwrap
     codex
     tdf
+    terminal-browser
     xdg-user-dirs
   ];
 }
