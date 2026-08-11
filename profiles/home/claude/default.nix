@@ -8,20 +8,38 @@ let
   mcpPkgs = import inputs.mcp-servers-nix.inputs.nixpkgs { inherit system; };
 in
 {
-  home.sessionVariables = {
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
-    ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
-    CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+  home = {
+    sessionVariables = {
+      ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
+      ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+      ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
+      ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5";
+      CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+    };
+
+    # ponytail's hooks invoke `node`.
+    packages = [ pkgs.nodejs_24 ];
+
+    file =
+      let
+        scripts = builtins.readDir ./scripts;
+        mkScript = name: {
+          name = ".claude/${name}";
+          value = {
+            source = ./scripts/${name};
+            executable = true;
+          };
+        };
+      in
+      builtins.listToAttrs (map mkScript (builtins.attrNames scripts))
+      // {
+        ".claude/skills/terminal-browser".source =
+          "${pkgs.terminal-browser}/share/terminal-browser/skills/default/terminal-browser";
+      };
   };
 
   programs.claude-code = {
     enable = true;
-
-    # ponytail's hooks invoke `node`; claude-code-with-node keeps it off the
-    # global PATH (plain claude-code is still used as a system package).
-    package = pkgs.claude-code-with-node;
 
     mcpServers = {
       nixos = {
@@ -119,26 +137,6 @@ in
     context = ./CLAUDE.md;
     agentsDir = ./agents;
     skills = ./skills;
-    plugins = [
-      inputs.agent-skills
-      inputs.ponytail
-    ];
+    plugins = { inherit (inputs) agent-skills ponytail; };
   };
-
-  home.file =
-    let
-      scripts = builtins.readDir ./scripts;
-      mkScript = name: {
-        name = ".claude/${name}";
-        value = {
-          source = ./scripts/${name};
-          executable = true;
-        };
-      };
-    in
-    builtins.listToAttrs (map mkScript (builtins.attrNames scripts))
-    // {
-      ".claude/skills/terminal-browser".source =
-        "${pkgs.terminal-browser}/share/terminal-browser/skills/default/terminal-browser";
-    };
 }
