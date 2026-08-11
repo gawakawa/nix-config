@@ -31,11 +31,7 @@ in
           };
         };
       in
-      builtins.listToAttrs (map mkScript (builtins.attrNames scripts))
-      // {
-        ".claude/skills/terminal-browser".source =
-          "${pkgs.terminal-browser}/share/terminal-browser/skills/default/terminal-browser";
-      };
+      builtins.listToAttrs (map mkScript (builtins.attrNames scripts));
   };
 
   programs.claude-code = {

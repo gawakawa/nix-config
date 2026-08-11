@@ -24,36 +24,22 @@
   systemd,
   xorg,
 }:
-let
-  version = "0.5.3";
-  srcs = {
-    x86_64-linux = fetchurl {
-      url = "https://github.com/zenbu-labs/terminal-browser/releases/download/v${version}/terminal-browser-linux-x64.tar.gz";
-      hash = "sha256-Bdzl6QmiDixO/W+i9eZFiyYZC+NxOeXCl97r4xHEmqs=";
-    };
-    aarch64-darwin = fetchurl {
-      url = "https://github.com/zenbu-labs/terminal-browser/releases/download/v${version}/terminal-browser-darwin-arm64.tar.gz";
-      hash = "sha256-avEqAt+SAVAF0CD2qW2T+fvvWHlDamnQGVLdTCzxQ8o=";
-    };
-  };
-in
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   pname = "terminal-browser";
-  inherit version;
+  version = "0.5.3";
 
-  src =
-    srcs.${stdenv.hostPlatform.system}
-      or (throw "terminal-browser: no build for ${stdenv.hostPlatform.system}");
+  src = fetchurl {
+    url = "https://github.com/zenbu-labs/terminal-browser/releases/download/v${finalAttrs.version}/terminal-browser-linux-x64.tar.gz";
+    hash = "sha256-Bdzl6QmiDixO/W+i9eZFiyYZC+NxOeXCl97r4xHEmqs=";
+  };
 
   nativeBuildInputs = [
-    makeWrapper
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [
     autoPatchelfHook
+    makeWrapper
     addDriverRunpath
   ];
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
+  buildInputs = [
     stdenv.cc.cc.lib
     alsa-lib
     at-spi2-atk
@@ -82,17 +68,16 @@ stdenv.mkDerivation {
   ];
 
   # Bundled electron binary depends on the sibling libffmpeg.so.
-  preFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+  preFixup = ''
     addAutoPatchelfSearchPath "$out/share/terminal-browser/electron"
   '';
 
   # Offscreen GPU rendering is the app's core mechanism.
-  postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+  postFixup = ''
     addDriverRunpath "$out/share/terminal-browser/electron/electron"
   '';
 
-  # Prebuilt Chromium/Electron blob; stripping is slow, and on Darwin it
-  # would invalidate the app bundle's code signature.
+  # Prebuilt Chromium/Electron blob; stripping is slow and not useful.
   dontStrip = true;
 
   installPhase = ''
@@ -113,10 +98,7 @@ stdenv.mkDerivation {
     homepage = "https://github.com/zenbu-labs/terminal-browser";
     license = lib.licenses.mit;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
-    platforms = [
-      "x86_64-linux"
-      "aarch64-darwin"
-    ];
+    platforms = [ "x86_64-linux" ];
     mainProgram = "terminal-browser";
   };
-}
+})
