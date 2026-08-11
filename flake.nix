@@ -47,6 +47,11 @@
       url = "github:DietrichGebert/ponytail";
       flake = false;
     };
+
+    cloudflare = {
+      url = "github:cloudflare/skills";
+      flake = false;
+    };
   };
 
   outputs =
