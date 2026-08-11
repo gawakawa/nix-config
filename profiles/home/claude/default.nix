@@ -133,6 +133,6 @@ in
     context = ./CLAUDE.md;
     agentsDir = ./agents;
     skills = ./skills;
-    plugins = { inherit (inputs) agent-skills ponytail; };
+    plugins = { inherit (inputs) agent-skills ponytail cloudflare; };
   };
 }
