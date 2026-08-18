@@ -22,7 +22,7 @@ return {
 				nix = { "nixfmt" },
 				ocaml = { "ocamlformat" },
 				rust = { "rustfmt" },
-				purescript = { "purs_tidy" },
+				purescript = { "purs-tidy" },
 				python = { "ruff_format", "ruff_organize_imports" },
 				javascript = { "oxfmt" },
 				typescript = { "oxfmt" },
