@@ -49,6 +49,7 @@ in
 
     settings = {
       model = "opusplan";
+      effortLevel = "xhigh";
       advisorModel = "fable";
       language = "japanese";
       alwaysThinkingEnabled = true;
