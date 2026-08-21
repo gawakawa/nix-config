@@ -10,6 +10,17 @@ let
     ripgrep
   ];
 
+  # vscode-uri percent-encodes `=` but neovim leaves it literal, so diagnostics
+  # never match on gwq worktree paths. postInstall is skipped upstream (no runHook).
+  purescript-language-server = ps-pkgs.purescript-language-server.overrideAttrs (old: {
+    postFixup = (old.postFixup or "") + ''
+      substituteInPlace $out/node_modules/purescript-language-server/purescript-language-server.js \
+        --replace-fail \
+          'code2 === 126 || allowSlash && code2 === 47' \
+          'code2 === 126 || code2 === 61 || allowSlash && code2 === 47'
+    '';
+  });
+
   lsp = with pkgs; [
     asm-lsp
     bash-language-server
@@ -20,7 +31,7 @@ let
     lua-language-server
     ocamlPackages.ocaml-lsp
     prisma-language-server
-    ps-pkgs.purescript-language-server
+    purescript-language-server
     ruff
     rust-analyzer
     (callPackage ./pkgs/rustowl { })
