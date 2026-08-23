@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-Be concise. Don't pad sentences that can stand on their own.
-
 ## Problem-Solving Approach
 
 When debugging, always follow this order:
