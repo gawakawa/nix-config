@@ -52,6 +52,7 @@ in
       effortLevel = "xhigh";
       advisorModel = "fable";
       language = "japanese";
+      outputStyle = "terse";
       alwaysThinkingEnabled = true;
       statusLine = {
         type = "command";
@@ -138,6 +139,7 @@ in
     context = ./CLAUDE.md;
     agentsDir = ./agents;
     skills = ./skills;
+    outputStyles.terse = ./output-styles/terse.md;
     plugins = { inherit (inputs) agent-skills ponytail cloudflare; };
   };
 }
