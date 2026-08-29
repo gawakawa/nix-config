@@ -17,8 +17,11 @@ in
       CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
     };
 
-    # ponytail's hooks invoke `node`.
-    packages = [ pkgs.nodejs_24 ];
+    packages = [
+      # ponytail's hooks invoke `node`.
+      pkgs.nodejs_24
+      inputs.ax.packages.${system}.default
+    ];
 
     file =
       let
@@ -34,6 +37,7 @@ in
       builtins.listToAttrs (map mkScript (builtins.attrNames scripts))
       // {
         ".claude/skills/grilling".source = "${inputs.mattpocock-skills}/skills/productivity/grilling";
+        ".claude/skills/ax".source = "${inputs.ax}/skills/ax";
       };
   };
 
@@ -105,6 +109,7 @@ in
       permissions = {
         defaultMode = "auto";
         allow = [
+          "Bash(ax:*)"
           "Skill(commit)"
           "Skill(pr)"
           "Skill(ci-debugger)"

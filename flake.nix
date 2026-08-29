@@ -57,6 +57,11 @@
       url = "github:mattpocock/skills";
       flake = false;
     };
+
+    ax = {
+      url = "github:yusukebe/ax";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
