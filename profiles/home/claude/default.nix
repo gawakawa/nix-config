@@ -21,6 +21,7 @@ in
       # ponytail's hooks invoke `node`.
       pkgs.nodejs_24
       inputs.ax.packages.${system}.default
+      pkgs.agent-browser
     ];
 
     file =
@@ -38,6 +39,7 @@ in
       // {
         ".claude/skills/grilling".source = "${inputs.mattpocock-skills}/skills/productivity/grilling";
         ".claude/skills/ax".source = "${inputs.ax}/skills/ax";
+        ".claude/skills/agent-browser".source = "${pkgs.agent-browser}/skills/agent-browser";
       };
   };
 
@@ -110,6 +112,7 @@ in
         defaultMode = "auto";
         allow = [
           "Bash(ax:*)"
+          "Bash(agent-browser:*)"
           "Skill(commit)"
           "Skill(pr)"
           "Skill(ci-debugger)"
