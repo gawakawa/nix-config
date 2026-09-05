@@ -26,7 +26,12 @@
 
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
 
-    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      # cl-nix-lite pins an old flake-parts whose nixpkgs.lib uses `or` as an
+      # identifier, which newer Lix warns about; follow ours instead.
+      inputs.cl-nix-lite.inputs.flake-parts.follows = "flake-parts";
+    };
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
