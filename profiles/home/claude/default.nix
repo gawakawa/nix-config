@@ -66,12 +66,23 @@ in
         padding = 0;
       };
       hooks = {
-        PreCompact = [
+        SessionEnd = [
           {
             hooks = [
               {
                 type = "command";
-                command = "~/.claude/backup-transcript.sh";
+                command = "~/.claude/retrospect-queue.sh";
+              }
+            ];
+          }
+        ];
+        SessionStart = [
+          {
+            matcher = "startup";
+            hooks = [
+              {
+                type = "command";
+                command = "~/.claude/retrospect-queue.sh";
               }
             ];
           }
@@ -120,6 +131,8 @@ in
           "Skill(review-loop)"
           "Skill(japanese-tech-writing)"
           "Skill(grilling)"
+          "Skill(polish-plan)"
+          "Skill(retrospect)"
           "mcp__nixos"
         ];
         ask = [

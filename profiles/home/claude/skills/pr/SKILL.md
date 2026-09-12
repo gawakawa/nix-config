@@ -1,6 +1,7 @@
 ---
 name: pr
-description: "Create a GitHub pull request for the current branch. Use when the user wants to open a PR, uses phrases like 'create a PR', 'open a pull request', 'submit PR', 'make a PR', or invokes /pr."
+description: "Create a GitHub pull request for the current branch."
+when_to_use: "Triggers on phrases like 'create a PR', 'PR を作って'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Bash, Read, AskUserQuestion

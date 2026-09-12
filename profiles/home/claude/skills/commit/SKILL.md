@@ -1,6 +1,7 @@
 ---
 name: commit
-description: "Use this skill when the user requests to commit changes, uses phrases like 'commit these changes', 'create a commit', 'commit with message', or when the user wants to stage and commit files with an appropriate gitmoji-prefixed commit message."
+description: "Stage changes and create a commit with a gitmoji-prefixed message."
+when_to_use: "Triggers on phrases like 'commit these changes', 'コミットして'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Bash, Read, AskUserQuestion
