@@ -120,6 +120,7 @@ in
           "Skill(review-loop)"
           "Skill(japanese-tech-writing)"
           "Skill(grilling)"
+          "Skill(polish-plan)"
           "mcp__nixos"
         ];
         ask = [
