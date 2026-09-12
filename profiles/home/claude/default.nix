@@ -66,6 +66,27 @@ in
         padding = 0;
       };
       hooks = {
+        SessionEnd = [
+          {
+            hooks = [
+              {
+                type = "command";
+                command = "~/.claude/retrospect-queue.sh";
+              }
+            ];
+          }
+        ];
+        SessionStart = [
+          {
+            matcher = "startup";
+            hooks = [
+              {
+                type = "command";
+                command = "~/.claude/retrospect-queue.sh";
+              }
+            ];
+          }
+        ];
         PreToolUse = [
           {
             matcher = "Bash";
@@ -111,6 +132,7 @@ in
           "Skill(japanese-tech-writing)"
           "Skill(grilling)"
           "Skill(polish-plan)"
+          "Skill(retrospect)"
           "mcp__nixos"
         ];
         ask = [
