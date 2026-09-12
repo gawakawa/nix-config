@@ -66,16 +66,6 @@ in
         padding = 0;
       };
       hooks = {
-        PreCompact = [
-          {
-            hooks = [
-              {
-                type = "command";
-                command = "~/.claude/backup-transcript.sh";
-              }
-            ];
-          }
-        ];
         PreToolUse = [
           {
             matcher = "Bash";
