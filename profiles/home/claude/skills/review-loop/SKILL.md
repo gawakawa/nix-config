@@ -1,6 +1,7 @@
 ---
 name: review-loop
-description: "One disciplined pass of /code-review -> triage -> fix on the current branch; pair with /goal to repeat until clean or a turn cap. Use when the user says 'review loop', 'レビューループ', 'code-review を回して直して', 'lint until clean'. Optional arg: code-review effort (low|medium|high|max, default high)."
+description: "One disciplined pass of /code-review -> triage -> fix on the current branch; pair with /goal to repeat until clean or a turn cap. Optional arg: code-review effort (low|medium|high|max, default high)."
+when_to_use: "Triggers on phrases like 'review until clean', '指摘がなくなるまでレビューして'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Skill(code-review), Skill(commit), Agent, Read, Edit, Write, Bash, Grep, Glob
