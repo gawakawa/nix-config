@@ -1,7 +1,6 @@
 ---
 name: retrospect
-description: "Extract the corrections the user made during a session and save the recurring ones to Claude Code memory as type: feedback."
-when_to_use: "When the user runs /retrospect, when a SessionStart notice reports unprocessed retrospect transcripts, or on phrases like '振り返って', '指摘を memory に', 'retrospect'."
+description: "Extract the corrections the user made during a session and save the recurring ones to Claude Code memory as type: feedback. When the user runs /retrospect, when a SessionStart notice reports unprocessed retrospect transcripts, or on phrases like '振り返って', '指摘を memory に', 'retrospect'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Bash, Read, Write, Edit

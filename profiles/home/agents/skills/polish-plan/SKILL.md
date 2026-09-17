@@ -1,7 +1,6 @@
 ---
 name: polish-plan
-description: "Rewrite the current session's plan file so a reader with no conversation context can follow it, by deleting provenance notes, exploration narration, and duplicated facts — never by adding content."
-when_to_use: "When the user runs /polish-plan, or asks to clean up the plan file with phrases like 'plan を書き直せ', 'plan を削って', 'plan が冗長'."
+description: "Rewrite the current session's plan file so a reader with no conversation context can follow it, by deleting provenance notes, exploration narration, and duplicated facts — never by adding content. When the user runs /polish-plan, or asks to clean up the plan file with phrases like 'plan を書き直せ', 'plan を削って', 'plan が冗長'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read, Edit, Write

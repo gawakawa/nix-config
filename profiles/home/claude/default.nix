@@ -2,6 +2,7 @@
   inputs,
   system,
   pkgs,
+  config,
   ...
 }:
 let
@@ -40,6 +41,8 @@ in
         ".claude/skills/grilling".source = "${inputs.mattpocock-skills}/skills/productivity/grilling";
         ".claude/skills/ax".source = "${inputs.ax}/skills/ax";
         ".claude/skills/agent-browser".source = "${pkgs.agent-browser}/skills/agent-browser";
+        ".claude/CLAUDE.md".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.codex/AGENTS.md";
       };
   };
 
@@ -157,9 +160,8 @@ in
       };
     };
 
-    context = ./CLAUDE.md;
     agentsDir = ./agents;
-    skills = ./skills;
+    skills = ../agents/skills;
     outputStyles.terse = ./output-styles/terse.md;
     plugins = { inherit (inputs) agent-skills ponytail cloudflare; };
   };
