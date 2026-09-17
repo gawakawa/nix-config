@@ -5,9 +5,6 @@
   config,
   ...
 }:
-let
-  mcpPkgs = import inputs.mcp-servers-nix.inputs.nixpkgs { inherit system; };
-in
 {
   home = {
     sessionVariables = {
@@ -48,13 +45,7 @@ in
 
   programs.claude-code = {
     enable = true;
-
-    mcpServers = {
-      nixos = {
-        command = "${mcpPkgs.mcp-nixos}/bin/mcp-nixos";
-        args = [ ];
-      };
-    };
+    enableMcpIntegration = true;
 
     settings = {
       model = "opusplan";
