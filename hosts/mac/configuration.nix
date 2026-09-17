@@ -7,6 +7,7 @@
 {
   imports = [
     ../../profiles/hosts/packages.nix
+    ../../profiles/hosts/codex.nix
   ];
 
   ids.gids.nixbld = 350;
