@@ -55,7 +55,10 @@
       substituters = [
         "https://cache.iog.io"
       ];
-      experimental-features = "nix-command flakes";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
     optimise = {
       automatic = true;
