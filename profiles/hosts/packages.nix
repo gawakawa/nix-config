@@ -27,7 +27,6 @@
     httpie
     fastfetch
     rlwrap
-    codex
     tdf
     xdg-user-dirs
   ];

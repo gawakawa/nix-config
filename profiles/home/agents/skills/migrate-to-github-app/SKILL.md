@@ -1,7 +1,6 @@
 ---
 name: migrate-to-github-app
-description: "Migrate GitHub Actions from PAT to GitHub App auth."
-when_to_use: "Triggers on phrases like 'migrate to GitHub App', 'GitHub App に移行して'."
+description: "Migrate GitHub Actions from PAT to GitHub App auth. Triggers on phrases like 'migrate to GitHub App', 'GitHub App に移行して'."
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read, Edit, Write, TaskCreate, AskUserQuestion, Bash(ls:*), Bash(sleep:*), Bash(gh secret list:*), Bash(gh run list:*), Bash(gh run watch:*), Bash(gh workflow run:*)
