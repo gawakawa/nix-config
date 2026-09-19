@@ -16,14 +16,6 @@ else
   CONTEXT_PERCENT=0
 fi
 
-# Generate progress bar (20 chars width, 5% steps)
-BAR_WIDTH=20
-FILLED=$((CONTEXT_PERCENT * BAR_WIDTH / 100))
-EMPTY=$((BAR_WIDTH - FILLED))
-BAR=""
-[ "$FILLED" -gt 0 ] && BAR=$(printf '█%.0s' $(seq 1 $FILLED))
-[ "$EMPTY" -gt 0 ] && BAR="${BAR}$(printf '░%.0s' $(seq 1 $EMPTY))"
-
 # Get git branch
 cd "$CWD" 2>/dev/null || true
 GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
@@ -32,5 +24,4 @@ GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
 DIR=${CWD##*/}
 DIR=${DIR%%=*}
 
-# Output format
-echo "📁 ${DIR} ${GIT_BRANCH:+ $GIT_BRANCH }✴️${MODEL} [${BAR}] ${CONTEXT_PERCENT}%"
+echo "${DIR}${GIT_BRANCH:+ | $GIT_BRANCH} | ${MODEL} | ${CONTEXT_PERCENT}%"
