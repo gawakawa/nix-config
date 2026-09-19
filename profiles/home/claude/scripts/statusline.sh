@@ -4,17 +4,7 @@ input=$(cat)
 # Extract from JSON API
 MODEL=$(echo "$input" | jq -r '.model.display_name')
 CWD=$(echo "$input" | jq -r '.workspace.current_dir')
-CONTEXT_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size')
-CACHE_CREATE=$(echo "$input" | jq -r '.context_window.current_usage.cache_creation_input_tokens // 0')
-CACHE_READ=$(echo "$input" | jq -r '.context_window.current_usage.cache_read_input_tokens // 0')
-
-# Calculate context usage percentage
-TOTAL_TOKENS=$((INPUT_TOKENS + CACHE_CREATE + CACHE_READ))
-if [ "$CONTEXT_SIZE" -gt 0 ] 2>/dev/null; then
-  CONTEXT_PERCENT=$((TOTAL_TOKENS * 100 / CONTEXT_SIZE))
-else
-  CONTEXT_PERCENT=0
-fi
+CONTEXT_PERCENT=$(echo "$input" | jq -r '(.context_window.used_percentage // 0) | round')
 
 # Get git branch
 cd "$CWD" 2>/dev/null || true
