@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 ## Problem-Solving Approach
 
@@ -12,7 +12,7 @@ Never jump to solutions before understanding the problem.
 
 ## Git Workflow
 
-- Use the `/commit` skill for commits, `/pr` skill for pull requests.
+- Use the commit skill for commits, pr skill for pull requests.
 
 ## Code Style
 

@@ -1,7 +1,6 @@
 ---
 name: ci-debugger
-description: "Analyze GitHub Actions CI logs to identify failure causes. Accepts run ID or PR number as argument."
-when_to_use: "Triggers on phrases like 'debug CI', 'why did CI fail', 'analyze workflow failure', 'check CI logs', 'CIが失敗しています', 'ビルドが失敗した'."
+description: "Analyze GitHub Actions CI logs to identify failure causes. Accepts run ID or PR number as argument. Triggers on phrases like 'debug CI', 'why did CI fail', 'analyze workflow failure', 'check CI logs', 'CIが失敗しています', 'ビルドが失敗した'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Bash, Read, Grep, AskUserQuestion, Bash(gh run list:*), Bash(gh run view:*)

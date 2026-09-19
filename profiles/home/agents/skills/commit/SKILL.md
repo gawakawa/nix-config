@@ -1,7 +1,6 @@
 ---
 name: commit
-description: "Stage changes and create a commit with a gitmoji-prefixed message."
-when_to_use: "Triggers on phrases like 'commit these changes', 'コミットして'."
+description: "Stage changes and create a commit with a gitmoji-prefixed message. Triggers on phrases like 'commit these changes', 'コミットして'."
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Bash, Read, AskUserQuestion
