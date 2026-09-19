@@ -8,6 +8,7 @@
 {
   imports = [
     ../../profiles/hosts/packages.nix
+    ../../profiles/hosts/codex.nix
     inputs.silentSDDM.nixosModules.default
   ];
 
