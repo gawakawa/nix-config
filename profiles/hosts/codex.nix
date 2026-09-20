@@ -32,6 +32,76 @@ in
         )
 
         prefix_rule(
+            pattern = ["nix", "fmt"],
+            decision = "allow",
+            justification = "Nix formatting is an approved development operation.",
+            match = ["nix fmt"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "flake", "check"],
+            decision = "allow",
+            justification = "Nix flake checks are approved development verification.",
+            match = ["nix flake check"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "build"],
+            decision = "allow",
+            justification = "Nix builds are approved development verification.",
+            match = ["nix build .#package"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "eval"],
+            decision = "allow",
+            justification = "Nix evaluation is approved development verification.",
+            match = ["nix eval .#package"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "flake", "metadata"],
+            decision = "allow",
+            justification = "Nix flake metadata inspection is an approved development operation.",
+            match = ["nix flake metadata"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "flake", "show"],
+            decision = "allow",
+            justification = "Nix flake inspection is an approved development operation.",
+            match = ["nix flake show"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "path-info"],
+            decision = "allow",
+            justification = "Nix path inspection is an approved development operation.",
+            match = ["nix path-info .#package"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "derivation", "show"],
+            decision = "allow",
+            justification = "Nix derivation inspection is an approved development operation.",
+            match = ["nix derivation show .#package"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "why-depends"],
+            decision = "allow",
+            justification = "Nix dependency inspection is an approved development operation.",
+            match = ["nix why-depends .#package .#dependency"],
+        )
+
+        prefix_rule(
+            pattern = ["nix", "config", "show"],
+            decision = "allow",
+            justification = "Nix configuration inspection is an approved development operation.",
+            match = ["nix config show"],
+        )
+
+        prefix_rule(
             pattern = ["rm"],
             decision = "prompt",
             justification = "Confirm deletion outside the workspace.",
