@@ -39,11 +39,11 @@ flake-parts config for NixOS (x86_64-linux) + Darwin (aarch64-darwin).
 
 Nix flake-based Neovim config; lazy.nvim handles runtime loading, Nix pins plugin sources declaratively.
 
-- Plugin flow: `nix/pkgs/vim-plugins/default.nix` (declare sources) → `nix/plugins.nix`
-  (normalize names, e.g. `nvim-treesitter` → `nvim_treesitter`) → `nix/lib/make-neovim-wrapper.nix`
-  (substitute `@plugin_name@` placeholders with store paths) → `nvim/lua/plugins/*.lua`
+- Plugin flow: `nvim/nix/pkgs/vim-plugins/default.nix` (declare sources) → `nvim/nix/plugins.nix`
+  (normalize names, e.g. `nvim-treesitter` → `nvim_treesitter`) → `nvim/nix/lib/make-neovim-wrapper.nix`
+  (substitute `@plugin_name@` placeholders with store paths) → `nvim/nvim/lua/plugins/*.lua`
   (lazy.nvim spec, `dir = "@plugin_name@"`).
-- External tools (LSPs, formatters, linters) declared in `nix/tools.nix`, added to PATH by the wrapper.
-- Lua layout: `nvim/init.lua` (entry point), `nvim/lua/plugins/` (one file per plugin),
-  `nvim/lua/config/` (shared config).
+- External tools (LSPs, formatters, linters) declared in `nvim/nix/tools.nix`, added to PATH by the wrapper.
+- Lua layout: `nvim/nvim/init.lua` (entry point), `nvim/nvim/lua/plugins/` (one file per plugin),
+  `nvim/nvim/lua/config/` (shared config).
 - Lint: selene (`nvim/selene.toml`, `nvim/vim.yml`); `mixed_table` is allowed for lazy.nvim specs.
