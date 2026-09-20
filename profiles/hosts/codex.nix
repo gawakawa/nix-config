@@ -7,13 +7,15 @@
 let
   mcpPkgs = import inputs.mcp-servers-nix.inputs.nixpkgs { inherit system; };
   tomlFormat = pkgs.formats.toml { };
+  denyScript = pkgs.writeShellScript "codex-deny.sh" (
+    builtins.readFile ../home/claude/scripts/deny.sh
+  );
 in
 {
   environment = {
     etc = {
       "codex/deny.sh" = {
-        source = ../home/claude/scripts/deny.sh;
-        mode = "0755";
+        source = denyScript;
       };
 
       "codex/rules/default.rules".text = ''
