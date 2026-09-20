@@ -48,12 +48,20 @@
     enable = true;
     package = pkgs.nix;
     settings = {
-      # Binary Cache for haskell.nix
       trusted-public-keys = [
+        # Binary Cache for haskell.nix
         "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "gawakawa.cachix.org-1:NVSPP7gCC7cr4U7eWhK3MlDGmbU5YkdHqW6+r7oz17c="
       ];
       substituters = [
         "https://cache.iog.io"
+        "https://nix-community.cachix.org"
+        "https://gawakawa.cachix.org"
+      ];
+      trusted-users = [
+        "root"
+        "iota"
       ];
       experimental-features = [
         "nix-command"
