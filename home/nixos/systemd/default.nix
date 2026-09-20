@@ -15,7 +15,10 @@ in
       Requires = [ "gpg-agent.socket" ];
     };
     Service = {
-      Environment = [ "GNUPGHOME=${config.home.homeDirectory}/.gnupg" ];
+      Environment = [
+        "GNUPGHOME=${config.home.homeDirectory}/.gnupg"
+        "PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR}"
+      ];
       ExecStart = "${myLib.mkCachixWatchStore pkgs}";
       Restart = "on-failure";
     };
