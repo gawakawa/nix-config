@@ -80,6 +80,15 @@
     networkmanager.wifi.powersave = true;
   };
 
+  # cachix-watch-store is a systemd --user service, so it cannot use the
+  # pass/GPG store (pinentry-tty needs a controlling terminal). sops-nix
+  # decrypts this at activation time using the host's SSH key (as age).
+  sops = {
+    defaultSopsFile = ../../secrets/nixos.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    secrets.cachix-auth-token.owner = config.users.users.iota.name;
+  };
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = false;

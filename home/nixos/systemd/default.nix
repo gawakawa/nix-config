@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, osConfig, ... }:
 let
   myLib = import ../../../lib;
 in
@@ -6,24 +6,15 @@ in
   home.packages = [ pkgs.cachix ];
 
   systemd.user.services.cachix-watch-store = {
-    Unit = {
-      Description = "Cachix Watch Store";
-      After = [
-        "network-online.target"
-        "gpg-agent.socket"
-      ];
-      Requires = [ "gpg-agent.socket" ];
-    };
+    Unit.Description = "Cachix Watch Store";
     Service = {
-      Environment = [
-        "GNUPGHOME=${config.home.homeDirectory}/.gnupg"
-        "PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR}"
-      ];
-      ExecStart = "${myLib.mkCachixWatchStore pkgs "${pkgs.pass}/bin/pass show cachix/auth-token"}";
+      ExecStart = "${myLib.mkCachixWatchStore pkgs "${pkgs.coreutils}/bin/cat ${osConfig.sops.secrets.cachix-auth-token.path}"}";
+      # sops-nix updates /run/secrets/cachix-auth-token on rotate but does not
+      # restart systemd --user services (restartUnits only covers system
+      # units) — restart this manually after rotating the token.
       Restart = "on-failure";
+      RestartSec = 10;
     };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
+    Install.WantedBy = [ "default.target" ];
   };
 }
