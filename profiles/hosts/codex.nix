@@ -73,6 +73,12 @@ in
         approval_policy = "on-request";
         approvals_reviewer = "auto_review";
         sandbox_mode = "workspace-write";
+        tui.status_line = [
+          "current-dir"
+          "git-branch"
+          "model-with-reasoning"
+          "context-remaining"
+        ];
         hooks.PreToolUse =
           let
             deny = matchRegex: reason: {
