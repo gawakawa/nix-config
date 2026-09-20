@@ -4,7 +4,7 @@
   nixConfig = {
     extra-substituters = [ "https://gawakawa.cachix.org" ];
     extra-trusted-public-keys = [
-      "gawakawa.cachix.org-1:lpOOgOfyO68izReEj8TMxjnNRlgUsk4lwJ2KAGF5Xso="
+      "gawakawa.cachix.org-1:NVSPP7gCC7cr4U7eWhK3MlDGmbU5YkdHqW6+r7oz17c="
     ];
   };
 
