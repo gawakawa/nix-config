@@ -55,6 +55,7 @@
         "gawakawa.cachix.org-1:NVSPP7gCC7cr4U7eWhK3MlDGmbU5YkdHqW6+r7oz17c="
       ];
       substituters = [
+        # Binary Cache for haskell.nix
         "https://cache.iog.io"
         "https://nix-community.cachix.org"
         "https://gawakawa.cachix.org"
