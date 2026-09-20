@@ -48,10 +48,6 @@
     enableMcpIntegration = true;
 
     settings = {
-      # ~/.claude/CLAUDE.md (symlink to ~/.codex/AGENTS.md, above) は kind "user" のため
-      # agents-md プラグインの判定対象外で常に併読される。プロジェクト側の AGENTS.md 読み込みは
-      # feature flag 由来のデフォルトに頼らずここで明示する。
-      pluginConfigs."agents-md@builtin".options.instructionFiles = "claude-md-or-agents-md";
       model = "opusplan";
       effortLevel = "xhigh";
       advisorModel = "fable";
