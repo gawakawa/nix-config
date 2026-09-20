@@ -170,6 +170,9 @@
     # brightnessctl's udev rules grant the "video" group write access to
     # /sys/class/backlight, so brightness can be adjusted without root.
     udev.packages = [ pkgs.brightnessctl ];
+    # sshd itself is not enabled; this only generates host keys so sops-nix
+    # can decrypt secrets at activation time via sops.age.sshKeyPaths.
+    openssh.generateHostKeys = true;
   };
 
   security = {
