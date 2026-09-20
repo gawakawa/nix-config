@@ -160,11 +160,13 @@ in
             resetHardReason = "Use git reset --soft to move HEAD while keeping changes, git revert to undo a commit, or git restore <file> (git checkout -- <file>) to discard specific working-tree changes.";
             noVerifyReason = "Do not bypass commit hooks.";
             nixShellReason = "Use direnv or comma instead of nix develop or nix shell.";
+            pushReason = "Run git push yourself after reviewing the remote destination and branch.";
             addRegex = "^[[:space:]]*git[[:space:]]+add[[:space:]]+(-A|--all|-u|\\.)([[:space:]]|$)";
             resetRegex = "^[[:space:]]*git[[:space:]]+reset[[:space:]]+--hard([[:space:]]|$)";
             noVerifyRegex = "^[[:space:]]*git[[:space:]]+commit[[:space:]]+--no-verify([[:space:]]|$)";
             shortNoVerifyRegex = "^[[:space:]]*git[[:space:]]+commit[[:space:]]+-n([[:space:]]|$)";
             nixShellRegex = "^[[:space:]]*nix[[:space:]]+(develop|shell)([[:space:]]|$)";
+            pushRegex = "^[[:space:]]*git[[:space:]]+push([[:space:]]|$)";
           in
           [
             {
@@ -175,6 +177,7 @@ in
                 (deny noVerifyRegex noVerifyReason)
                 (deny shortNoVerifyRegex noVerifyReason)
                 (deny nixShellRegex nixShellReason)
+                (deny pushRegex pushReason)
               ];
             }
           ];
