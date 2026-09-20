@@ -34,3 +34,16 @@ flake-parts config for NixOS (x86_64-linux) + Darwin (aarch64-darwin).
 - `hosts/`, `home/` — per-host system / Home Manager entry points (`mac`, `nixos`).
 - `profiles/` — shared modules (`home/`, `hosts/`). Shell aliases/functions live in `profiles/home/zsh/`.
 - CI (`.github/workflows/ci.yml`): `nix flake check` + build both configs, cached via Cachix (`gawakawa`).
+
+## Neovim (./nvim/)
+
+Nix flake-based Neovim config; lazy.nvim handles runtime loading, Nix pins plugin sources declaratively.
+
+- Plugin flow: `nix/pkgs/vim-plugins/default.nix` (declare sources) → `nix/plugins.nix`
+  (normalize names, e.g. `nvim-treesitter` → `nvim_treesitter`) → `nix/lib/make-neovim-wrapper.nix`
+  (substitute `@plugin_name@` placeholders with store paths) → `nvim/lua/plugins/*.lua`
+  (lazy.nvim spec, `dir = "@plugin_name@"`).
+- External tools (LSPs, formatters, linters) declared in `nix/tools.nix`, added to PATH by the wrapper.
+- Lua layout: `nvim/init.lua` (entry point), `nvim/lua/plugins/` (one file per plugin),
+  `nvim/lua/config/` (shared config).
+- Lint: selene (`nvim/selene.toml`, `nvim/vim.yml`); `mixed_table` is allowed for lazy.nvim specs.
