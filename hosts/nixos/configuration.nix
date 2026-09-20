@@ -48,12 +48,21 @@
     enable = true;
     package = pkgs.nix;
     settings = {
-      # Binary Cache for haskell.nix
       trusted-public-keys = [
+        # Binary Cache for haskell.nix
         "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "gawakawa.cachix.org-1:NVSPP7gCC7cr4U7eWhK3MlDGmbU5YkdHqW6+r7oz17c="
       ];
       substituters = [
+        # Binary Cache for haskell.nix
         "https://cache.iog.io"
+        "https://nix-community.cachix.org"
+        "https://gawakawa.cachix.org"
+      ];
+      trusted-users = [
+        "root"
+        "iota"
       ];
       experimental-features = [
         "nix-command"
@@ -69,6 +78,15 @@
     hostName = "nixos";
     networkmanager.enable = true;
     networkmanager.wifi.powersave = true;
+  };
+
+  # cachix-watch-store decrypts its token here (systemd --user can't use
+  # pass/GPG's pinentry-tty). Bound to ssh_host_ed25519_key: a from-scratch
+  # reinstall needs that key restored, or secrets/nixos.yaml re-keyed.
+  sops = {
+    defaultSopsFile = ../../secrets/nixos.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    secrets.cachix-auth-token.owner = "iota";
   };
 
   hardware.bluetooth = {
@@ -156,6 +174,17 @@
     # brightnessctl's udev rules grant the "video" group write access to
     # /sys/class/backlight, so brightness can be adjusted without root.
     udev.packages = [ pkgs.brightnessctl ];
+    # sshd itself is not enabled; only ed25519 host key is generated, for
+    # sops.age.sshKeyPaths (used above).
+    openssh = {
+      generateHostKeys = true;
+      hostKeys = [
+        {
+          type = "ed25519";
+          path = "/etc/ssh/ssh_host_ed25519_key";
+        }
+      ];
+    };
   };
 
   security = {

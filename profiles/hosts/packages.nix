@@ -18,6 +18,9 @@
     ghq
     gwq
 
+    # Secrets
+    sops
+
     # Development tools
     direnv
     starship

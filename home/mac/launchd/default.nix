@@ -9,7 +9,7 @@ in
     enable = true;
     config = {
       Label = "org.cachix.watch-store";
-      Program = "${myLib.mkCachixWatchStore pkgs}";
+      Program = "${myLib.mkCachixWatchStore pkgs "${pkgs.pass}/bin/pass show cachix/auth-token"}";
       RunAtLoad = true;
       KeepAlive = true;
       EnvironmentVariables = {

@@ -508,6 +508,7 @@
         "nixpkgs-master": "nixpkgs-master",
         "ponytail": "ponytail",
         "silentSDDM": "silentSDDM",
+        "sops-nix": "sops-nix",
         "treefmt-nix": "treefmt-nix_4"
       }
     },
@@ -528,6 +529,26 @@
       "original": {
         "owner": "uiriansan",
         "repo": "SilentSDDM",
+        "type": "github"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789890976,
+        "narHash": "sha256-GKwH3zpy7tartuJMG0Rv/xUsdetG1QLmTVv8UKgJLmA=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "7214124c20c1542c90deb54af50e2f53ae02711f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
         "type": "github"
       }
     },

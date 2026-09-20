@@ -6,9 +6,12 @@
     );
 
   mkCachixWatchStore =
-    pkgs:
+    pkgs: getToken:
     pkgs.writeShellScript "cachix-watch-store" ''
-      export CACHIX_AUTH_TOKEN="$(${pkgs.pass}/bin/pass show cachix/auth-token)"
+      set -euo pipefail
+      CACHIX_AUTH_TOKEN="$(${getToken})"
+      [ -n "$CACHIX_AUTH_TOKEN" ]
+      export CACHIX_AUTH_TOKEN
       exec ${pkgs.cachix}/bin/cachix watch-store gawakawa
     '';
 }

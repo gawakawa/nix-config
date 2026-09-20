@@ -1,0 +1,9 @@
+keys:
+  - &admin_gpg 0F5081333E4E2CFBFBD1C3D32E44FB7B1EB88644
+  - &host_nixos age1ufsnxf643tyqf2djplnvdsskfkl0s0nwq8l57vtx2rp6wrqzdgqsecgpv6
+creation_rules:
+  - path_regex: secrets/nixos\.yaml$
+    pgp:
+      - *admin_gpg
+    age:
+      - *host_nixos

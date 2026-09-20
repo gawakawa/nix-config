@@ -15,6 +15,7 @@ in
       modules = [
         hostPath
         inputs.home-manager.nixosModules.home-manager
+        inputs.sops-nix.nixosModules.sops
         (_: {
           nixpkgs.overlays = map (o: o { inherit inputs system; }) localOverlays;
         })
