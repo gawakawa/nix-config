@@ -34,3 +34,24 @@ flake-parts config for NixOS (x86_64-linux) + Darwin (aarch64-darwin).
 - `hosts/`, `home/` — per-host system / Home Manager entry points (`mac`, `nixos`).
 - `profiles/` — shared modules (`home/`, `hosts/`). Shell aliases/functions live in `profiles/home/zsh/`.
 - CI (`.github/workflows/ci.yml`): `nix flake check` + build both configs, cached via Cachix (`gawakawa`).
+
+## Neovim (./nvim/)
+
+Separate flake; a `nvim/**` change is checked by its own CI job (`nix flake check ./nvim`,
+`nix build ./nvim`), not by the root `nix flake check`. Run both when touching `nvim/`.
+
+Nix owns plugin sourcing and installation; lazy.nvim only does runtime loading — its own
+install/update/checker features are disabled (`nvim/nvim/init.lua`) since they'd fight Nix.
+
+- Plugin flow: `nvim/nix/pkgs/vim-plugins/default.nix` (declare sources) → `nvim/nix/plugins.nix`
+  (normalize names: `-` and `.` → `_`, e.g. `nvim-treesitter` → `nvim_treesitter`,
+  `move.nvim` → `move_nvim`) → `nvim/nix/lib/make-neovim-wrapper.nix`
+  (substitute `@plugin_name@` placeholders with store paths) → `nvim/nvim/lua/plugins/*.lua`
+  (lazy.nvim spec, `dir = "@plugin_name@"`).
+- `lazy_nvim` itself is a patched build (`nvim/nix/pkgs/vim-plugins/lazy-nvim.nix`), not plain
+  `pkgs.vimPlugins.lazy-nvim` — it reads config from `$MY_CONFIG_PATH` instead of
+  `~/.config/nvim`. Swapping in the vanilla package breaks plugin loading silently.
+- External tools (LSPs, formatters, linters) declared in `nvim/nix/tools.nix`, added to PATH by the wrapper.
+- Lua layout: `nvim/nvim/init.lua` (entry point), `nvim/nvim/lua/plugins/` (one file per plugin),
+  `nvim/nvim/lua/config/` (shared config).
+- Lint: selene (`nvim/selene.toml`, `nvim/vim.yml`); `mixed_table` is allowed for lazy.nvim specs.
