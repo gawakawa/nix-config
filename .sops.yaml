@@ -3,8 +3,7 @@ keys:
   - &host_nixos age1ufsnxf643tyqf2djplnvdsskfkl0s0nwq8l57vtx2rp6wrqzdgqsecgpv6
 creation_rules:
   - path_regex: secrets/nixos\.yaml$
-    key_groups:
-      - pgp:
-          - *admin_gpg
-        age:
-          - *host_nixos
+    pgp:
+      - *admin_gpg
+    age:
+      - *host_nixos

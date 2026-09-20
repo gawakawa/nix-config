@@ -20,7 +20,6 @@
 
     # Secrets
     sops
-    ssh-to-age
 
     # Development tools
     direnv

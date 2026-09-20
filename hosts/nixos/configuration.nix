@@ -80,13 +80,13 @@
     networkmanager.wifi.powersave = true;
   };
 
-  # cachix-watch-store is a systemd --user service, so it cannot use the
-  # pass/GPG store (pinentry-tty needs a controlling terminal). sops-nix
-  # decrypts this at activation time using the host's SSH key (as age).
+  # cachix-watch-store decrypts its token here (systemd --user can't use
+  # pass/GPG's pinentry-tty). Bound to ssh_host_ed25519_key: a from-scratch
+  # reinstall needs that key restored, or secrets/nixos.yaml re-keyed.
   sops = {
     defaultSopsFile = ../../secrets/nixos.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    secrets.cachix-auth-token.owner = config.users.users.iota.name;
+    secrets.cachix-auth-token.owner = "iota";
   };
 
   hardware.bluetooth = {
@@ -179,9 +179,17 @@
     # brightnessctl's udev rules grant the "video" group write access to
     # /sys/class/backlight, so brightness can be adjusted without root.
     udev.packages = [ pkgs.brightnessctl ];
-    # sshd itself is not enabled; this only generates host keys so sops-nix
-    # can decrypt secrets at activation time via sops.age.sshKeyPaths.
-    openssh.generateHostKeys = true;
+    # sshd itself is not enabled; only ed25519 host key is generated, for
+    # sops.age.sshKeyPaths (used above).
+    openssh = {
+      generateHostKeys = true;
+      hostKeys = [
+        {
+          type = "ed25519";
+          path = "/etc/ssh/ssh_host_ed25519_key";
+        }
+      ];
+    };
   };
 
   security = {
