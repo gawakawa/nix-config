@@ -110,8 +110,8 @@ in
 
         prefix_rule(
             pattern = ["git", "push"],
-            decision = "prompt",
-            justification = "Confirm changes sent to a remote repository.",
+            decision = "forbidden",
+            justification = "Run git push yourself after reviewing the remote destination and branch.",
             match = ["git push origin main"],
         )
 
