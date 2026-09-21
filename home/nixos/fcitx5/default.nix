@@ -28,6 +28,11 @@ in
     };
   };
 
+  # fcitx5 itself rewrites conf/cached_layouts and notifications.conf at
+  # runtime, replacing the whole home-manager-managed symlink with a real
+  # directory. Force overwriting it instead of backing up on every switch.
+  xdg.configFile.fcitx5.force = true;
+
   xdg.dataFile = lib.optionalAttrs useSkk {
     "fcitx5/skk/dictionary_list".text = ''
       type=file,file=${config.xdg.dataHome}/fcitx5/skk/user.dict,mode=readwrite
