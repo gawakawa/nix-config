@@ -8,8 +8,8 @@
 {
   home = {
     sessionVariables = {
-      ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
-      ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+      ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5-5";
+      ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5-5";
       ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-20251001";
       ANTHROPIC_DEFAULT_FABLE_MODEL = "claude-fable-5-1";
       CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
@@ -50,10 +50,11 @@
     settings = {
       model = "opusplan";
       effortLevel = "xhigh";
-      advisorModel = "fable";
+      advisorModel = "opus";
       language = "japanese";
       outputStyle = "terse";
       alwaysThinkingEnabled = true;
+      remoteControlAtStartup = true;
       statusLine = {
         type = "command";
         command = "~/.claude/statusline.sh";

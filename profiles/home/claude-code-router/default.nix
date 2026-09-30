@@ -11,7 +11,7 @@
       }
     ];
     router = {
-      default = "anthropic/claude-opus-4-5-20251101";
+      default = "anthropic/claude-opus-5.5";
     };
   };
 }
