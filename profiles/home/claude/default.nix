@@ -50,7 +50,7 @@
     settings = {
       model = "opusplan";
       effortLevel = "xhigh";
-      advisorModel = "fable";
+      advisorModel = "opus";
       language = "japanese";
       outputStyle = "terse";
       alwaysThinkingEnabled = true;
