@@ -54,6 +54,7 @@
       language = "japanese";
       outputStyle = "terse";
       alwaysThinkingEnabled = true;
+      remoteControlAtStartup = true;
       statusLine = {
         type = "command";
         command = "~/.claude/statusline.sh";
