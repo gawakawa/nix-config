@@ -68,6 +68,11 @@
       flake = false;
     };
 
+    yomiyasu = {
+      url = "github:nanaism/yomiyasu";
+      flake = false;
+    };
+
     ax = {
       url = "github:yusukebe/ax";
       inputs.nixpkgs.follows = "nixpkgs";

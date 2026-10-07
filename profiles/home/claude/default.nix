@@ -125,6 +125,7 @@
           "Skill(skill-creator)"
           "Skill(review-loop)"
           "Skill(japanese-tech-writing)"
+          "Skill(yomiyasu)"
           "Skill(grilling)"
           "Skill(polish-plan)"
           "Skill(retrospect)"

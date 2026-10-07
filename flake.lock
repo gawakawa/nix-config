@@ -509,7 +509,8 @@
         "ponytail": "ponytail",
         "silentSDDM": "silentSDDM",
         "sops-nix": "sops-nix",
-        "treefmt-nix": "treefmt-nix_4"
+        "treefmt-nix": "treefmt-nix_4",
+        "yomiyasu": "yomiyasu"
       }
     },
     "silentSDDM": {
@@ -670,6 +671,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "yomiyasu": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791304463,
+        "narHash": "sha256-TWYspkIkhfEHXDP0Bv/3E/k56ZviKQYCS4MZ1/uBG8I=",
+        "owner": "nanaism",
+        "repo": "yomiyasu",
+        "rev": "8f77b7aa8f19c3f718b511e71a3eee5d06eb3013",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nanaism",
+        "repo": "yomiyasu",
         "type": "github"
       }
     }
