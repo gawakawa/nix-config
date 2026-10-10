@@ -6,7 +6,7 @@
     let
       yomiyasu = pkgs.runCommand "yomiyasu-skill" { } ''
         mkdir -p "$out"
-        cp -r ${inputs.yomiyasu}/{SKILL.md,references,scripts,LICENSE,UNICODE-LICENSE.txt} "$out/"
+        cp -r ${inputs.yomiyasu}/skills/yomiyasu/{SKILL.md,references,scripts,LICENSE,UNICODE-LICENSE.txt} "$out/"
       '';
       skills = builtins.readDir ./skills;
       mkSkill = name: {
