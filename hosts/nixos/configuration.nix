@@ -80,9 +80,10 @@
     networkmanager.wifi.powersave = true;
   };
 
-  # cachix-watch-store decrypts its token here (systemd --user can't use
-  # pass/GPG's pinentry-tty). Bound to ssh_host_ed25519_key: a from-scratch
-  # reinstall needs that key restored, or secrets/nixos.yaml re-keyed.
+  # secrets/nixos.yaml is the source of truth for the Cachix token that CI
+  # uses (flake-templates' init-env reads it with `sops -d`). Bound to
+  # ssh_host_ed25519_key: a from-scratch reinstall needs that key restored, or
+  # secrets/nixos.yaml re-keyed.
   sops = {
     defaultSopsFile = ../../secrets/nixos.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

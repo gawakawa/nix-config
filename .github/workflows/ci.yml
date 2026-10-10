@@ -54,12 +54,20 @@ jobs:
         with:
           name: gawakawa
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          skipPush: true
 
       - name: Flake check
         run: nix flake check --accept-flake-config
 
       - name: Build ${{ matrix.platform }} configuration
-        run: nix build .#${{ matrix.build-target }} --accept-flake-config --show-trace
+        run: nix build .#${{ matrix.build-target }} --accept-flake-config --show-trace --out-link result
+
+      - name: Push to Cachix
+        # Dependabot PRs get no secrets; cachix-action skipped pushing there too.
+        if: env.CACHIX_AUTH_TOKEN != ''
+        run: .github/scripts/cachix-push-paths.sh result | cachix push gawakawa
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
   build-nvim:
     needs: detect-changes
