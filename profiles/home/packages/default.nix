@@ -4,5 +4,8 @@
     # GUI Applications
     discord
     slack
+
+    # CLI
+    cachix
   ];
 }
