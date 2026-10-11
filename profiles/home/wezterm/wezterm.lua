@@ -58,6 +58,9 @@ config.keys = {
 	-- Tab navigation (Vim-style)
 	{ key = "h", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
 	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
+	-- Scrollback in small steps, like trackpad scrolling
+	{ key = "k", mods = "ALT", action = wezterm.action.ScrollByLine(-2) },
+	{ key = "j", mods = "ALT", action = wezterm.action.ScrollByLine(2) },
 	-- Pane resize mode
 	{
 		key = "s",
