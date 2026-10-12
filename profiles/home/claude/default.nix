@@ -87,12 +87,8 @@
             matcher = "ExitPlanMode";
             hooks = [
               {
-                type = "agent";
-                prompt = ''
-                  $ARGUMENTS
-                  Return ok: true if transcript_path shows Skill(yomiyasu) was called after the previous ExitPlanMode call.
-                  Otherwise return ok: false with reason "Run Skill(yomiyasu) on the plan file, then call ExitPlanMode again."
-                '';
+                type = "command";
+                command = "~/.claude/yomiyasu-plan-gate.sh";
               }
             ];
           }
