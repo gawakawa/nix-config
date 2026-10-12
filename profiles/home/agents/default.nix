@@ -1,6 +1,14 @@
-{ inputs, pkgs, ... }:
 {
-  home.packages = [ pkgs.python3 ];
+  inputs,
+  system,
+  pkgs,
+  ...
+}:
+{
+  home.packages = [
+    pkgs.python3
+    inputs.git-surgeon.packages.${system}.default
+  ];
 
   home.file =
     let
@@ -20,5 +28,7 @@
     // {
       ".agents/skills/yomiyasu".source = yomiyasu;
       ".claude/skills/yomiyasu".source = yomiyasu;
+      ".agents/skills/git-surgeon".source = "${inputs.git-surgeon}/skills/git-surgeon";
+      ".claude/skills/git-surgeon".source = "${inputs.git-surgeon}/skills/git-surgeon";
     };
 }
