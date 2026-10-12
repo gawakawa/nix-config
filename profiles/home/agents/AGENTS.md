@@ -13,6 +13,7 @@ Never jump to solutions before understanding the problem.
 ## Git Workflow
 
 - Use the commit skill for commits, pr skill for pull requests.
+- Use git-surgeon (skill) for hunk-level staging and for splitting, folding, squashing, rewording, or reordering commits. Never use interactive git commands or discard changes (`git checkout`, `git restore`) to work around a mixed diff.
 
 ## Code Style
 
