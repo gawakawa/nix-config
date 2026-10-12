@@ -142,6 +142,12 @@
           "Skill(grilling)"
           "Skill(polish-plan)"
           "Skill(retrospect)"
+          "Skill(git-surgeon)"
+          "Bash(git-surgeon hunks:*)"
+          "Bash(git-surgeon show:*)"
+          "Bash(git-surgeon stage:*)"
+          "Bash(git-surgeon unstage:*)"
+          "Bash(git-surgeon commit:*)"
           "mcp__nixos"
         ];
         ask = [
@@ -156,12 +162,23 @@
           "Bash(terraform * apply *)"
           "Bash(opentofu * apply *)"
           "Bash(tofu * apply *)"
+          "Bash(git-surgeon commit-to:*)"
+          "Bash(git-surgeon discard:*)"
+          "Bash(git-surgeon undo:*)"
+          "Bash(git-surgeon undo-file:*)"
+          "Bash(git-surgeon fold:*)"
+          "Bash(git-surgeon amend:*)"
+          "Bash(git-surgeon squash:*)"
+          "Bash(git-surgeon split:*)"
+          "Bash(git-surgeon move:*)"
+          "Bash(git-surgeon reword:*)"
         ];
         deny = [
           "Bash(git commit --no-verify:*)"
           "Bash(git commit -n:*)"
           "Bash(nix develop:*)"
           "Bash(nix shell:*)"
+          "Bash(git-surgeon update:*)"
         ];
       };
     };
