@@ -1,62 +1,67 @@
 {
   pkgs,
   lib,
-  makeRustPlatform,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
 }:
 
 let
-  source = pkgs.callPackage ./source.nix { };
-  inherit (source) version src;
+  inherit (pkgs.callPackage ./source.nix { }) version;
 
-  toolchain = pkgs.rust-bin.fromRustupToolchainFile "${src}/rust-toolchain.toml";
-  toolchainTOML = lib.importTOML "${src}/rust-toolchain.toml";
-  toolchainName = "${toolchainTOML.toolchain.channel}-${pkgs.stdenv.hostPlatform.rust.rustcTarget}";
-  rustPlatform = makeRustPlatform {
-    cargo = toolchain;
-    rustc = toolchain;
+  target = stdenv.hostPlatform.rust.rustcTarget;
+  # The release binaries are built against this channel; rustowlc links its librustc_driver
+  toolchainChannel = "1.95.0";
+  toolchain = pkgs.rust-bin.stable.${toolchainChannel}.minimal;
+  toolchainName = "${toolchainChannel}-${target}";
+
+  hashes = {
+    x86_64-unknown-linux-gnu = "sha256-BUyJR7q/OLmGjiBDGxCSBP8ihkrklnPQ4JZ4R9bXZ5o=";
+    aarch64-apple-darwin = "sha256-Qq7FrFgRmdjFkhDqmkvnfToVhk7vAcb6mZh6ypu+t4w=";
   };
 in
-rustPlatform.buildRustPackage {
+stdenv.mkDerivation {
   pname = "rustowl";
-  inherit version src;
+  inherit version;
 
-  cargoDeps = rustPlatform.importCargoLock {
-    lockFile = "${src}/Cargo.lock";
+  src = fetchurl {
+    url = "https://github.com/cordx56/rustowl/releases/download/v${version}/rustowl-${target}.tar.gz";
+    hash = hashes.${target};
   };
+  sourceRoot = ".";
 
-  nativeBuildInputs = [
-    toolchain
-    pkgs.pkg-config
-  ];
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ toolchain ];
 
-  buildInputs = [ pkgs.zlib ];
+  # Stripping would invalidate the ad-hoc signature of the darwin binaries
+  dontStrip = true;
 
-  # Integration tests invoke a prebuilt target/release/rustowl, absent in the Nix sandbox
-  doCheck = false;
+  installPhase = ''
+    runHook preInstall
 
-  RUSTOWL_TOOLCHAIN = toolchainTOML.toolchain.channel;
-  RUSTUP_TOOLCHAIN = toolchainName;
+    # rustowl looks for sysroot/ next to its executable
+    sysroot=$out/bin/sysroot/${toolchainName}
+    mkdir -p $sysroot/bin
+    install -m755 rustowl $out/bin/rustowl
+    install -m755 sysroot/${toolchainName}/bin/rustowlc $sysroot/bin/
 
-  postInstall = ''
-    # Create sysroot structure in bin/ directory (rustowl looks for sysroot/ next to executable)
-    mkdir -p $out/bin/sysroot/${toolchainName}/bin
-
-    # Link toolchain directories
-    ln -s ${toolchain}/lib $out/bin/sysroot/${toolchainName}/lib
-    ln -s ${toolchain}/libexec $out/bin/sysroot/${toolchainName}/libexec
-    ln -s ${toolchain}/share $out/bin/sysroot/${toolchainName}/share
-
-    # Link toolchain binaries and add rustowlc
-    for f in ${toolchain}/bin/*; do
-      ln -s "$f" $out/bin/sysroot/${toolchainName}/bin/
+    for d in lib libexec share; do
+      if [ -e ${toolchain}/$d ]; then
+        ln -s ${toolchain}/$d $sysroot/$d
+      fi
     done
-    cp $out/bin/rustowlc $out/bin/sysroot/${toolchainName}/bin/
+    for f in ${toolchain}/bin/*; do
+      ln -s "$f" $sysroot/bin/
+    done
+
+    runHook postInstall
   '';
 
   meta = with lib; {
     description = "Visualize Ownership and Lifetimes in Rust";
     homepage = "https://github.com/cordx56/rustowl";
     license = licenses.mpl20;
+    sourceProvenance = [ sourceTypes.binaryNativeCode ];
     platforms = [
       "x86_64-linux"
       "aarch64-darwin"
