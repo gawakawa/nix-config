@@ -66,10 +66,13 @@ Your responsibilities:
 
    **Step 2: Confirm files to stage with user**
    Use `AskUserQuestion` to ask the user which files should be staged for this commit. **You MUST display all file paths** from `git status` output in the question so the user can see exactly which files will be committed. **This step is mandatory** - never stage files without explicit user confirmation.
+   If a file mixes several concerns, run `git-surgeon hunks` and list the hunk IDs with their previews in the question so the user can choose hunks instead of whole files.
 
-   **Step 3: Stage confirmed files only**
+   **Step 3: Stage confirmed changes only**
    ```bash
-   git add <file1> <file2>
+   git add <file1> <file2>          # whole files
+   git-surgeon stage <id1> <id2>    # individual hunks
+   git-surgeon stage <id> --lines 5-30  # part of a hunk (line numbers from `git-surgeon show <id>`)
    ```
 
    **NEVER use `git add -A`, `git add .`, or `git add --all`**
@@ -81,7 +84,7 @@ Your responsibilities:
 
 5. **Handle Edge Cases**:
    - If no changes are staged, ask the user which files to stage
-   - If changes span multiple concerns, suggest splitting into multiple commits
+   - If changes span multiple concerns, suggest splitting into multiple commits; split within a file by staging hunks with `git-surgeon`, and split an already-made commit with `git-surgeon split`
    - If the change type is unclear, ask for clarification rather than guessing
 
 Your commit message format must be: `[gitmoji] [concise description]`

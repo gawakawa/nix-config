@@ -137,6 +137,118 @@ in
             justification = "Review infrastructure changes without applying them.",
             match = ["tofu apply"],
         )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "hunks"],
+            decision = "allow",
+            justification = "Listing hunks with git-surgeon is read-only.",
+            match = ["git-surgeon hunks"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "show"],
+            decision = "allow",
+            justification = "Showing a hunk with git-surgeon is read-only.",
+            match = ["git-surgeon show"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "stage"],
+            decision = "allow",
+            justification = "Staging hunks with git-surgeon is an approved git operation.",
+            match = ["git-surgeon stage"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "unstage"],
+            decision = "allow",
+            justification = "Unstaging hunks with git-surgeon is an approved git operation.",
+            match = ["git-surgeon unstage"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "commit"],
+            decision = "allow",
+            justification = "Committing selected hunks with git-surgeon is an approved git operation.",
+            match = ["git-surgeon commit"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "commit-to"],
+            decision = "prompt",
+            justification = "Committing hunks to another branch needs confirmation.",
+            match = ["git-surgeon commit-to"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "discard"],
+            decision = "prompt",
+            justification = "Discarding hunks loses working tree changes.",
+            match = ["git-surgeon discard"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "undo"],
+            decision = "prompt",
+            justification = "Undoing hunks modifies the working tree.",
+            match = ["git-surgeon undo"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "undo-file"],
+            decision = "prompt",
+            justification = "Undoing files modifies the working tree.",
+            match = ["git-surgeon undo-file"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "fold"],
+            decision = "prompt",
+            justification = "Folding commits rewrites history.",
+            match = ["git-surgeon fold"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "amend"],
+            decision = "prompt",
+            justification = "Amending an earlier commit rewrites history.",
+            match = ["git-surgeon amend"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "squash"],
+            decision = "prompt",
+            justification = "Squashing commits rewrites history.",
+            match = ["git-surgeon squash"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "split"],
+            decision = "prompt",
+            justification = "Splitting a commit rewrites history.",
+            match = ["git-surgeon split"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "move"],
+            decision = "prompt",
+            justification = "Moving a commit rewrites history.",
+            match = ["git-surgeon move"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "reword"],
+            decision = "prompt",
+            justification = "Rewording a commit rewrites history.",
+            match = ["git-surgeon reword"],
+        )
+
+        prefix_rule(
+            pattern = ["git-surgeon", "update"],
+            decision = "forbidden",
+            justification = "git-surgeon is managed by Nix; self-update would fight it.",
+            match = ["git-surgeon update"],
+        )
       '';
 
       "codex/config.toml".source = tomlFormat.generate "codex-config.toml" {

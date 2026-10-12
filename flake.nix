@@ -77,6 +77,11 @@
       url = "github:yusukebe/ax";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    git-surgeon = {
+      url = "github:raine/git-surgeon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
