@@ -77,15 +77,22 @@ Read the template from the skill directory:
 ~/.claude/skills/pr/pr-template.md
 ```
 
-Fill in the template with the information gathered, then run:
+Fill in the template with the information gathered, and write the body (without any attribution footer) to a temp file.
+
+**Check the body with yomiyasu:**
+
+```bash
+yomiyasu-gate <body file>
+```
+
+Exit 1 means the lint score is below 90. Revise the flagged lines following `~/.claude/skills/yomiyasu/SKILL.md` (keep the meaning, add no information) and run the gate again. If it still fails after two revisions, show the report and ask the user via `AskUserQuestion` whether to create the PR as is. Any other non-zero exit is a lint error: show it and stop.
+
+Once the gate passes, append the attribution footer, then run:
 
 ```bash
 gh pr create \
   --title "<title>" \
-  --body "$(cat <<'EOF'
-<filled template body>
-EOF
-)" \
+  --body-file <body file> \
   --label "<label1>" --label "<label2>" \
   [--draft]
 ```
