@@ -20,7 +20,7 @@ let
     text = ''
       lint=${yomiyasu}/scripts/yomiyasu_lint.py
       text=$(cat "''${1:-/dev/stdin}")
-      score=$(printf '%s' "$text" | python3 "$lint" --json | jq .score)
+      score=$(printf '%s' "$text" | python3 "$lint" --json | jq .rule_penalty_score)
       printf '%s' "$text" | python3 "$lint"
       (( score >= 90 ))
     '';
