@@ -144,7 +144,7 @@
           "Bash(git-surgeon stage:*)"
           "Bash(git-surgeon unstage:*)"
           "Bash(git-surgeon commit:*)"
-          "mcp__nixos"
+          "mcp__plugin_hm_nixos"
         ];
         ask = [
           "Bash(rm *)"
