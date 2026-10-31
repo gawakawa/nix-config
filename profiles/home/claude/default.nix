@@ -54,6 +54,7 @@
       language = "japanese";
       outputStyle = "terse";
       alwaysThinkingEnabled = true;
+      idleCompaction = false;
       remoteControlAtStartup = true;
       statusLine = {
         type = "command";
