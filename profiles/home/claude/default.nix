@@ -178,7 +178,6 @@
       };
     };
 
-    agentsDir = ./agents;
     skills = ../agents/skills;
     outputStyles.terse = ./output-styles/terse.md;
     plugins = {
