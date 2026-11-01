@@ -26,7 +26,7 @@ Never use `nix develop` or `nix shell`. Instead:
 - direnv: loads automatically on `cd`.
 - comma (`,`): run packages without installing. Example: `, cowsay hello`
 
-New files are invisible to flake eval until `git add`-ed. Run `git add <file>` before `nix build`, `nix flake check`, `nixos-rebuild`, etc.
+New files are invisible to flake eval until `git add`-ed. Stage them by name with `git add <file>` before `nix build`, `nix flake check`, `nixos-rebuild`, etc.; `git add -A`, `-u` and `.` are blocked by a hook.
 
 ## Japanese Writing
 

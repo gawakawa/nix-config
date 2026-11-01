@@ -20,6 +20,7 @@
       pkgs.nodejs_24
       inputs.ax.packages.${system}.default
       pkgs.agent-browser
+      inputs.cclens.packages.${system}.default
     ];
 
     file =
@@ -128,15 +129,13 @@
         allow = [
           "Bash(ax:*)"
           "Bash(agent-browser:*)"
+          "Bash(cclens:*)"
           "Skill(commit)"
           "Skill(pr)"
           "Skill(ci-debugger)"
           "Skill(skill-creator)"
-          "Skill(review-loop)"
-          "Skill(japanese-tech-writing)"
           "Skill(yomiyasu)"
           "Skill(grilling)"
-          "Skill(polish-plan)"
           "Skill(retrospect)"
           "Skill(git-surgeon)"
           "Bash(git-surgeon hunks:*)"
@@ -179,9 +178,11 @@
       };
     };
 
-    agentsDir = ./agents;
     skills = ../agents/skills;
     outputStyles.terse = ./output-styles/terse.md;
-    plugins = { inherit (inputs) agent-skills ponytail cloudflare; };
+    plugins = {
+      inherit (inputs) agent-skills ponytail cloudflare;
+      cclens = "${inputs.cclens}/plugins/cclens";
+    };
   };
 }
