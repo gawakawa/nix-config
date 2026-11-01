@@ -48,8 +48,7 @@
     enableMcpIntegration = true;
 
     settings = {
-      model = "opusplan";
-      effortLevel = "xhigh";
+      model = "opus";
       advisorModel = "opus";
       language = "japanese";
       outputStyle = "terse";
