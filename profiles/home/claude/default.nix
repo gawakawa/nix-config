@@ -129,6 +129,7 @@
         allow = [
           "Bash(ax:*)"
           "Bash(agent-browser:*)"
+          "Bash(cclens:*)"
           "Skill(commit)"
           "Skill(pr)"
           "Skill(ci-debugger)"
