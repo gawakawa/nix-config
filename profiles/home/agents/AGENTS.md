@@ -27,3 +27,7 @@ Never use `nix develop` or `nix shell`. Instead:
 - comma (`,`): run packages without installing. Example: `, cowsay hello`
 
 New files are invisible to flake eval until `git add`-ed. Run `git add <file>` before `nix build`, `nix flake check`, `nixos-rebuild`, etc.
+
+## Japanese Writing
+
+記事、ドキュメント、PR の説明文、コミットメッセージなどの日本語の文章を書いたり直したりするときは、常に yomiyasu スキルで推敲してください。コードを直したあとの作業の報告には使わなくてかまいません。
