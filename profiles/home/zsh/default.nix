@@ -55,7 +55,7 @@ _: {
       set-cachix-token() {
           local repo="''${1:-$GH_OWNER/$(basename "$PWD")}"
           local token
-          token="$(pass show cachix/auth-token)" && \
+          token="$(sops -d --extract '["cachix-auth-token"]' "$NIXCFG_DIR/secrets/nixos.yaml")" && \
           gh secret set CACHIX_AUTH_TOKEN -b "$token" -R "$repo"
       }
 
