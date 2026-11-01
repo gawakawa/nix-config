@@ -10,19 +10,12 @@ let
     cp -r ${inputs.yomiyasu}/skills/yomiyasu/{SKILL.md,references,scripts,LICENSE,UNICODE-LICENSE.txt} "$out/"
   '';
 
-  # Exit 1 when the lint score is below the threshold; lint errors exit 2.
+  # Exit 1 when lint reports warn or error findings; lint errors exit 2 or 3.
   yomiyasu-gate = pkgs.writeShellApplication {
     name = "yomiyasu-gate";
-    runtimeInputs = [
-      pkgs.python3
-      pkgs.jq
-    ];
+    runtimeInputs = [ pkgs.python3 ];
     text = ''
-      lint=${yomiyasu}/scripts/yomiyasu_lint.py
-      text=$(cat "''${1:-/dev/stdin}")
-      score=$(printf '%s' "$text" | python3 "$lint" --json | jq .rule_penalty_score)
-      printf '%s' "$text" | python3 "$lint"
-      (( score >= 90 ))
+      python3 ${yomiyasu}/scripts/yomiyasu_lint.py --fail-on warn "$@"
     '';
   };
 
