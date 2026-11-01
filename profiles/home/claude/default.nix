@@ -49,7 +49,6 @@
 
     settings = {
       model = "opusplan";
-      effortLevel = "xhigh";
       advisorModel = "opus";
       language = "japanese";
       outputStyle = "terse";
