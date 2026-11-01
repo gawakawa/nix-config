@@ -82,6 +82,8 @@
       url = "github:raine/git-surgeon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    cclens.url = "github:lambdalisue/cclens";
   };
 
   outputs =

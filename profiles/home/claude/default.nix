@@ -20,6 +20,7 @@
       pkgs.nodejs_24
       inputs.ax.packages.${system}.default
       pkgs.agent-browser
+      inputs.cclens.packages.${system}.default
     ];
 
     file =
@@ -182,6 +183,9 @@
     agentsDir = ./agents;
     skills = ../agents/skills;
     outputStyles.terse = ./output-styles/terse.md;
-    plugins = { inherit (inputs) agent-skills ponytail cloudflare; };
+    plugins = {
+      inherit (inputs) agent-skills ponytail cloudflare;
+      cclens = "${inputs.cclens}/plugins/cclens";
+    };
   };
 }
